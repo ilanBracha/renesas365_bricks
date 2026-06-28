@@ -31,6 +31,7 @@
   --display:    #c084fc;
   --actuator:   #f87171;
   --storage:    #a78bfa;
+  --logic:      #5eead4;
 
   --radius: 8px;
   --radius-lg: 12px;
@@ -162,6 +163,13 @@ body {
 .template-icon { font-size: 28px; margin-bottom: 10px; display: block; }
 .template-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
 .template-desc { font-size: 12px; color: var(--text2); line-height: 1.4; }
+.tpl-renesas-badge {
+  display: inline-block; margin-top: 10px;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.4px;
+  color: #4d9fff; background: #0055cc18; border: 1px solid #0077ff50;
+  border-radius: 4px; padding: 2px 7px; text-transform: uppercase;
+}
+.tpl-renesas-badge.full { color: #fff; background: linear-gradient(135deg,#0044cc,#0077ff); border-color: transparent; }
 
 .wizard-requirements {
   max-width: 900px; margin: 0 auto; padding: 0 24px 48px;
@@ -234,6 +242,7 @@ body {
 .cat-pill[data-cat="display"].active    { background: var(--display); border-color: var(--display); }
 .cat-pill[data-cat="actuator"].active   { background: var(--actuator); border-color: var(--actuator); }
 .cat-pill[data-cat="storage"].active    { background: var(--storage); border-color: var(--storage); }
+.cat-pill[data-cat="logic"].active      { background: var(--logic); border-color: var(--logic); color: #000; }
 
 .comp-list { overflow-y: auto; flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
 
@@ -278,6 +287,9 @@ body {
 .comp-meta { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
 .comp-price { font-size: 12px; font-weight: 700; color: var(--green); }
 .comp-range { font-size: 11px; color: var(--text3); background: var(--bg5); border-radius: 4px; padding: 1px 5px; }
+.fit-flag { font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 5px; cursor: help; }
+.fit-flag.fit-power  { color: var(--orange); background: #fb923c1a; border: 1px solid #fb923c40; }
+.fit-flag.fit-budget { color: var(--red);    background: #f871711a; border: 1px solid #f8717140; }
 
 .comp-add-btn {
   width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
@@ -392,6 +404,12 @@ body {
   font-size: 13px; font-weight: 700; cursor: pointer; transition: all .15s;
 }
 .go-bom-btn:hover { background: #7dd3fc; }
+
+/* ── BUDGET BAR ── */
+.budget-bar { margin-bottom: 12px; }
+.budget-bar-top { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); margin-bottom: 5px; }
+.budget-track { height: 6px; background: var(--bg5); border-radius: 3px; overflow: hidden; }
+.budget-fill { height: 100%; border-radius: 3px; transition: width .25s ease; }
 
 /* ══════════════════════════════════
    SCREEN 3 — BOM & RESOURCES
@@ -528,6 +546,29 @@ body {
   color: var(--text3); font-size: 15px;
 }
 
+/* ── DESIGN CHECK ── */
+.design-check { display: flex; flex-direction: column; gap: 8px; }
+.dc-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  border-radius: var(--radius); padding: 10px 14px; font-size: 13px;
+  border: 1px solid var(--border); background: var(--bg3);
+}
+.dc-row.dc-ok   { border-color: #4ade8040; background: #4ade8010; }
+.dc-row.dc-warn { border-color: #fbbf2440; background: #fbbf2410; }
+.dc-row.dc-info { border-color: #38bdf840; background: #38bdf810; }
+.dc-icon { flex-shrink: 0; }
+.dc-msg { color: var(--text2); line-height: 1.45; }
+.dc-row.dc-warn .dc-msg { color: var(--text); }
+
+/* Compact builder-toolbar design-check chip */
+.dc-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
+  border: 1px solid var(--border); cursor: default;
+}
+.dc-chip.ok   { color: var(--green);  border-color: #4ade8050; background: #4ade8012; }
+.dc-chip.warn { color: var(--yellow); border-color: #fbbf2450; background: #fbbf2412; }
+
 /* ── SVG WORKSPACE STYLES ── */
 .ws-brick-body { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); cursor: grab; }
 .ws-brick-body:active { cursor: grabbing; }
@@ -560,6 +601,7 @@ body {
 .c-display  { background: var(--display); }
 .c-actuator { background: var(--actuator); }
 .c-storage  { background: var(--storage); }
+.c-logic    { background: var(--logic); }
 </style>
 </head>
 <body>
@@ -678,6 +720,7 @@ body {
         <button class="cat-pill" data-cat="display" onclick="setCat('display',this)">Display</button>
         <button class="cat-pill" data-cat="actuator" onclick="setCat('actuator',this)">Actuator</button>
         <button class="cat-pill" data-cat="storage" onclick="setCat('storage',this)">Storage</button>
+        <button class="cat-pill" data-cat="logic" onclick="setCat('logic',this)">Logic</button>
       </div>
       <button class="vendor-toggle active" id="renesas-toggle" onclick="toggleRenesasFilter()">
         ◈ Show Renesas Only
@@ -690,6 +733,8 @@ body {
   <div class="workspace">
     <div class="workspace-toolbar">
       <strong>Build Canvas</strong> — Click components on the left to add them
+      <span id="dc-chip-slot"></span>
+      <button class="export-btn" style="padding:4px 10px;font-size:11px" onclick="renesasifyBuild()" title="Swap generic parts for Renesas equivalents">◈ Renesas-ify</button>
       <span class="ws-hint">Connections auto-detect compatible interfaces</span>
     </div>
     <div class="workspace-canvas">
@@ -705,9 +750,11 @@ body {
   <div class="bom-panel">
     <div class="bom-panel-header">
       🛒 Cart <span class="count-badge" id="cart-badge">0</span>
+      <button class="bom-remove-btn" style="margin-left:auto;font-size:11px;font-weight:600" onclick="clearCart()" title="Remove all components">Clear</button>
     </div>
     <div class="bom-list" id="bom-list"></div>
     <div class="bom-panel-footer">
+      <div id="budget-bar-slot"></div>
       <div class="total-row">
         <span>Total</span>
         <span class="total-val">$<span id="cart-total">0.00</span></span>
@@ -719,11 +766,21 @@ body {
 
 <!-- ═══ SCREEN 3: BOM & RESOURCES ═══ -->
 <div id="screen-bom" class="screen">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:10px;flex-wrap:wrap;">
     <div class="bom-section-title" style="border:none;margin:0;padding:0">Bill of Materials</div>
-    <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="export-btn" onclick="renesasifyBuild()" title="Swap generic parts for Renesas equivalents">◈ Renesas-ify</button>
+      <button class="export-btn" onclick="copyShareLink()" title="Copy a shareable link to this build">🔗 Copy Link</button>
+      <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
+    </div>
   </div>
+  <div id="bom-budget-slot" style="max-width:360px;margin-bottom:14px;"></div>
   <div id="bom-table-section"></div>
+
+  <div>
+    <div class="bom-section-title">✅ Design Check</div>
+    <div class="design-check" id="design-check"></div>
+  </div>
 
   <div>
     <div class="bom-section-title">📚 Tutorials &amp; Getting Started</div>
@@ -753,11 +810,13 @@ const state = {
 // ════════════════════════════════════════
 const CAT_COLOR = {
   mcu: '#38bdf8', sensor: '#4ade80', connect: '#fb923c',
-  power: '#fbbf24', display: '#c084fc', actuator: '#f87171', storage: '#a78bfa'
+  power: '#fbbf24', display: '#c084fc', actuator: '#f87171', storage: '#a78bfa',
+  logic: '#5eead4'
 };
 const CAT_LABEL = {
   mcu: 'Microcontroller', sensor: 'Sensor', connect: 'Connectivity',
-  power: 'Power', display: 'Display', actuator: 'Actuator', storage: 'Storage'
+  power: 'Power', display: 'Display', actuator: 'Actuator', storage: 'Storage',
+  logic: 'Logic & Timing'
 };
 
 const COMPONENTS = [
@@ -1312,62 +1371,134 @@ const COMPONENTS = [
     links:{ renesas:'interface', digikey:'ISL3179E+Renesas', mouser:'ISL3179E' }},
 
   // ── Renesas Clocks & Timing ────────────────────────────────────
-  { id:'rc32504a', cat:'connect', icon:'⏱️', name:'Renesas RC32504A Clock Buffer',  price:1.50,  vendor:'renesas',
+  { id:'rc32504a', cat:'logic', icon:'⏱️', name:'Renesas RC32504A Clock Buffer',  price:1.50,  vendor:'renesas',
     desc:'4-output PLL clock buffer · 10–800MHz · LVDS/LVCMOS · jitter 80fs RMS · VFQFN-32',
     range:null, power:'low', interfaces:['i2c'],
     tags:['clock','timing','pll','buffer','jitter','datacenter','fpga','renesas'],
     links:{ renesas:'clocks-timing', digikey:'RC32504A+Renesas', mouser:'RC32504A' }},
 
-  { id:'8v97051',  cat:'connect', icon:'⏱️', name:'Renesas 8V97051 RF VCO/PLL',    price:8.50,  vendor:'renesas',
+  { id:'8v97051',  cat:'logic', icon:'⏱️', name:'Renesas 8V97051 RF VCO/PLL',    price:8.50,  vendor:'renesas',
     desc:'Low-noise RF PLL+VCO · 10MHz–11GHz · −127dBc/Hz phase noise · SPI · 4× outputs',
     range:null, power:'med', interfaces:['spi'],
     tags:['pll','vco','rf','clock','low-phase-noise','radar','telecom','renesas'],
     links:{ renesas:'clocks-timing', digikey:'8V97051+Renesas', mouser:'8V97051' }},
+
+  // ══ RENESAS — VERIFIED CATALOG ADDITIONS ══════════════════════
+  // ── Renesas Environmental & Bio Sensors ───────────────────────
+  { id:'hs4001',   cat:'sensor',  icon:'💧', name:'Renesas HS4001 Humidity+Temp', price:4.50,  vendor:'renesas',
+    desc:'Relative humidity ±1.5% + temperature · 14-bit · sub-µA · fast 4s response · I2C',
+    range:null, power:'ultra-low', interfaces:['i2c'],
+    tags:['humidity','temperature','weather','rh','climate','low-power','i2c','renesas','hs4001'],
+    links:{ renesas:'sensor-products/environmental-sensors/humidity-temperature-sensors/hs4001-relative-humidity-and-temperature-sensor-digital-output-15-rh', digikey:'HS4001+Renesas', mouser:'HS4001' }},
+
+  { id:'rrh46410', cat:'sensor',  icon:'💨', name:'Renesas RRH46410 Gas Sensor', price:28.00, vendor:'renesas',
+    desc:'TVOC + eCO2 indoor air-quality module · integrated MCU · firmware-upgradeable · I2C',
+    range:null, power:'low', interfaces:['i2c'],
+    tags:['gas','air-quality','tvoc','eco2','co2','indoor','iaq','i2c','renesas','rrh46410'],
+    links:{ renesas:'sensor-products/environmental-sensors/metal-oxide-gas-sensors/rrh46410-gas-sensor-module-tvoc-and-eco2-detection', digikey:'RRH46410+Renesas', mouser:'RRH46410' }},
+
+  { id:'rrh62000', cat:'sensor',  icon:'🌫️', name:'Renesas RRH62000 Air Quality', price:31.00, vendor:'renesas',
+    desc:'All-in-one PM2.5/PM1/PM10 + RH/T + TVOC + eCO2 · integrated RA MCU · I2C/UART',
+    range:null, power:'med', interfaces:['i2c','uart'],
+    tags:['air-quality','pm2.5','particulate','tvoc','eco2','humidity','iaq','i2c','renesas','rrh62000'],
+    links:{ renesas:'sensor-products/environmental-sensors/intelligent-sensor-modules/rrh62000-all-one-integrated-sensor-module-pm2-5-rht-tvoc-and-eco2-detection', digikey:'RRH62000-A1V', mouser:'RRH62000' }},
+
+  { id:'ob1203',   cat:'sensor',  icon:'❤️', name:'Renesas OB1203 Bio Sensor', price:4.00,  vendor:'renesas',
+    desc:'Optical biosensor · heart rate · SpO2 · proximity · light/color · dual-LED PPG · I2C (NRND)',
+    range:null, power:'low', interfaces:['i2c'],
+    tags:['health','heart-rate','spo2','pulse','biosensor','wearable','ppg','i2c','renesas','ob1203'],
+    links:{ renesas:'sensor-products/biosensors/ob1203-heart-rate-blood-oxygen-concentration-pulse-oximetry-proximity-light-and-color-sensor', digikey:'OB1203SD-C4R', mouser:'OB1203' }},
+
+  // ── Renesas Power — Verified Additions ────────────────────────
+  { id:'isl85003', cat:'power',   icon:'🔩', name:'Renesas ISL85003 Buck Regulator', price:1.50, vendor:'renesas',
+    desc:'Synchronous buck · 4.5–18V in · 3A · integrated FETs · 500kHz · high efficiency',
+    range:null, power:null, interfaces:['power'],
+    tags:['buck','step-down','regulator','dc-dc','power','renesas','isl85003'],
+    links:{ renesas:'isl85003', digikey:'ISL85003+Renesas', mouser:'ISL85003' }},
+
+  { id:'raj240100',cat:'power',   icon:'🔋', name:'Renesas RAJ240100 Fuel Gauge', price:3.67, vendor:'renesas',
+    desc:'Battery fuel gauge + AFE · 3–10 series Li-ion · integrated RL78 · 25µA sleep · I2C/SMBus',
+    range:null, power:null, interfaces:['i2c','power'],
+    tags:['battery','fuel-gauge','battery-management','coulomb','li-ion','bms','i2c','renesas','raj240100'],
+    links:{ renesas:'power-management/battery-management/battery-fuel-gauges/raj240100gfp-3-10-series-li-ion-battery-fuel-gauge-ic', digikey:'RAJ240100+Renesas', mouser:'RAJ240100' }},
+
+  { id:'isl28022', cat:'power',   icon:'📟', name:'Renesas ISL28022 Power Monitor', price:1.50, vendor:'renesas',
+    desc:'Digital power monitor · 0–60V bus · 16-bit ΣΔ ADC · current+voltage · I2C/SMBus (see ISL28025)',
+    range:null, power:null, interfaces:['i2c','power'],
+    tags:['power-monitor','current-sense','telemetry','coulomb','measurement','i2c','renesas','isl28022'],
+    links:{ renesas:'analog-products/amplifiers/current-sense-amplifiers/isl28022-precision-digital-power-monitor', digikey:'ISL28022+Renesas', mouser:'ISL28022' }},
+
+  { id:'r9a02g011',cat:'power',   icon:'🔌', name:'Renesas R9A02G011 USB-C PD', price:3.00, vendor:'renesas',
+    desc:'USB Type-C / USB PD 3.x controller · CC logic · 3.0–5.5V · I2C/SMBus · QFN/BGA',
+    range:null, power:null, interfaces:['i2c','usb','power'],
+    tags:['usb-c','usb-pd','power-delivery','type-c','charger','fast-charge','i2c','renesas','r9a02g011'],
+    links:{ renesas:'power-power-management/usb-type-c-usb-power-delivery/r9a02g011-usb-pd-controller', digikey:'R9A02G011+Renesas', mouser:'R9A02G011' }},
+
+  // ── Renesas Interface — Verified Addition ─────────────────────
+  { id:'isl3332',  cat:'connect', icon:'🔗', name:'Renesas ISL3332 RS-232/RS-485', price:5.34, vendor:'renesas',
+    desc:'Dual-protocol RS-232/RS-485 transceiver · ±15kV ESD · 3.3V · 20Mbps · two ports · SSOP-28',
+    range:'building', power:'low', interfaces:['uart','gpio'],
+    tags:['rs-485','rs-232','rs422','multiprotocol','serial','industrial','modbus','esd','renesas','isl3332'],
+    links:{ renesas:'interface/rs-485-rs-422-rs-232/multiprotocol-rs-485rs-422-and-rs-232/isl3332-33v-15kv-esd-protected-two-port-dual-protocol-rs-232rs-485-transceivers', digikey:'ISL3332+Renesas', mouser:'ISL3332' }},
+
+  // ── Renesas Logic & Timing ────────────────────────────────────
+  { id:'isl1208',  cat:'logic',   icon:'⏰', name:'Renesas ISL1208 RTC', price:2.00,  vendor:'renesas',
+    desc:'Low-power I2C real-time clock/calendar · battery backup · alarm · 1.2µA · battery-backed SRAM',
+    range:null, power:'ultra-low', interfaces:['i2c'],
+    tags:['rtc','real-time-clock','clock','timekeeping','calendar','alarm','battery-backup','i2c','renesas','isl1208'],
+    links:{ renesas:'clocks-timing/application-specific-clocks/real-time-clocks/isl1208-i2c-real-time-clockcalendar-low-power-rtc-battery-backed-sram', digikey:'ISL1208+Renesas', mouser:'ISL1208' }},
+
+  { id:'slg46826', cat:'logic',   icon:'🧩', name:'Renesas SLG46826 GreenPAK', price:2.00,  vendor:'renesas',
+    desc:'Programmable mixed-signal matrix · 17 GPIO · 4 comparators · 2kbit EEPROM · I2C-configurable',
+    range:null, power:'ultra-low', interfaces:['i2c','gpio'],
+    tags:['greenpak','programmable-logic','mixed-signal','cpld','glue-logic','configurable','i2c','renesas','slg46826'],
+    links:{ renesas:'programmable-mixed-signal-asic-ip-products/greenpak-programmable-mixed-signal-products', digikey:'SLG46826+Renesas', mouser:'SLG46826' }},
 ];
 
 // ════════════════════════════════════════
 //  TEMPLATES
 // ════════════════════════════════════════
 const TEMPLATES = [
+  // ── Core designs — Renesas-powered ───────────────────────────
   { id:'weather', icon:'🌤️', name:'IoT Weather Station',
-    desc:'Temp, humidity, pressure → WiFi → cloud dashboard',
-    components:['esp32','bme280','oled096','tp4056','lipo2000'],
-    tags:['temperature','humidity','pressure','wifi','weather','dashboard'],
-    range:'building', power:'lipo', budget:25 },
+    desc:'RA6W2 Wi-Fi 6 MCU + HS4001 humidity/temp → cloud dashboard, on LiPo',
+    components:['ra6w2','hs4001','oled096','raa489118','lipo2000'],
+    tags:['renesas','temperature','humidity','wifi','weather','dashboard'],
+    range:'building', power:'lipo', budget:30 },
   { id:'tracker', icon:'📍', name:'GPS Asset Tracker',
-    desc:'Real-time GPS location over cellular network',
-    components:['esp32','neo6m','sim800l','tp4056','lipo2000'],
-    tags:['gps','tracking','cellular','location','outdoor'],
+    desc:'RA6M5 secure MCU + GPS over cellular, with RAJ240100 fuel-gauged battery',
+    components:['ra6m5','neo6m','sim800l','raj240100','lipo2000'],
+    tags:['renesas','gps','tracking','cellular','location','outdoor'],
     range:'global', power:'lipo', budget:50 },
   { id:'robot',   icon:'🤖', name:'Line-Following Robot',
-    desc:'Autonomous robot with motor control and obstacle avoidance',
-    components:['uno','l298n','hcsr04','sg90'],
-    tags:['robot','motor','sensor','autonomous'],
+    desc:'RA4M1 MCU with motor control + ultrasonic obstacle avoidance + servo steering',
+    components:['ra4m1','l298n','hcsr04','sg90'],
+    tags:['renesas','robot','motor','sensor','autonomous'],
     range:'local', power:'usb', budget:25 },
   { id:'smarthome',icon:'🏠', name:'Smart Home Node',
-    desc:'Motion, light, relay control — MQTT over WiFi',
-    components:['esp8266','pir','bh1750','relay'],
-    tags:['smart-home','automation','wifi','mqtt','motion'],
-    range:'building', power:'usb', budget:15 },
+    desc:'RA2E1 + DA16200 ultra-low-power Wi-Fi · motion, light, relay — MQTT',
+    components:['ra2e1','da16200','pir','isl29125','relay'],
+    tags:['renesas','smart-home','automation','wifi','mqtt','motion'],
+    range:'building', power:'usb', budget:20 },
   { id:'datalogger',icon:'📊', name:'Data Logger',
-    desc:'Log sensor data to SD card with timestamping',
-    components:['nano','dht22','sdcard','oled096'],
-    tags:['data','logging','temperature','storage'],
+    desc:'RL78/G23 low-power MCU + HS4001 + ISL1208 RTC → timestamped SD logs',
+    components:['rl78g23','hs4001','sdcard','oled096','isl1208'],
+    tags:['renesas','data','logging','temperature','storage','rtc'],
     range:'local', power:'usb', budget:20 },
   { id:'lora-node',icon:'🌊', name:'LoRa Sensor Node',
-    desc:'Long-range outdoor sensor, 10km · battery · solar',
-    components:['bluepill','lora','bme280','soil','solar','tp4056','lipo2000'],
-    tags:['lora','lorawan','outdoor','long-range','agriculture','solar'],
+    desc:'RA2E1 + LoRa 10km · HS4001 + soil · solar-harvested, fuel-gauged battery',
+    components:['ra2e1','lora','hs4001','soil','solar','raa489118','lipo2000'],
+    tags:['renesas','lora','lorawan','outdoor','long-range','agriculture','solar'],
     range:'outdoor', power:'solar', budget:50 },
   { id:'wearable', icon:'⌚', name:'Wearable Health Monitor',
-    desc:'Heart rate + SpO2 + step counter on a wrist device',
-    components:['nano','max30100','mpu6050','oled096','tp4056','lipo2000'],
-    tags:['health','wearable','heart-rate','spo2','fitness'],
-    range:'local', power:'lipo', budget:30 },
+    desc:'DA14695 BLE + OB1203 heart-rate/SpO2 + IMU, RAJ240100 fuel gauge',
+    components:['da14695','ob1203','mpu6050','oled096','raj240100','lipo2000'],
+    tags:['renesas','health','wearable','heart-rate','spo2','fitness'],
+    range:'room', power:'lipo', budget:35 },
   { id:'display-node',icon:'📺', name:'Remote Display Panel',
-    desc:'Beautiful color display driven by WiFi data feed',
-    components:['esp32','tft28','lm2596'],
-    tags:['display','wifi','dashboard','color','tft'],
+    desc:'RA6W2 Wi-Fi 6 MCU drives a color TFT from a live data feed',
+    components:['ra6w2','tft28','isl85003'],
+    tags:['renesas','display','wifi','dashboard','color','tft'],
     range:'building', power:'usb', budget:25 },
 
   // ── Renesas Templates ─────────────────────────────────────────
@@ -1442,6 +1573,61 @@ const TEMPLATES = [
     components:['r9a02g021','da16200mod','bme280','isl9122a','tp4056','lipo2000'],
     tags:['renesas','risc-v','wifi','ultra-low-power','iot','battery','open-source'],
     range:'building', power:'solar', budget:25 },
+
+  // ── Renesas Winning-Combination Scenarios ─────────────────────
+  { id:'renesas-emeter', icon:'⚡', name:'Renesas Smart Energy Meter',
+    desc:'RX23E-B 24-bit ADC metrology + RS-485 Modbus + power monitoring + relay control',
+    components:['rx23eb','isl3332','isl28022','relay','oled096'],
+    tags:['renesas','metering','energy','smart-grid','rs-485','precision','adc','industrial'],
+    range:'building', power:'mains', budget:50 },
+
+  { id:'renesas-air-quality', icon:'🌫️', name:'Renesas Air Quality Monitor',
+    desc:'RRH62000 all-in-one PM2.5/TVOC/eCO2 + RA4M1 + OLED + DA16200 Wi-Fi cloud push',
+    components:['rrh62000','ra4m1','oled096','da16200','lipo2000'],
+    tags:['renesas','air-quality','pm2.5','co2','tvoc','wifi','iaq','health'],
+    range:'building', power:'lipo', budget:60 },
+
+  { id:'renesas-predictive', icon:'📈', name:'Renesas Predictive Maintenance Node',
+    desc:'RA8D2 edge-AI NPU + IMU + power monitor + Wi-Fi/BLE for TinyML vibration anomaly detection',
+    components:['ra8d2','mpu6050','isl28022','da16600mod','sdcard'],
+    tags:['renesas','predictive-maintenance','vibration','anomaly','tinyml','ai','condition-monitoring','industrial'],
+    range:'building', power:'mains', budget:60 },
+
+  { id:'renesas-bio-wearable', icon:'⌚', name:'Renesas Biosensing Wearable',
+    desc:'DA14695 BLE + OB1203 PPG heart-rate/SpO2 + RAJ240100 fuel gauge on LiPo',
+    components:['da14695','ob1203','raj240100','lipo2000'],
+    tags:['renesas','wearable','health','heart-rate','spo2','ble','biosensing','fuel-gauge'],
+    range:'room', power:'lipo', budget:30 },
+
+  { id:'renesas-usbpd', icon:'🔌', name:'Renesas USB-C PD Fast Charger',
+    desc:'R9A02G011 USB-PD controller + ISL9241 buck-boost charger + ISL85003 buck + RA2E1 MCU',
+    components:['r9a02g011','isl9241','isl85003','ra2e1'],
+    tags:['renesas','usb-c','usb-pd','power-delivery','fast-charger','charging'],
+    range:'local', power:'mains', budget:25 },
+
+  { id:'renesas-building', icon:'🏢', name:'Renesas Building Automation Node',
+    desc:'RA6M5 + RRH46410 air quality + DA14531 BLE + relay + ISL85003 for HVAC/occupancy',
+    components:['ra6m5','rrh46410','da14531mod','relay','isl85003'],
+    tags:['renesas','building-automation','hvac','occupancy','air-quality','ble','smart-building'],
+    range:'building', power:'mains', budget:60 },
+
+  { id:'renesas-modbus', icon:'🏭', name:'Renesas Industrial RS-485 Sensor',
+    desc:'RX671 + ISL3332 RS-485/Modbus + HS4001 humidity + ISL28022 power telemetry',
+    components:['rx671','isl3332','hs4001','isl28022'],
+    tags:['renesas','rs-485','modbus','industrial','fieldbus','sensor','humidity'],
+    range:'building', power:'mains', budget:40 },
+
+  { id:'renesas-foc-drive', icon:'⚙️', name:'Renesas FOC Motor Drive',
+    desc:'RA6T2 motor MCU + RAA227063 60V gate driver + inductive position + power monitor',
+    components:['ra6t2','raa227063','raa2p3226','isl28022','oled096'],
+    tags:['renesas','motor','foc','bldc','3-phase','field-oriented','inductive','industrial'],
+    range:'local', power:'mains', budget:60 },
+
+  { id:'renesas-greenpak', icon:'🧩', name:'Renesas GreenPAK Smart Sensor',
+    desc:'SLG46826 programmable logic + RL78/G15 + HS4001 + ISL1208 RTC — glue-free smart node',
+    components:['slg46826','rl78g15','hs4001','isl1208'],
+    tags:['renesas','greenpak','programmable-logic','rtc','low-power','sensor','glue-logic'],
+    range:'local', power:'aa', budget:15 },
 ];
 
 // ════════════════════════════════════════
@@ -1572,6 +1758,31 @@ const TUTORIALS = [
     desc:'Multi-cell Li-ion charging with USB-C PD, reverse turbo boost, and SMBus power management.',
     url:'https://www.renesas.com/en/products/power-management',
     tags:['ISL9241','USB-C','Charger','Power Delivery','Battery','NVDC','Renesas'] },
+
+  { source:'Renesas', title:'RRH62000 All-in-One Air Quality Sensor Guide',
+    desc:'Integrate PM2.5, RH/T, TVOC and eCO2 over I2C/UART with the integrated-MCU air-quality module.',
+    url:'https://www.renesas.com/en/products/sensor-products/environmental-sensors/intelligent-sensor-modules/rrh62000-all-one-integrated-sensor-module-pm2-5-rht-tvoc-and-eco2-detection',
+    tags:['RRH62000','Air Quality','PM2.5','TVOC','eCO2','Sensor','Renesas'] },
+
+  { source:'Renesas', title:'OB1203 Heart-Rate & SpO2 Biosensor Application',
+    desc:'PPG signal acquisition, heart-rate and SpO2 algorithms, and proximity/light modes over I2C.',
+    url:'https://www.renesas.com/en/products/sensor-products/biosensors/ob1203-heart-rate-blood-oxygen-concentration-pulse-oximetry-proximity-light-and-color-sensor',
+    tags:['OB1203','Heart Rate','SpO2','Biosensor','Wearable','Health','Renesas'] },
+
+  { source:'Renesas', title:'ISL1208 Low-Power I2C RTC Design',
+    desc:'Real-time clock/calendar setup, battery-backup switchover, alarms, and oscillator compensation.',
+    url:'https://www.renesas.com/en/products/clocks-timing/application-specific-clocks/real-time-clocks/isl1208-i2c-real-time-clockcalendar-low-power-rtc-battery-backed-sram',
+    tags:['ISL1208','RTC','Real-Time Clock','Timekeeping','Low-Power','Renesas'] },
+
+  { source:'Renesas', title:'GreenPAK Designer — Programmable Mixed-Signal',
+    desc:'Build glue logic, timers, and analog functions in the free GreenPAK Designer and program over I2C.',
+    url:'https://www.renesas.com/en/products/programmable-mixed-signal-asic-ip-products/greenpak-programmable-mixed-signal-products',
+    tags:['SLG46826','GreenPAK','Programmable Logic','Mixed-Signal','Renesas'] },
+
+  { source:'Renesas', title:'RAJ240100 Multi-Cell Battery Fuel Gauge',
+    desc:'Coulomb-counting state-of-charge, cell balancing and protection for 3–10S Li-ion packs over I2C.',
+    url:'https://www.renesas.com/en/products/power-management/battery-management/battery-fuel-gauges/raj240100gfp-3-10-series-li-ion-battery-fuel-gauge-ic',
+    tags:['RAJ240100','Fuel Gauge','Battery Management','Li-ion','BMS','Renesas'] },
 ];
 
 // ════════════════════════════════════════
@@ -1588,46 +1799,59 @@ const WIRING = [
     desc:'Direct digital pin connection. Outputs drive HIGH (3.3V or 5V) or LOW (GND). Use <strong>10kΩ pull-up/pull-down</strong> resistors on floating inputs. PWM signals (servos, LEDs) use any GPIO-capable pin.' },
   { proto:'onewire', cls:'onewire', title:'1-Wire (DS18B20)',
     desc:'Single data wire with <strong>4.7kΩ pull-up to VCC</strong>. Multiple sensors can share one wire via unique 64-bit addresses. Use the Dallas Temperature or OneWire library.' },
+  { proto:'wifi', cls:'i2c', title:'Wi-Fi',
+    desc:'No bus wiring — keep the antenna/PCB area clear of ground pour and metal. Provide a clean <strong>3.3V supply with ≥500mA headroom</strong> and bulk decoupling; TX current spikes can brown out shared LDOs.' },
+  { proto:'ble', cls:'onewire', title:'Bluetooth LE',
+    desc:'RF module — same antenna keep-out and decoupling rules as Wi-Fi. Host MCUs talk to standalone BLE modules (e.g. DA14531) over <strong>UART or SPI</strong>; integrated SoCs need no host link.' },
+  { proto:'usb', cls:'uart', title:'USB',
+    desc:'Differential pair <strong>D+ / D−</strong> routed as 90Ω; add <strong>22Ω series resistors</strong> near the controller and ESD protection at the connector. Type-C CC pins handle orientation/PD negotiation.' },
+  { proto:'ethernet', cls:'spi', title:'Ethernet',
+    desc:'MAC↔PHY via <strong>RMII/MII</strong>, or SPI for controllers like W5500. Route TX/RX as 100Ω differential pairs and place magnetics (or a MagJack) close to the connector.' },
+  { proto:'can', cls:'gpio', title:'CAN / CAN FD',
+    desc:'MCU <strong>CAN TX/RX → transceiver → CAN_H / CAN_L</strong> twisted pair. Terminate <strong>both bus ends with 120Ω</strong>. Keep stubs short; CAN FD needs a FD-capable transceiver.' },
+  { proto:'power', cls:'gpio', title:'Power Rails',
+    desc:'Common <strong>GND</strong> across all modules. Match each part\'s voltage (3.3V vs 5V), size regulators for peak current, and add bulk + 100nF decoupling near every IC. Use a buck/LDO (e.g. ISL85003/AMS1117) to derive logic rails.' },
 ];
 
 // ════════════════════════════════════════
 //  KEYWORD → RECOMMENDATION MAP
 // ════════════════════════════════════════
 const KEYWORD_MAP = [
+  // Renesas parts are listed FIRST in every group so they lead the recommendations
   { keys:['weather','temperature','humidity','pressure','climate'],
-    comps:['esp32','bme280','dht22','oled096'] },
+    comps:['ra6w2','hs4001','rrh62000','esp32','bme280','oled096'] },
   { keys:['gps','track','location','vehicle','asset'],
-    comps:['esp32','neo6m','sim800l','tp4056','lipo2000'] },
+    comps:['ra6m5','raj240100','neo6m','sim800l','lipo2000'] },
   { keys:['robot','car','motor','drive','wheel','line'],
-    comps:['uno','l298n','hcsr04','sg90'] },
+    comps:['ra4m1','ra4t1','raa306012','l298n','hcsr04','sg90'] },
   { keys:['smart home','home automation','light switch','mqtt','relay'],
-    comps:['esp8266','esp32','pir','bh1750','relay'] },
+    comps:['ra2e1','da16200','ra6w2','isl29125','pir','relay'] },
   { keys:['lora','lorawan','outdoor','farm','field','agriculture','long range','10km'],
-    comps:['lora','bluepill','esp32','bme280','solar','tp4056'] },
+    comps:['ra2e1','hs4001','isl9122a','lora','soil','solar'] },
   { keys:['wearable','watch','health','heart rate','fitness','pulse'],
-    comps:['nano','max30100','mpu6050','oled096','tp4056','lipo2000'] },
+    comps:['da14695','ob1203','raj240100','mpu6050','oled096','lipo2000'] },
   { keys:['display','screen','show','dashboard','monitor'],
-    comps:['oled096','tft28','lcd2004','esp32'] },
+    comps:['ra8m1','ra6w2','tft28','oled096','lcd2004'] },
   { keys:['battery','portable','solar','outdoor','field'],
-    comps:['tp4056','lipo2000','solar','lm2596','holder18650'] },
+    comps:['raj240100','isl9122a','raa489118','isl85003','lipo2000','solar'] },
   { keys:['wifi','internet','cloud','web server','rest'],
-    comps:['esp32','esp8266','picow'] },
+    comps:['ra6w2','da16200','da16600mod','esp32'] },
   { keys:['bluetooth','phone','android','ios','ble','wireless'],
-    comps:['esp32','hc05','picow'] },
+    comps:['da14531','da14695','da14531mod','hc05'] },
   { keys:['camera','vision','image','photo'],
-    comps:['esp32'] },
+    comps:['rzv2l','ra8d2','esp32'] },
   { keys:['distance','ultrasonic','detect','proximity'],
-    comps:['hcsr04','vl53l0x','pir'] },
+    comps:['raa2p3226','ob1203','hcsr04','vl53l0x'] },
   { keys:['motion','imu','accelerometer','gyro','tilt','orientation'],
-    comps:['mpu6050','nano','esp32'] },
+    comps:['ra8d2','mpu6050','ra4m1'] },
   { keys:['soil','plant','garden','irrigation','water'],
-    comps:['soil','bme280','esp32','relay','lora'] },
+    comps:['ra2e1','hs4001','soil','relay','lora'] },
   { keys:['gas','smoke','air quality','co2','carbon'],
-    comps:['mq2','bme280','esp32','oled096'] },
+    comps:['rrh62000','rrh46410','ra4m1','mq2','oled096'] },
   { keys:['led','light','rgb','neopixel','ws2812','strip'],
-    comps:['neopixel','max7219','esp32','nano'] },
+    comps:['ra4m1','isl29125','slg46826','neopixel','max7219'] },
   { keys:['data logger','log','csv','sd card','record'],
-    comps:['sdcard','nano','dht22','bme280','oled096'] },
+    comps:['rl78g23','isl1208','hs4001','sdcard','oled096'] },
 
   // ── Renesas keywords ──────────────────────────────────────────
   { keys:['renesas','ra6m5','ra4m1','ra2a1','ra8','rl78','rx65','rx72','trustzone','fsp'],
@@ -1671,9 +1895,33 @@ const KEYWORD_MAP = [
   { keys:['hmi display','gui','mipi dsi','graphic lcd','touch screen','lvgl'],
     comps:['ra8m1','ra8d2','rzg2l','tft28','oled096'] },
   { keys:['can fd','can bus','automotive','vehicle','j1939','obd2'],
-    comps:['ra6m5','ra6e2','ra6t2','rx672','rzt2m'] },
+    comps:['ra6m5','ra6e2','ra6t2','rx671','rzt2m'] },
   { keys:['ultra low power','coin cell','energy harvesting','sub-ua','nanoamp','long battery life'],
     comps:['rl78g15','rl78g16','rl78g23','r9a02g021','da14531','isl9122a'] },
+
+  // ── Verified Renesas scenario keywords ─────────────────────────
+  { keys:['energy meter','smart meter','metering','electricity meter','smart grid','kwh','power metering'],
+    comps:['rx23eb','isl3332','isl28022','relay','oled096'] },
+  { keys:['air quality','pm2.5','particulate','tvoc','indoor air','voc','eco2','co2 monitor'],
+    comps:['rrh62000','rrh46410','ra4m1','oled096','da16200'] },
+  { keys:['predictive maintenance','vibration','anomaly','condition monitoring','machine health','bearing'],
+    comps:['ra8d2','mpu6050','isl28022','da16600mod','sdcard'] },
+  { keys:['pulse oximeter','spo2','heart rate','biosensing','wearable health','ppg','blood oxygen'],
+    comps:['da14695','ob1203','raj240100','lipo2000'] },
+  { keys:['usb-c','usb c','usb pd','power delivery','fast charger','type-c','quick charge'],
+    comps:['r9a02g011','isl9241','isl85003','raa489118'] },
+  { keys:['building automation','hvac','occupancy','smart building','thermostat','climate control'],
+    comps:['ra6m5','rrh46410','da14531mod','relay','isl85003'] },
+  { keys:['humidity','relative humidity','rh sensor','dew point'],
+    comps:['hs4001','bme280','rrh62000'] },
+  { keys:['rtc','real-time clock','real time clock','timekeeping','calendar','alarm clock'],
+    comps:['isl1208','rl78g23','ra2e1'] },
+  { keys:['fuel gauge','battery monitor','coulomb','state of charge','battery management','bms','battery gauge'],
+    comps:['raj240100','isl28022','raa489118'] },
+  { keys:['greenpak','programmable logic','glue logic','mixed signal','cpld','state machine'],
+    comps:['slg46826','rl78g15','isl1208'] },
+  { keys:['rs-485','rs485','modbus','fieldbus','rs-232','rs232','serial transceiver'],
+    comps:['isl3332','isl3179e','rx671','rx65n'] },
 ];
 
 // ════════════════════════════════════════
@@ -1682,6 +1930,49 @@ const KEYWORD_MAP = [
 const catColor = id => CAT_COLOR[id] || '#888';
 const $ = id => document.getElementById(id);
 function toFloat(n){ return Number(n.toFixed(2)); }
+
+// ── Constraint model: turns the wizard's Range/Power/Budget into real signals ──
+const POWER_RANK = { 'ultra-low':0, low:1, med:2, high:3 };
+// Max component power draw acceptable for each project power source
+const SOURCE_ALLOWANCE = { solar:0, aa:1, lipo:1, usb:3, mains:3 };
+
+function sourceAllowance(){ return SOURCE_ALLOWANCE[state.project.power] ?? 3; }
+// A component "fits" the chosen power source (null/unknown power = always fits)
+function powerFits(c){
+  if(c.power == null) return true;
+  return (POWER_RANK[c.power] ?? 0) <= sourceAllowance();
+}
+function overBudget(c){
+  const b = state.project.budget;
+  return b && b !== 999 && c.price > b;
+}
+// Build-total vs. selected budget bar. Returns '' when budget is "No limit".
+function budgetBarHTML(total){
+  const b = state.project.budget;
+  if(!b || b === 999) return '';
+  const pct = Math.min(100, (total / b) * 100);
+  const over = total > b;
+  const col = over ? 'var(--red)' : 'var(--green)';
+  return `
+    <div class="budget-bar">
+      <div class="budget-bar-top">
+        <span>Budget $${b}</span>
+        <span style="color:${col};font-weight:700">${over ? `+$${(total-b).toFixed(2)} over` : `$${(b-total).toFixed(2)} left`}</span>
+      </div>
+      <div class="budget-track"><div class="budget-fill" style="width:${pct}%;background:${col}"></div></div>
+    </div>`;
+}
+// Lower score sorts first. Renesas ALWAYS ranks above non-Renesas; within each
+// vendor group, recommended parts come first, then power/budget/range fit.
+function scoreComponent(c){
+  let s = 0;
+  if(c.vendor !== 'renesas')       s += 10000;       // Renesas-first: hard top tier
+  if(!state.recommended.has(c.id)) s += 1000;        // recommended first within group
+  if(!powerFits(c))                s += 40;          // power-mismatch sinks
+  if(overBudget(c))                s += 20;          // over-budget sinks
+  if((c.cat === 'mcu' || c.cat === 'connect') && c.range && c.range === state.project.range) s -= 10;
+  return s;
+}
 
 function buildBuyLinks(comp){
   const l = comp.links || {};
@@ -1740,12 +2031,23 @@ document.querySelectorAll('.nav-btn').forEach(b => {
 function initWizard(){
   // Templates
   const grid = $('template-grid');
-  grid.innerHTML = TEMPLATES.map(t => `
+  grid.innerHTML = TEMPLATES.map(t => {
+    const total = t.components.length;
+    const ren = t.components.filter(cid => {
+      const c = COMPONENTS.find(x => x.id === cid);
+      return c && c.vendor === 'renesas';
+    }).length;
+    const badge = ren
+      ? `<span class="tpl-renesas-badge${ren===total?' full':''}" title="${ren} of ${total} parts are Renesas">◈ ${ren===total?'All Renesas':`${ren}/${total} Renesas`}</span>`
+      : '';
+    return `
     <div class="template-card" data-tid="${t.id}" onclick="selectTemplate('${t.id}',this)">
       <span class="template-icon">${t.icon}</span>
       <div class="template-name">${t.name}</div>
       <div class="template-desc">${t.desc}</div>
-    </div>`).join('');
+      ${badge}
+    </div>`;
+  }).join('');
 
   // Requirement options
   ['req-range','req-power','req-budget'].forEach(gid => {
@@ -1755,7 +2057,9 @@ function initWizard(){
         this.closest('.req-options').querySelectorAll('.req-option').forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
         const key = gid.replace('req-','');
-        state.project[key] = this.dataset.val;
+        state.project[key] = key === 'budget' ? parseInt(this.dataset.val) : this.dataset.val;
+        renderCompList();   // constraints changed → re-score/flag
+        saveState();
       });
     });
   });
@@ -1785,11 +2089,33 @@ function selectTemplate(id, el){
       const comp = COMPONENTS.find(c => c.id === cid);
       if(comp) state.cart.set(cid, { comp, qty: 1 });
     });
+
+    // If the template includes any non-Renesas parts, lift the Renesas-only
+    // filter and reset the category so the loaded parts + highlights are visible
+    const hasNonRenesas = t.components.some(cid => {
+      const comp = COMPONENTS.find(c => c.id === cid);
+      return comp && comp.vendor !== 'renesas';
+    });
+    if(hasNonRenesas){
+      state.filter.renesasOnly = false;
+      const btn = $('renesas-toggle');
+      if(btn) btn.classList.remove('active');
+      state.filter.cat = 'all';
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      const allPill = document.querySelector('.cat-pill[data-cat="all"]');
+      if(allPill) allPill.classList.add('active');
+    }
+    // Carry project constraints from the template into wizard state
+    if(t.range)  state.project.range = t.range;
+    if(t.power)  state.project.power = t.power;
+    if(t.budget) state.project.budget = t.budget;
   }
 
   updateHeaderStats();
+  renderCompList();
   renderBOMPanel();
   renderWorkspace();
+  saveState();
 }
 
 function analyzeProject(){
@@ -1870,6 +2196,7 @@ function analyzeProject(){
   const n = state.recommended.size;
   if(n > 0) showToast(`✅ Found ${n} matching component${n>1?'s':''} — highlighted in the list`);
   else       showToast('💡 No exact matches — browse or refine your description');
+  saveState();
 }
 
 function showToast(msg){
@@ -1919,12 +2246,8 @@ function renderCompList(){
     }
     return true;
   });
-  // Sort: Renesas recommended first, then other recommended, then rest
-  list.sort((a,b) => {
-    const scoreA = (state.recommended.has(a.id) ? 0 : 2) + (a.vendor === 'renesas' ? -1 : 0);
-    const scoreB = (state.recommended.has(b.id) ? 0 : 2) + (b.vendor === 'renesas' ? -1 : 0);
-    return scoreA - scoreB;
-  });
+  // Sort: recommended first, Renesas-first, then power/budget/range fit (see scoreComponent)
+  list.sort((a,b) => scoreComponent(a) - scoreComponent(b));
 
   $('comp-list').innerHTML = list.map(c => {
     const inCart = state.cart.has(c.id);
@@ -1943,6 +2266,8 @@ function renderCompList(){
         <div class="comp-meta">
           <span class="comp-price">$${c.price.toFixed(2)}</span>
           ${c.interfaces.map(i=>`<span class="comp-range">${i.toUpperCase()}</span>`).slice(0,3).join('')}
+          ${!powerFits(c) ? `<span class="fit-flag fit-power" title="Draws more power than your ${state.project.power} source comfortably supports">⚡ power</span>` : ''}
+          ${overBudget(c) ? `<span class="fit-flag fit-budget" title="Above your $${state.project.budget} unit budget">$!</span>` : ''}
         </div>
         ${buildBuyLinksCard(c)}
       </div>
@@ -1963,6 +2288,19 @@ function toggleCart(id){
   renderCompList();
   renderBOMPanel();
   renderWorkspace();
+  saveState();
+}
+
+function clearCart(){
+  if(!state.cart.size) return;
+  state.cart.clear();
+  state.recommended.clear();
+  updateHeaderStats();
+  renderCompList();
+  renderBOMPanel();
+  renderWorkspace();
+  if(state.screen === 'bom') renderBOMScreen();
+  saveState();
 }
 
 function changeQty(id, delta){
@@ -1971,6 +2309,7 @@ function changeQty(id, delta){
   entry.qty = Math.max(1, entry.qty + delta);
   updateHeaderStats();
   renderBOMPanel();
+  saveState();
 }
 
 function removeFromCart(id){
@@ -1979,6 +2318,7 @@ function removeFromCart(id){
   renderCompList();
   renderBOMPanel();
   renderWorkspace();
+  saveState();
 }
 
 // ════════════════════════════════════════
@@ -1988,9 +2328,11 @@ function renderBOMPanel(){
   const items = [...state.cart.values()];
   $('cart-badge').textContent = items.length;
 
+  const budgetSlot = $('budget-bar-slot');
   if(!items.length){
     $('bom-list').innerHTML = '<div style="padding:20px;color:var(--text3);font-size:12px;text-align:center">Add components to see them here</div>';
     $('cart-total').textContent = '0.00';
+    if(budgetSlot) budgetSlot.innerHTML = '';
     return;
   }
 
@@ -2014,6 +2356,20 @@ function renderBOMPanel(){
 
   const total = items.reduce((s,{comp,qty}) => s + comp.price*qty, 0);
   $('cart-total').textContent = total.toFixed(2);
+  if(budgetSlot) budgetSlot.innerHTML = budgetBarHTML(total);
+  updateDesignChip();
+}
+
+// Compact design-check chip in the builder toolbar
+function updateDesignChip(){
+  const slot = $('dc-chip-slot');
+  if(!slot) return;
+  const checks = runDesignChecks();
+  const warns = checks.filter(c => c.level === 'warn').length;
+  if(!checks.length){ slot.innerHTML = ''; return; }
+  slot.innerHTML = warns
+    ? `<span class="dc-chip warn" title="Open BOM &amp; Resources for details">⚠️ ${warns} design issue${warns>1?'s':''}</span>`
+    : `<span class="dc-chip ok" title="MCU, power and buses check out">✅ Design OK</span>`;
 }
 
 // ════════════════════════════════════════
@@ -2027,6 +2383,7 @@ const LAYOUT = {
   display:  { col: 2, row: 0 },
   actuator: { col: 4, row: 3 },
   storage:  { col: 0, row: 3 },
+  logic:    { col: 0, row: 0 },
 };
 const BW = 130, BH = 72, PADX = 30, PADY = 20, GCOL = 180, GROW = 100;
 
@@ -2130,6 +2487,70 @@ function renderWorkspace(){
 }
 
 // ════════════════════════════════════════
+//  DESIGN CHECK
+// ════════════════════════════════════════
+// Validates the current build using only existing data fields (interfaces,
+// power rating, category, price). Returns [{level:'ok'|'warn'|'info', msg}].
+function runDesignChecks(){
+  const items = [...state.cart.values()];
+  if(!items.length) return [];
+  const out = [];
+  const comps = items.map(i => i.comp);
+  const mcus = comps.filter(c => c.cat === 'mcu');
+
+  // 1. Must have an MCU/brain
+  if(!mcus.length){
+    out.push({ level:'warn', msg:'No microcontroller in the build — add an MCU to drive your components.' });
+  } else if(mcus.length > 1){
+    out.push({ level:'info', msg:`${mcus.length} microcontrollers selected — make sure that's intentional (multi-MCU design).` });
+  }
+
+  // 2. Orphan peripherals — no shared bus with any MCU (reuses the workspace wiring logic)
+  if(mcus.length){
+    const mcuIfaces = new Set(mcus.flatMap(m => m.interfaces));
+    comps.filter(c => c.cat !== 'mcu' && c.cat !== 'power')
+      .forEach(c => {
+        const shares = c.interfaces.some(i => mcuIfaces.has(i));
+        if(!shares) out.push({ level:'warn', msg:`No compatible bus on your MCU for ${c.name} (needs ${c.interfaces.map(i=>i.toUpperCase()).join('/')}).` });
+      });
+  }
+
+  // 3. Battery/solar source but no power component
+  const src = state.project.power;
+  if((src === 'lipo' || src === 'aa' || src === 'solar') && !comps.some(c => c.cat === 'power')){
+    out.push({ level:'warn', msg:`Power source is "${src}" but no power component selected — add a battery, charger or regulator.` });
+  }
+
+  // 4. High-power parts on a small source
+  if(sourceAllowance() < 3){
+    comps.filter(c => c.power === 'high').forEach(c =>
+      out.push({ level:'warn', msg:`${c.name} is high-power and may overwhelm your "${src}" source — consider a larger supply.` }));
+  }
+
+  // 5. Over budget
+  const cartTotal = items.reduce((s,{comp,qty})=>s+comp.price*qty,0);
+  const b = state.project.budget;
+  if(b && b !== 999 && cartTotal > b){
+    out.push({ level:'warn', msg:`Build total $${cartTotal.toFixed(2)} exceeds your $${b} budget by $${(cartTotal-b).toFixed(2)}.` });
+  }
+
+  if(!out.length || !out.some(o => o.level === 'warn')){
+    out.unshift({ level:'ok', msg:'Looks good — MCU, power source and component buses all check out.' });
+  }
+  return out;
+}
+
+function renderDesignCheck(){
+  const checks = runDesignChecks();
+  if(!checks.length) return '<div style="color:var(--text3);font-size:13px">Add components to run a design check.</div>';
+  return checks.map(c => `
+    <div class="dc-row dc-${c.level}">
+      <span class="dc-icon">${c.level==='ok'?'✅':c.level==='warn'?'⚠️':'ℹ️'}</span>
+      <span class="dc-msg">${c.msg}</span>
+    </div>`).join('');
+}
+
+// ════════════════════════════════════════
 //  BOM SCREEN
 // ════════════════════════════════════════
 function renderBOMScreen(){
@@ -2137,6 +2558,8 @@ function renderBOMScreen(){
 
   if(!items.length){
     $('bom-table-section').innerHTML = '<div class="no-components-msg">🛒 No components selected yet.<br><button class="cta-btn" style="margin-top:16px;font-size:14px;padding:10px 24px" onclick="switchScreen(\'builder\')">← Go to Component Builder</button></div>';
+    $('bom-budget-slot').innerHTML = '';
+    $('design-check').innerHTML = renderDesignCheck();
     $('tutorials-grid').innerHTML = renderAllTutorials();
     $('wiring-hints').innerHTML = renderWiring([]);
     return;
@@ -2171,6 +2594,10 @@ function renderBOMScreen(){
         <span class="grand-total-val">$${total.toFixed(2)}</span>
       </div>
     </div>`;
+
+  // Budget bar + design check
+  $('bom-budget-slot').innerHTML = budgetBarHTML(total);
+  $('design-check').innerHTML = renderDesignCheck();
 
   // Tutorials relevant to selected components
   const compTags = new Set(items.flatMap(({comp}) => comp.tags));
@@ -2219,13 +2646,17 @@ function updateHeaderStats(){
 // ════════════════════════════════════════
 //  EXPORT CSV
 // ════════════════════════════════════════
+// RFC 4180: wrap in double quotes and escape embedded quotes by doubling them
+function csvCell(v){ return `"${String(v).replace(/"/g,'""')}"`; }
+
 function exportCSV(){
   const items = [...state.cart.values()];
   if(!items.length){ alert('Cart is empty!'); return; }
   const header = 'Component,Category,Description,Interfaces,Qty,Unit Price,Total Price\n';
-  const rows = items.map(({comp,qty}) =>
-    `"${comp.name}","${CAT_LABEL[comp.cat]}","${comp.desc}","${comp.interfaces.join('/')}",${qty},${comp.price.toFixed(2)},${(comp.price*qty).toFixed(2)}`
-  ).join('\n');
+  const rows = items.map(({comp,qty}) => [
+    csvCell(comp.name), csvCell(CAT_LABEL[comp.cat]), csvCell(comp.desc),
+    csvCell(comp.interfaces.join('/')), qty, comp.price.toFixed(2), (comp.price*qty).toFixed(2)
+  ].join(',')).join('\n');
   const blob = new Blob([header+rows], {type:'text/csv'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -2234,12 +2665,146 @@ function exportCSV(){
 }
 
 // ════════════════════════════════════════
-//  INIT
+//  PERSISTENCE  (localStorage)
 // ════════════════════════════════════════
-function init(){
-  initWizard();
+const STORE_KEY = 'renesas-bricks-v1';
+
+function saveState(){
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      cart: [...state.cart.entries()].map(([id, {qty}]) => [id, qty]),
+      project: state.project,
+      filter: state.filter,
+      recommended: [...state.recommended],
+    }));
+  } catch(e){ /* storage unavailable / quota — ignore */ }
+}
+
+function hydrateCart(pairs){
+  state.cart.clear();
+  (pairs || []).forEach(([id, qty]) => {
+    const comp = COMPONENTS.find(c => c.id === id);
+    if(comp) state.cart.set(id, { comp, qty: Math.max(1, qty|0 || 1) });
+  });
+}
+
+function loadState(){
+  let saved;
+  try { saved = JSON.parse(localStorage.getItem(STORE_KEY)); }
+  catch(e){ return false; }
+  if(!saved) return false;
+  if(saved.project) Object.assign(state.project, saved.project);
+  if(saved.filter)  Object.assign(state.filter, saved.filter);
+  if(saved.recommended) state.recommended = new Set(saved.recommended);
+  hydrateCart(saved.cart);
+  return true;
+}
+
+// Reflect restored state back into the wizard / browser UI controls
+function syncWizardUI(){
+  ['range','power','budget'].forEach(key => {
+    const val = String(state.project[key]);
+    document.querySelectorAll(`#req-${key} .req-option`).forEach(o =>
+      o.classList.toggle('selected', o.dataset.val === val));
+  });
+  const rt = $('renesas-toggle');
+  if(rt) rt.classList.toggle('active', state.filter.renesasOnly);
+  document.querySelectorAll('.cat-pill').forEach(p =>
+    p.classList.toggle('active', p.dataset.cat === state.filter.cat));
+}
+
+// ════════════════════════════════════════
+//  SHAREABLE BUILD LINK  (URL hash)
+// ════════════════════════════════════════
+// Format: #b=esp32.2_bme280.1  (id.qty pairs)
+function buildShareHash(){
+  const parts = [...state.cart.entries()].map(([id,{qty}]) => `${id}.${qty}`);
+  return parts.length ? `#b=${parts.join('_')}` : '';
+}
+
+function parseShareHash(){
+  const m = (location.hash || '').match(/b=([^&]+)/);
+  if(!m) return false;
+  const pairs = m[1].split('_').map(tok => {
+    const [id, qty] = tok.split('.');
+    return [id, parseInt(qty) || 1];
+  }).filter(([id]) => COMPONENTS.some(c => c.id === id));
+  if(!pairs.length) return false;
+  hydrateCart(pairs);
+  state.recommended = new Set(pairs.map(([id]) => id));
+  return true;
+}
+
+function copyShareLink(){
+  if(!state.cart.size){ showToast('🛒 Add components first to share a build'); return; }
+  const url = location.origin + location.pathname + buildShareHash();
+  const done = () => showToast('🔗 Build link copied to clipboard');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done).catch(() => prompt('Copy this link:', url));
+  } else {
+    prompt('Copy this link:', url);
+  }
+}
+
+// ════════════════════════════════════════
+//  RENESAS-IFY  (swap generic parts → Renesas equivalents)
+// ════════════════════════════════════════
+const RENESAS_ALT = {
+  esp32:'ra6w2', esp8266:'da16200', picow:'ra6w2', pico:'ra2e1',
+  uno:'ra4m1', nano:'rl78g23', bluepill:'ra2e1', mega:'ra6m5', teensy4:'ra8m1',
+  hc05:'da14531mod', nrf24:'da14531mod',
+  dht22:'hs4001', bme280:'rrh62000', bh1750:'isl29125', max30100:'ob1203',
+  l298n:'raa306012', tp4056:'raa489118', lm2596:'isl85003', ams1117:'raa211650',
+  eeprom:'isl1208',
+};
+
+function renesasifyBuild(){
+  if(!state.cart.size){ showToast('🛒 Add components first'); return; }
+  let swapped = 0;
+  const newEntries = [];
+  state.cart.forEach(({comp, qty}, id) => {
+    const altId = comp.vendor !== 'renesas' ? RENESAS_ALT[id] : null;
+    const alt = altId && COMPONENTS.find(c => c.id === altId);
+    if(alt){ newEntries.push([alt.id, { comp: alt, qty }]); swapped++; }
+    else   { newEntries.push([id, { comp, qty }]); }
+  });
+  if(!swapped){ showToast('◈ Already all-Renesas (or no equivalents found)'); return; }
+  state.cart.clear();
+  newEntries.forEach(([id, v]) => state.cart.set(id, v));
+  state.recommended = new Set([...state.cart.keys()]);
+  updateHeaderStats();
   renderCompList();
   renderBOMPanel();
+  renderWorkspace();
+  if(state.screen === 'bom') renderBOMScreen();
+  saveState();
+  showToast(`◈ Swapped ${swapped} part${swapped>1?'s':''} for Renesas equivalents`);
+}
+
+// ════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════
+// Dev-time integrity guard: warn if any template / keyword references an
+// unknown component id (catches typos like the old 'rx672').
+function checkDataIntegrity(){
+  const ids = new Set(COMPONENTS.map(c => c.id));
+  const report = (where, list) => list.forEach(id => {
+    if(!ids.has(id)) console.warn(`[data] ${where} references unknown component id: "${id}"`);
+  });
+  TEMPLATES.forEach(t => report(`template "${t.id}"`, t.components));
+  KEYWORD_MAP.forEach((k,i) => report(`keyword group #${i}`, k.comps));
+}
+
+function init(){
+  checkDataIntegrity();
+  // URL share hash wins over saved state; otherwise restore last session
+  if(!parseShareHash()) loadState();
+  initWizard();
+  syncWizardUI();
+  renderCompList();
+  renderBOMPanel();
+  renderWorkspace();
+  updateHeaderStats();
 }
 init();
 </script>
