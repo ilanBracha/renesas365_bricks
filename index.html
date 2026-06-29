@@ -5,42 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Renesas Bricks — Component Builder</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&display=swap');
 :root {
-  --bg:      #000000;
-  --bg2:     #0a0a0a;
-  --bg3:     #111111;
-  --bg4:     #1a1a1a;
-  --bg5:     #222222;
-  --border:  #2a2a2a;
-  --border2: #3a3a3a;
-  --text:    #e2e8f4;
-  --text2:   #8fa3be;
-  --text3:   #556880;
-  --accent:  #38bdf8;
-  --accent2: #818cf8;
-  --green:   #4ade80;
-  --orange:  #fb923c;
-  --red:     #f87171;
-  --yellow:  #fbbf24;
-  --pink:    #f472b6;
+  --bg:      #ffffff;
+  --bg2:     #ffffff;
+  --bg3:     #ffffff;
+  --bg4:     #f2f2f2;
+  --bg5:     #e9e9ee;
+  --border:  #d9d9d9;
+  --border2: #b5b5b5;
+  --text:    #3c3c3b;
+  --text2:   #706f6f;
+  --text3:   #9d9d9d;
+  --accent:  #2a289d;
+  --accent2: #43abe2;
+  --green:   #609a3b;
+  --orange:  #eb6209;
+  --red:     #b71921;
+  --yellow:  #dfb118;
+  --pink:    #883d90;
 
-  --mcu:        #38bdf8;
-  --sensor:     #4ade80;
-  --connect:    #fb923c;
-  --power:      #fbbf24;
-  --display:    #c084fc;
-  --actuator:   #f87171;
-  --storage:    #a78bfa;
-  --logic:      #5eead4;
+  --mcu:        #2a289d;
+  --sensor:     #609a3b;
+  --connect:    #43abe2;
+  --power:      #dfb118;
+  --display:    #883d90;
+  --actuator:   #eb6209;
+  --storage:    #615e8e;
+  --logic:      #60a9b4;
 
-  --radius: 8px;
-  --radius-lg: 12px;
+  --radius: 3px;
+  --radius-lg: 4px;
+  --font-display: 'Arial Narrow','Archivo Narrow',Arial,sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -61,36 +63,37 @@ body {
   position: sticky; top: 0; z-index: 100;
 }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.logo-icon { font-size: 22px; filter: drop-shadow(0 0 8px #38bdf888); }
-.logo-svg { display: block; flex-shrink: 0; filter: drop-shadow(0 0 6px #003087aa); }
-.logo-text { font-size: 18px; font-weight: 700; color: #ffffff; letter-spacing: -0.3px; }
+.logo-icon { font-size: 22px; filter: drop-shadow(0 0 8px #2a289d88); }
+.logo-svg { display: block; flex-shrink: 0; }
+.logo-text { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
 .renesas-logo-svg { display: block; flex-shrink: 0; }
 .renesas-logo-img { display: block; flex-shrink: 0; filter: brightness(0) invert(1); }
 .renesas-mark { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
-.logo-wordmark { font-family: 'Arial Black','Franklin Gothic Heavy',Impact,sans-serif; font-size: 19px; font-weight: 900; color: #fff; letter-spacing: 2px; margin-left: -1px; }
-.logo-sub { font-size: 14px; font-weight: 700; color: #ffffff; padding-left: 10px; margin-left: 6px; border-left: 1px solid var(--border2); text-transform: uppercase; letter-spacing: 1px; }
+.logo-wordmark { font-family: 'Arial Black','Franklin Gothic Heavy',Impact,sans-serif; font-size: 19px; font-weight: 900; color: var(--accent); letter-spacing: 2px; margin-left: -1px; }
+.logo-sub { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text2); padding-left: 11px; margin-left: 7px; border-left: 1px solid var(--border); text-transform: uppercase; letter-spacing: 2px; }
 .logo-badge {
   font-size: 10px; font-weight: 600; color: var(--accent);
-  background: #38bdf815; border: 1px solid #38bdf840;
+  background: #2a289d15; border: 1px solid #2a289d40;
   border-radius: 4px; padding: 2px 6px; text-transform: uppercase; letter-spacing: 0.5px;
 }
 
 .app-nav { display: flex; gap: 4px; margin-left: auto; }
 .nav-btn {
   background: transparent; border: 1px solid transparent;
-  color: #ffffff; cursor: pointer; padding: 6px 14px;
-  border-radius: var(--radius); font-size: 13px; font-weight: 600;
+  color: var(--text2); cursor: pointer; padding: 6px 14px;
+  border-radius: var(--radius); font-size: 12px; font-weight: 700;
   transition: all .15s; display: flex; align-items: center; gap: 6px;
-  text-transform: uppercase; letter-spacing: 0.5px;
+  font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.8px;
 }
-.nav-btn:hover { background: var(--bg4); color: #ffffff; }
-.nav-btn.active { background: var(--bg4); border-color: var(--border2); color: #ffffff; }
+.nav-btn:hover { background: var(--bg4); color: var(--text); }
+.nav-btn.active { background: var(--accent); border-color: var(--accent); color: #ffffff; }
 .nav-btn .step-num {
   width: 18px; height: 18px; border-radius: 50%;
   background: var(--bg5); display: inline-flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700;
 }
-.nav-btn.active .step-num { background: var(--accent); color: #000; }
+.nav-btn .step-num { background: var(--bg4); color: var(--text2); }
+.nav-btn.active .step-num { background: #ffffff; color: var(--accent); }
 
 .header-stats {
   display: flex; align-items: center; gap: 12px;
@@ -114,15 +117,15 @@ body {
 ══════════════════════════════════ */
 #screen-wizard {
   min-height: calc(100vh - 58px);
-  background: radial-gradient(ellipse 80% 50% at 50% -10%, #1a2d4a 0%, transparent 70%), var(--bg);
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, #eef0f7 0%, transparent 70%), var(--bg);
 }
 
 .wizard-hero {
   text-align: center; padding: 64px 24px 48px;
 }
 .wizard-hero h1 {
-  font-size: 42px; font-weight: 800; letter-spacing: -1px;
-  color: #FFD700; margin-bottom: 12px;
+  font-family: var(--font-display); font-size: 48px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
 }
 .wizard-hero p { font-size: 16px; color: var(--text2); max-width: 520px; margin: 0 auto 32px; line-height: 1.6; }
 
@@ -142,11 +145,11 @@ body {
 .wizard-textarea::placeholder { color: var(--text3); }
 .wizard-analyze-btn {
   position: absolute; bottom: 12px; right: 12px;
-  background: var(--accent); color: #000; font-weight: 700;
+  background: var(--accent); color: #fff; font-weight: 700;
   border: none; border-radius: 6px; padding: 8px 18px;
   font-size: 13px; cursor: pointer; transition: all .15s;
 }
-.wizard-analyze-btn:hover { background: #7dd3fc; transform: translateY(-1px); }
+.wizard-analyze-btn:hover { background: #211f7e; transform: translateY(-1px); }
 
 .wizard-templates {
   max-width: 900px; margin: 0 auto; padding: 0 24px 48px;
@@ -159,17 +162,17 @@ body {
   cursor: pointer; transition: all .2s; text-align: left;
 }
 .template-card:hover { border-color: var(--border2); background: var(--bg4); transform: translateY(-2px); box-shadow: 0 8px 24px #00000040; }
-.template-card.selected { border-color: var(--accent); background: #38bdf808; }
-.template-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+.template-card.selected { border-color: var(--accent); background: #2a289d08; }
+.template-icon { display: block; margin-bottom: 10px; color: var(--accent); }
 .template-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
 .template-desc { font-size: 12px; color: var(--text2); line-height: 1.4; }
 .tpl-renesas-badge {
   display: inline-block; margin-top: 10px;
   font-size: 10px; font-weight: 800; letter-spacing: 0.4px;
-  color: #4d9fff; background: #0055cc18; border: 1px solid #0077ff50;
+  color: #2a289d; background: #2a289d18; border: 1px solid #2a289d50;
   border-radius: 4px; padding: 2px 7px; text-transform: uppercase;
 }
-.tpl-renesas-badge.full { color: #fff; background: linear-gradient(135deg,#0044cc,#0077ff); border-color: transparent; }
+.tpl-renesas-badge.full { color: #fff; background: var(--accent); border-color: transparent; }
 
 .wizard-requirements {
   max-width: 900px; margin: 0 auto; padding: 0 24px 48px;
@@ -184,20 +187,22 @@ body {
   font-size: 13px; color: var(--text2); display: flex; align-items: center; gap: 8px;
 }
 .req-option:hover { border-color: var(--border2); color: var(--text); }
-.req-option.selected { border-color: var(--accent); color: var(--accent); background: #38bdf808; }
-.req-option .req-icon { font-size: 14px; width: 20px; text-align: center; }
+.req-option.selected { border-color: var(--accent); color: var(--accent); background: #2a289d08; }
+.req-option .req-icon { width: 9px; height: 9px; border-radius: 1px; background: var(--border2); flex-shrink: 0; }
+.req-option.selected .req-icon { background: var(--accent); }
 
 .wizard-cta {
   text-align: center; padding: 0 24px 64px;
 }
 .cta-btn {
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: #fff; font-size: 16px; font-weight: 700;
+  background: var(--accent);
+  color: #fff; font-size: 15px; font-weight: 700; font-family: var(--font-display);
+  text-transform: uppercase; letter-spacing: 0.6px;
   border: none; border-radius: var(--radius-lg); padding: 14px 40px;
   cursor: pointer; transition: all .2s; letter-spacing: -0.2px;
-  box-shadow: 0 4px 24px #38bdf840;
+  box-shadow: 0 4px 24px #2a289d40;
 }
-.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px #38bdf860; }
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px #2a289d60; }
 .cta-btn:active { transform: translateY(0); }
 
 /* ══════════════════════════════════
@@ -212,10 +217,9 @@ body {
 }
 
 /* Left: Component Browser */
-.comp-browser {
-  background: var(--bg2); border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; overflow: hidden;
-}
+.comp-browser { background: var(--bg2); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden; transition: box-shadow .2s; }
+.comp-browser.flash { box-shadow: inset 0 0 0 2px var(--accent); }
 .browser-header { padding: 14px 14px 10px; border-bottom: 1px solid var(--border); }
 .browser-search {
   width: 100%; background: var(--bg4); border: 1px solid var(--border);
@@ -233,7 +237,7 @@ body {
   text-transform: uppercase; letter-spacing: 0.4px;
 }
 .cat-pill:hover { background: var(--bg4); color: var(--text); }
-.cat-pill.active { color: #000; font-weight: 700; }
+.cat-pill.active { color: #fff; font-weight: 700; }
 .cat-pill[data-cat="all"].active    { background: var(--text2); border-color: var(--text2); }
 .cat-pill[data-cat="mcu"].active        { background: var(--mcu); border-color: var(--mcu); }
 .cat-pill[data-cat="sensor"].active     { background: var(--sensor); border-color: var(--sensor); }
@@ -256,29 +260,20 @@ body {
 .comp-card.in-cart { border-color: var(--green); }
 .comp-card.recommended {
   border-color: var(--accent);
-  box-shadow: 0 0 10px #38bdf820;
+  box-shadow: 0 0 10px #2a289d20;
 }
 .comp-card.recommended::before {
-  content: '★ Recommended';
+  content: 'Recommended';
   position: absolute; top: -1px; right: 8px;
-  background: var(--accent); color: #000;
+  background: var(--accent); color: #fff;
   font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 0 0 4px 4px;
   text-transform: uppercase; letter-spacing: 0.5px;
 }
 
 .comp-brick-icon {
-  width: 38px; height: 38px; border-radius: 6px;
+  width: 38px; height: 38px; border-radius: var(--radius);
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0; position: relative;
-  border-bottom: 3px solid rgba(0,0,0,0.3);
-}
-.comp-brick-icon::before {
-  content: '';
-  position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
-  width: 12px; height: 6px;
-  border-radius: 50% 50% 0 0;
-  background: inherit;
-  filter: brightness(1.2);
+  flex-shrink: 0; position: relative; color: #fff;
 }
 
 .comp-info { flex: 1; min-width: 0; }
@@ -288,8 +283,8 @@ body {
 .comp-price { font-size: 12px; font-weight: 700; color: var(--green); }
 .comp-range { font-size: 11px; color: var(--text3); background: var(--bg5); border-radius: 4px; padding: 1px 5px; }
 .fit-flag { font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 5px; cursor: help; }
-.fit-flag.fit-power  { color: var(--orange); background: #fb923c1a; border: 1px solid #fb923c40; }
-.fit-flag.fit-budget { color: var(--red);    background: #f871711a; border: 1px solid #f8717140; }
+.fit-flag.fit-power  { color: var(--orange); background: #eb62091a; border: 1px solid #eb620940; }
+.fit-flag.fit-budget { color: var(--red);    background: #b719211a; border: 1px solid #b7192140; }
 
 .comp-add-btn {
   width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
@@ -298,8 +293,8 @@ body {
   display: flex; align-items: center; justify-content: center;
   transition: all .15s; align-self: center;
 }
-.comp-add-btn:hover { background: var(--accent); border-color: var(--accent); color: #000; }
-.comp-card.in-cart .comp-add-btn { background: var(--green); border-color: var(--green); color: #000; }
+.comp-add-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.comp-card.in-cart .comp-add-btn { background: var(--green); border-color: var(--green); color: #fff; }
 
 /* Inline buy links on component cards */
 .comp-buy-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
@@ -308,7 +303,7 @@ body {
   text-decoration: none; border: 1px solid; transition: opacity .15s; white-space: nowrap;
 }
 .buy-mini:hover { opacity: 0.75; }
-.buy-mini.renesas   { color: #4d9fff; border-color: #0055cc50; background: #0055cc12; }
+.buy-mini.renesas   { color: #2a289d; border-color: #2a289d50; background: #2a289d12; }
 .buy-mini.digikey   { color: #cc3333; border-color: #cc000050; background: #cc000010; }
 .buy-mini.mouser    { color: #00baff; border-color: #00629750; background: #00629712; }
 .buy-mini.amazon    { color: #ff9900; border-color: #f0883e50; background: #f0883e10; }
@@ -357,7 +352,7 @@ body {
   display: flex; align-items: center; gap: 8px;
 }
 .bom-panel-header .count-badge {
-  background: var(--accent); color: #000; font-size: 11px; font-weight: 800;
+  background: var(--accent); color: #fff; font-size: 11px; font-weight: 800;
   border-radius: 10px; padding: 1px 7px; min-width: 20px; text-align: center;
 }
 .bom-list { flex: 1; overflow-y: auto; }
@@ -399,11 +394,12 @@ body {
 }
 .total-val { color: var(--green); font-size: 18px; }
 .go-bom-btn {
-  width: 100%; background: var(--accent); color: #000;
+  width: 100%; background: var(--accent); color: #fff;
   border: none; border-radius: var(--radius); padding: 10px;
-  font-size: 13px; font-weight: 700; cursor: pointer; transition: all .15s;
+  font-size: 12px; font-weight: 700; cursor: pointer; transition: all .15s;
+  font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.6px;
 }
-.go-bom-btn:hover { background: #7dd3fc; }
+.go-bom-btn:hover { background: #211f7e; }
 
 /* ── BUDGET BAR ── */
 .budget-bar { margin-bottom: 12px; }
@@ -466,22 +462,22 @@ body {
 .buy-link.digikey { border-color: #cc000060; color: #cc0000; }
 .buy-link.aliexpress { border-color: #e43a3a60; color: #e43a3a; }
 .buy-link.aliexpress:hover { background: #e43a3a15; }
-.buy-link.renesas  { border-color: #0055cc60; color: #4d9fff; }
-.buy-link.renesas:hover  { background: #0055cc18; }
+.buy-link.renesas  { border-color: #2a289d60; color: #2a289d; }
+.buy-link.renesas:hover  { background: #2a289d18; }
 .buy-link.mouser   { border-color: #00629760; color: #00baff; }
 .buy-link.mouser:hover   { background: #00629718; }
 
 /* ── RENESAS VENDOR BADGE ── */
 .renesas-badge {
   position: absolute; top: -1px; left: 8px;
-  background: linear-gradient(135deg, #0044cc, #0077ff);
+  background: var(--accent);
   color: #fff; font-size: 9px; font-weight: 800;
   padding: 2px 7px; border-radius: 0 0 4px 4px;
   text-transform: uppercase; letter-spacing: 0.6px; z-index: 2;
-  box-shadow: 0 2px 6px #0055cc40;
+  box-shadow: 0 2px 6px #2a289d40;
 }
-.comp-card.renesas-product { border-left: 2px solid #0077ff50; }
-.comp-card.renesas-product:hover { border-left-color: #0077ff; }
+.comp-card.renesas-product { border-color: #2a289d55; }
+.comp-card.renesas-product:hover { border-color: #2a289d; }
 .vendor-toggle {
   display: flex; align-items: center; gap: 6px;
   background: var(--bg4); border: 1px solid var(--border);
@@ -489,8 +485,8 @@ body {
   transition: all .15s; font-size: 11px; color: var(--text2);
   font-weight: 600; margin-top: 8px; width: 100%; justify-content: center;
 }
-.vendor-toggle:hover { border-color: #0077ff; color: var(--text); }
-.vendor-toggle.active { border-color: #0077ff; background: #0055cc18; color: #4d9fff; }
+.vendor-toggle:hover { border-color: #2a289d; color: var(--text); }
+.vendor-toggle.active { border-color: #2a289d; background: #2a289d18; color: #2a289d; }
 
 .bom-grand-total {
   display: flex; justify-content: flex-end; align-items: center;
@@ -501,6 +497,7 @@ body {
 .grand-total-val { font-size: 24px; font-weight: 800; color: var(--green); }
 
 .export-btn {
+  display: inline-flex; align-items: center; gap: 6px;
   background: var(--bg5); border: 1px solid var(--border);
   color: var(--text2); padding: 8px 16px; border-radius: var(--radius);
   font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s;
@@ -533,11 +530,11 @@ body {
   font-size: 11px; font-weight: 700; padding: 3px 8px;
   border-radius: 4px; flex-shrink: 0; text-transform: uppercase;
 }
-.wiring-row.i2c .wiring-protocol   { background: #38bdf820; color: var(--accent); border: 1px solid #38bdf840; }
-.wiring-row.spi .wiring-protocol    { background: #fb923c20; color: var(--orange); border: 1px solid #fb923c40; }
-.wiring-row.uart .wiring-protocol   { background: #4ade8020; color: var(--green); border: 1px solid #4ade8040; }
-.wiring-row.gpio .wiring-protocol   { background: #fbbf2420; color: var(--yellow); border: 1px solid #fbbf2440; }
-.wiring-row.onewire .wiring-protocol { background: #c084fc20; color: var(--display); border: 1px solid #c084fc40; }
+.wiring-row.i2c .wiring-protocol   { background: #2a289d20; color: var(--accent); border: 1px solid #2a289d40; }
+.wiring-row.spi .wiring-protocol    { background: #eb620920; color: var(--orange); border: 1px solid #eb620940; }
+.wiring-row.uart .wiring-protocol   { background: #609a3b20; color: var(--green); border: 1px solid #609a3b40; }
+.wiring-row.gpio .wiring-protocol   { background: #dfb11820; color: var(--yellow); border: 1px solid #dfb11840; }
+.wiring-row.onewire .wiring-protocol { background: #883d9020; color: var(--display); border: 1px solid #883d9040; }
 .wiring-desc { font-size: 13px; color: var(--text2); line-height: 1.5; }
 .wiring-desc strong { color: var(--text); }
 
@@ -553,9 +550,9 @@ body {
   border-radius: var(--radius); padding: 10px 14px; font-size: 13px;
   border: 1px solid var(--border); background: var(--bg3);
 }
-.dc-row.dc-ok   { border-color: #4ade8040; background: #4ade8010; }
-.dc-row.dc-warn { border-color: #fbbf2440; background: #fbbf2410; }
-.dc-row.dc-info { border-color: #38bdf840; background: #38bdf810; }
+.dc-row.dc-ok   { border-color: #609a3b40; background: #609a3b10; }
+.dc-row.dc-warn { border-color: #dfb11840; background: #dfb11810; }
+.dc-row.dc-info { border-color: #2a289d40; background: #2a289d10; }
 .dc-icon { flex-shrink: 0; }
 .dc-msg { color: var(--text2); line-height: 1.45; }
 .dc-row.dc-warn .dc-msg { color: var(--text); }
@@ -566,14 +563,14 @@ body {
   font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
   border: 1px solid var(--border); cursor: default;
 }
-.dc-chip.ok   { color: var(--green);  border-color: #4ade8050; background: #4ade8012; }
-.dc-chip.warn { color: var(--yellow); border-color: #fbbf2450; background: #fbbf2412; }
+.dc-chip.ok   { color: var(--green);  border-color: #609a3b50; background: #609a3b12; }
+.dc-chip.warn { color: var(--yellow); border-color: #dfb11850; background: #dfb11812; }
 
 /* ── SVG WORKSPACE STYLES ── */
-.ws-brick-body { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); cursor: grab; }
+.ws-brick-body { filter: drop-shadow(0 1px 2px rgba(60,60,59,0.18)); cursor: grab; }
 .ws-brick-body:active { cursor: grabbing; }
 .ws-connection-line { stroke-width: 2; fill: none; stroke-dasharray: 6,3; opacity: 0.6; }
-.ws-brick-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; pointer-events: none; }
+.ws-brick-text { font-family: 'Arial Narrow','Archivo Narrow',Arial,sans-serif; pointer-events: none; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
@@ -590,7 +587,7 @@ body {
 /* ── ANIMATIONS ── */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .screen.active { animation: fadeIn .25s ease-out; }
-@keyframes pulse { 0%,100%{ box-shadow: 0 0 0 0 #38bdf840; } 50%{ box-shadow: 0 0 0 6px #38bdf820; } }
+@keyframes pulse { 0%,100%{ box-shadow: 0 0 0 0 #2a289d40; } 50%{ box-shadow: 0 0 0 6px #2a289d20; } }
 .recommended-pulse { animation: pulse 2s ease-in-out infinite; }
 
 /* Category color helpers */
@@ -602,6 +599,104 @@ body {
 .c-actuator { background: var(--actuator); }
 .c-storage  { background: var(--storage); }
 .c-logic    { background: var(--logic); }
+.bom-section-title, .bom-table th, .wizard-templates h3, .grand-total-label, .grand-total-val, .workspace-toolbar strong, .bom-panel-header, .req-group label { font-family: var(--font-display); letter-spacing: 0.6px; }
+.cat-pill[data-cat="power"].active { color: #3c3c3b; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* ── PROJECT BRIEF (wizard) ── */
+#screen-wizard { padding-bottom: 56px; }
+.wizard-hero { padding: 56px 24px 28px; }
+.brief-card {
+  max-width: 920px; margin: 0 auto 44px; background: #fff;
+  border: 1px solid var(--border); border-top: 3px solid var(--accent);
+  border-radius: var(--radius-lg); padding: 24px;
+  display: flex; flex-direction: column; gap: 22px;
+}
+.brief-section { display: flex; flex-direction: column; gap: 10px; }
+.brief-label { font-family: var(--font-display); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
+.brief-card .wizard-textarea { min-height: 84px; }
+.brief-card .wizard-requirements { max-width: none; margin: 0; padding: 0; }
+.brief-actions { display: flex; align-items: center; gap: 18px; border-top: 1px solid var(--border); padding-top: 20px; }
+.brief-actions .cta-btn { box-shadow: none; }
+.brief-hint { font-size: 12px; color: var(--text2); line-height: 1.4; }
+@media (max-width: 640px){ .brief-card .wizard-requirements { grid-template-columns: 1fr; } .brief-actions { flex-direction: column; align-items: flex-start; gap: 12px; } }
+
+/* ── WHY RENESAS (component cards) ── */
+.why-renesas { display: flex; gap: 6px; align-items: flex-start; margin-top: 6px; padding: 6px 8px; background: #2a289d0a; border: 1px solid #2a289d22; border-radius: var(--radius); font-size: 10.5px; line-height: 1.45; }
+.why-renesas svg { margin-top: 1px; flex-shrink: 0; }
+.why-renesas span { color: #4a4a72; }
+
+/* ── BUILDER: live constraints bar ── */
+.ws-context-bar { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; padding: 10px 14px; background: var(--bg2); border-bottom: 1px solid var(--border); }
+.ctx-fields { display: flex; gap: 12px; flex-wrap: wrap; }
+.ctx-field { display: flex; flex-direction: column; gap: 3px; }
+.ctx-field > span { font-family: var(--font-display); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text2); }
+.ctx-field select { font-family: inherit; font-size: 12px; color: var(--text); background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 5px 8px; cursor: pointer; outline: none; }
+.ctx-field select:focus { border-color: var(--accent); }
+.ctx-actions { display: flex; gap: 8px; margin-left: auto; }
+
+/* ── BUILDER: persistent design-check strip ── */
+.ws-checks { border-top: 1px solid var(--border); background: var(--bg2); padding: 8px 14px; max-height: 134px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.ws-checks:empty { display: none; }
+.wsc-head { font-family: var(--font-display); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+.wsc-head.ok { color: var(--green); }
+.wsc-head.warn { color: #9c7b0f; }
+.wsc-row { display: flex; align-items: flex-start; gap: 7px; font-size: 11.5px; line-height: 1.4; color: var(--text2); }
+.wsc-row svg { margin-top: 1px; flex-shrink: 0; }
+.wsc-warn { color: var(--text); }
+
+/* ── QUICK-START templates: constraint fit chips ── */
+.tpl-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.template-icon { margin-bottom: 0; }
+.tpl-fit { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; color: var(--green); background: #609a3b18; border: 1px solid #609a3b40; border-radius: 3px; padding: 2px 6px; white-space: nowrap; }
+.tpl-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
+.tpl-chip { font-size: 10px; color: var(--text2); background: var(--bg4); border: 1px solid var(--border); border-radius: 3px; padding: 2px 7px; }
+.tpl-chip.on { color: var(--accent); background: #2a289d0d; border-color: #2a289d55; font-weight: 700; }
+.template-card.tpl-dim { opacity: 0.5; }
+.template-card.tpl-dim:hover { opacity: 1; }
+
+/* ── Canvas interactivity: remove control + add tray ── */
+.ws-rm { cursor: pointer; opacity: 0.5; transition: opacity .12s; }
+.ws-rm:hover { opacity: 1; }
+.ws-add { cursor: pointer; opacity: 0.88; transition: opacity .12s; }
+.ws-add:hover { opacity: 1; }
+
+/* ── Build-view tabs ── */
+.ws-viewtabs { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; align-self: center; }
+.ws-tab { font-family: var(--font-display); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); background: #fff; border: none; border-right: 1px solid var(--border); padding: 6px 13px; cursor: pointer; }
+.ws-tab:last-child { border-right: none; }
+.ws-tab:hover { background: var(--bg4); color: var(--text); }
+.ws-tab.active { background: var(--accent); color: #fff; }
+
+/* ── Zoom cluster ── */
+.ws-zoom { display: inline-flex; align-items: center; gap: 1px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; padding: 2px; }
+.ws-zoom button { border: none; background: transparent; color: var(--text2); font-weight: 700; cursor: pointer; padding: 4px 8px; border-radius: 2px; font-size: 13px; line-height: 1; }
+.ws-zoom button:last-child { font-family: var(--font-display); font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; }
+.ws-zoom button:hover { background: var(--bg4); color: var(--accent); }
+.ws-zoom span { font-size: 11px; font-weight: 700; color: var(--text2); min-width: 40px; text-align: center; }
+.workspace-canvas.pannable { cursor: grab; }
+.workspace-canvas.grabbing { cursor: grabbing; }
+
+/* ── Alternate build views (outline / wiring) ── */
+.ws-alt { display: none; padding: 22px 24px; }
+.ws-altmsg { color: var(--text3); font-size: 13px; padding: 20px 0; }
+.outline { display: flex; flex-direction: column; gap: 14px; max-width: 680px; }
+.ol-node { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.ol-tag { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.5px; color: #fff; background: var(--accent); border-radius: 3px; padding: 2px 7px; }
+.ol-bus { border-left: 2px solid var(--border); padding-left: 14px; margin-left: 4px; }
+.ol-busname { font-family: var(--font-display); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+.ol-bus ul { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.ol-bus li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); }
+.ol-dot, .wire-dot { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; display: inline-block; }
+.ol-role { font-size: 9px; font-weight: 700; letter-spacing: 0.4px; color: var(--text3); }
+.wire-wrap { max-width: 760px; }
+.wire-table { width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.wire-table th { background: var(--accent); color: #fff; text-align: left; padding: 8px 12px; font-family: var(--font-display); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+.wire-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.wire-table tr:last-child td { border-bottom: none; }
+.wire-table tr:nth-child(even) td { background: var(--bg4); }
+.wire-dot { margin-right: 8px; vertical-align: middle; }
+.wire-bus { font-size: 10px; font-weight: 700; border: 1px solid; border-radius: 3px; padding: 2px 7px; white-space: nowrap; }
+.wire-note { font-size: 12px; color: var(--text2); margin-top: 12px; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -610,16 +705,16 @@ body {
 <header class="app-header">
   <a class="logo" href="#" onclick="switchScreen('wizard');return false;">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.84 -0.84 177.39 29.69" height="22" aria-label="Renesas Electronics" class="renesas-logo-svg" style="flex-shrink:0;">
-      <path d="M 54.457436,5.0449188 L 54.457436,22.611169 L 58.006186,22.611169 L 58.006186,9.3686688 C 58.163686,9.3686688 58.237436,9.4224188 58.369936,9.5686688 L 67.791186,20.631169 C 69.267436,22.419919 70.322436,22.611169 72.836186,22.611169 L 76.633686,22.611169 L 76.633686,5.0449188 L 73.094936,5.0399188 L 73.094936,18.194919 C 72.943686,18.194919 72.863686,18.144919 72.744936,17.996169 L 63.589936,7.2736688 C 62.161186,5.6236688 61.334936,5.0449188 57.639936,5.0449188 L 54.457436,5.0449188 z" fill="#ffffff"/>
-      <path d="M 40.137316,7.5449188 L 49.067316,7.5599188 C 49.508566,7.5599188 49.818566,7.4149188 50.031066,7.0174188 L 51.088566,5.0449188 L 38.298566,5.0449188 C 32.634816,5.0449188 29.872316,7.1011688 29.872316,11.323669 L 29.872316,16.179919 C 29.872316,20.701169 32.709816,22.611169 38.304816,22.611169 L 49.403566,22.611169 C 49.818566,22.611169 50.131066,22.501169 50.344816,22.086169 L 51.374816,20.089919 L 40.126066,20.089919 C 37.178566,20.089919 36.117316,19.117419 36.117316,17.112419 L 36.117316,14.752419 L 47.794816,14.752419 C 48.233566,14.752419 48.539816,14.619919 48.758566,14.217419 L 49.811066,12.223669 L 36.117316,12.223669 L 36.117316,10.792419 C 36.117316,9.0874188 36.516066,7.5449188 40.137316,7.5449188" fill="#ffffff"/>
-      <path d="M 90.869816,7.5449188 L 99.792316,7.5599188 C 100.23857,7.5599188 100.55982,7.4149188 100.77857,7.0174188 L 101.81607,5.0449188 L 89.031066,5.0449188 C 83.373566,5.0449188 80.588566,7.1011688 80.588566,11.323669 L 80.588566,16.179919 C 80.588566,20.701169 83.447316,22.611169 89.052316,22.611169 L 100.14357,22.611169 C 100.55982,22.611169 100.88357,22.501169 101.09857,22.086169 L 102.13607,20.089919 L 90.869816,20.089919 C 87.899816,20.089919 86.861066,19.117419 86.861066,17.112419 L 86.861066,14.752419 L 98.527316,14.752419 C 98.959816,14.752419 99.272316,14.619919 99.477316,14.217419 L 100.53732,12.223669 L 86.861066,12.223669 L 86.861066,10.792419 C 86.861066,9.0874188 87.226066,7.5449188 90.869816,7.5449188" fill="#ffffff"/>
-      <path d="M 116.49844,16.661049 C 118.92094,17.454799 119.63469,17.796049 119.63469,18.723549 C 119.63469,19.517299 119.18344,20.103549 116.14094,20.103549 L 105.82469,20.089799 C 105.37969,20.089799 105.05594,20.222299 104.83844,20.631049 L 103.79469,22.611049 L 118.45594,22.611049 C 124.36969,22.611049 126.59094,20.748549 126.59094,18.198549 C 126.59094,16.709799 125.73844,14.752299 120.19219,12.921049 L 114.33719,11.011049 C 111.92594,10.213549 111.22094,9.8635488 111.22094,8.9560488 C 111.22094,8.2085488 111.62594,7.5447988 114.69969,7.5447988 L 123.42844,7.5597988 C 123.86719,7.5597988 124.16969,7.4160488 124.38469,7.0172988 L 125.44844,5.0472988 L 112.37219,5.0472988 C 106.47719,5.0472988 104.26094,6.8910488 104.26094,9.4560488 C 104.26094,10.948549 105.09094,12.927299 110.67344,14.752299 L 116.49844,16.661049 z" fill="#ffffff"/>
-      <path d="M 169.33169,12.915919 L 163.47544,11.007169 C 161.08794,10.213419 160.34794,9.8609188 160.34794,8.9534188 C 160.34794,8.2159188 160.82169,7.5446688 163.82169,7.5446688 L 172.54794,7.5596688 C 172.98044,7.5596688 173.28669,7.4159188 173.51294,7.0159188 L 174.56794,5.0446688 L 161.53919,5.0446688 C 155.59169,5.0446688 153.42044,6.8859188 153.42044,9.4559188 C 153.42044,10.948419 154.25919,12.925919 159.77794,14.752169 L 165.63294,16.660919 C 168.04169,17.454669 168.78544,17.800919 168.78544,18.720919 C 168.78544,19.448419 168.30544,20.103419 165.26044,20.103419 L 153.39794,20.085919 L 144.19919,5.0446688 L 140.68669,5.0446688 C 137.96294,5.0446688 136.60044,5.8034188 135.32919,7.8671688 L 126.30669,22.610919 L 132.40794,22.610919 L 139.83669,9.4696688 C 140.02044,9.1496688 140.16794,9.1634188 140.31294,9.1634188 L 146.51919,20.085919 L 139.77919,20.085919 C 139.33794,20.085919 139.03544,20.218419 138.83419,20.630919 L 137.78669,22.610919 L 154.90044,22.610919 L 154.91794,22.610919 L 167.58794,22.610919 C 173.49919,22.610919 175.70919,20.744669 175.70919,18.194669 C 175.70919,16.709669 174.86294,14.749669 169.33169,12.915919" fill="#ffffff"/>
-      <path d="M 1.2513157,21.775169 L 9.4488157,21.775169 L 9.4488157,13.561419 L 1.2513157,13.561419 L 1.2513157,21.775169 z" fill="#ffffff"/>
-      <path d="M 0.99431573,3.2675488 C 0.69431573,3.4200488 0.22806573,3.7650488 0.15056573,4.1662988 C 0.15056573,4.1662988 0.0055657303,5.0187988 0.0055657303,5.0400488 C -0.04443427,5.3500488 0.25556573,5.2762988 0.38056573,5.1987988 C 1.6618157,4.4437988 3.0855657,3.7587988 4.3880657,3.3600488 C 10.519316,1.5075488 18.301816,1.4587988 19.659316,5.4650488 C 20.616816,8.2425488 16.723066,10.558799 14.528066,11.592549 C 13.680566,11.990049 13.396816,12.368799 13.339316,12.772549 C 13.291816,13.136299 13.416816,13.670049 13.905566,14.392549 C 16.984316,19.010049 26.135566,25.628799 35.114316,27.945049 C 35.488066,28.045049 35.671816,28.011299 35.824316,27.920049 C 35.908066,27.872549 36.013066,27.806299 35.851816,27.725049 C 29.888066,24.591299 24.191816,19.336299 21.343066,15.277549 C 20.691816,14.340049 20.524316,13.713799 20.566816,13.208799 C 20.608066,12.772549 21.010566,12.391299 21.868066,11.990049 C 25.053066,10.513799 28.300566,8.2650488 27.330566,4.5250488 C 25.916816,-0.85370118 10.694316,-1.6424512 0.99431573,3.2675488" fill="#ffffff"/>
+      <path d="M 54.457436,5.0449188 L 54.457436,22.611169 L 58.006186,22.611169 L 58.006186,9.3686688 C 58.163686,9.3686688 58.237436,9.4224188 58.369936,9.5686688 L 67.791186,20.631169 C 69.267436,22.419919 70.322436,22.611169 72.836186,22.611169 L 76.633686,22.611169 L 76.633686,5.0449188 L 73.094936,5.0399188 L 73.094936,18.194919 C 72.943686,18.194919 72.863686,18.144919 72.744936,17.996169 L 63.589936,7.2736688 C 62.161186,5.6236688 61.334936,5.0449188 57.639936,5.0449188 L 54.457436,5.0449188 z" fill="#2A289D"/>
+      <path d="M 40.137316,7.5449188 L 49.067316,7.5599188 C 49.508566,7.5599188 49.818566,7.4149188 50.031066,7.0174188 L 51.088566,5.0449188 L 38.298566,5.0449188 C 32.634816,5.0449188 29.872316,7.1011688 29.872316,11.323669 L 29.872316,16.179919 C 29.872316,20.701169 32.709816,22.611169 38.304816,22.611169 L 49.403566,22.611169 C 49.818566,22.611169 50.131066,22.501169 50.344816,22.086169 L 51.374816,20.089919 L 40.126066,20.089919 C 37.178566,20.089919 36.117316,19.117419 36.117316,17.112419 L 36.117316,14.752419 L 47.794816,14.752419 C 48.233566,14.752419 48.539816,14.619919 48.758566,14.217419 L 49.811066,12.223669 L 36.117316,12.223669 L 36.117316,10.792419 C 36.117316,9.0874188 36.516066,7.5449188 40.137316,7.5449188" fill="#2A289D"/>
+      <path d="M 90.869816,7.5449188 L 99.792316,7.5599188 C 100.23857,7.5599188 100.55982,7.4149188 100.77857,7.0174188 L 101.81607,5.0449188 L 89.031066,5.0449188 C 83.373566,5.0449188 80.588566,7.1011688 80.588566,11.323669 L 80.588566,16.179919 C 80.588566,20.701169 83.447316,22.611169 89.052316,22.611169 L 100.14357,22.611169 C 100.55982,22.611169 100.88357,22.501169 101.09857,22.086169 L 102.13607,20.089919 L 90.869816,20.089919 C 87.899816,20.089919 86.861066,19.117419 86.861066,17.112419 L 86.861066,14.752419 L 98.527316,14.752419 C 98.959816,14.752419 99.272316,14.619919 99.477316,14.217419 L 100.53732,12.223669 L 86.861066,12.223669 L 86.861066,10.792419 C 86.861066,9.0874188 87.226066,7.5449188 90.869816,7.5449188" fill="#2A289D"/>
+      <path d="M 116.49844,16.661049 C 118.92094,17.454799 119.63469,17.796049 119.63469,18.723549 C 119.63469,19.517299 119.18344,20.103549 116.14094,20.103549 L 105.82469,20.089799 C 105.37969,20.089799 105.05594,20.222299 104.83844,20.631049 L 103.79469,22.611049 L 118.45594,22.611049 C 124.36969,22.611049 126.59094,20.748549 126.59094,18.198549 C 126.59094,16.709799 125.73844,14.752299 120.19219,12.921049 L 114.33719,11.011049 C 111.92594,10.213549 111.22094,9.8635488 111.22094,8.9560488 C 111.22094,8.2085488 111.62594,7.5447988 114.69969,7.5447988 L 123.42844,7.5597988 C 123.86719,7.5597988 124.16969,7.4160488 124.38469,7.0172988 L 125.44844,5.0472988 L 112.37219,5.0472988 C 106.47719,5.0472988 104.26094,6.8910488 104.26094,9.4560488 C 104.26094,10.948549 105.09094,12.927299 110.67344,14.752299 L 116.49844,16.661049 z" fill="#2A289D"/>
+      <path d="M 169.33169,12.915919 L 163.47544,11.007169 C 161.08794,10.213419 160.34794,9.8609188 160.34794,8.9534188 C 160.34794,8.2159188 160.82169,7.5446688 163.82169,7.5446688 L 172.54794,7.5596688 C 172.98044,7.5596688 173.28669,7.4159188 173.51294,7.0159188 L 174.56794,5.0446688 L 161.53919,5.0446688 C 155.59169,5.0446688 153.42044,6.8859188 153.42044,9.4559188 C 153.42044,10.948419 154.25919,12.925919 159.77794,14.752169 L 165.63294,16.660919 C 168.04169,17.454669 168.78544,17.800919 168.78544,18.720919 C 168.78544,19.448419 168.30544,20.103419 165.26044,20.103419 L 153.39794,20.085919 L 144.19919,5.0446688 L 140.68669,5.0446688 C 137.96294,5.0446688 136.60044,5.8034188 135.32919,7.8671688 L 126.30669,22.610919 L 132.40794,22.610919 L 139.83669,9.4696688 C 140.02044,9.1496688 140.16794,9.1634188 140.31294,9.1634188 L 146.51919,20.085919 L 139.77919,20.085919 C 139.33794,20.085919 139.03544,20.218419 138.83419,20.630919 L 137.78669,22.610919 L 154.90044,22.610919 L 154.91794,22.610919 L 167.58794,22.610919 C 173.49919,22.610919 175.70919,20.744669 175.70919,18.194669 C 175.70919,16.709669 174.86294,14.749669 169.33169,12.915919" fill="#2A289D"/>
+      <path d="M 1.2513157,21.775169 L 9.4488157,21.775169 L 9.4488157,13.561419 L 1.2513157,13.561419 L 1.2513157,21.775169 z" fill="#2A289D"/>
+      <path d="M 0.99431573,3.2675488 C 0.69431573,3.4200488 0.22806573,3.7650488 0.15056573,4.1662988 C 0.15056573,4.1662988 0.0055657303,5.0187988 0.0055657303,5.0400488 C -0.04443427,5.3500488 0.25556573,5.2762988 0.38056573,5.1987988 C 1.6618157,4.4437988 3.0855657,3.7587988 4.3880657,3.3600488 C 10.519316,1.5075488 18.301816,1.4587988 19.659316,5.4650488 C 20.616816,8.2425488 16.723066,10.558799 14.528066,11.592549 C 13.680566,11.990049 13.396816,12.368799 13.339316,12.772549 C 13.291816,13.136299 13.416816,13.670049 13.905566,14.392549 C 16.984316,19.010049 26.135566,25.628799 35.114316,27.945049 C 35.488066,28.045049 35.671816,28.011299 35.824316,27.920049 C 35.908066,27.872549 36.013066,27.806299 35.851816,27.725049 C 29.888066,24.591299 24.191816,19.336299 21.343066,15.277549 C 20.691816,14.340049 20.524316,13.713799 20.566816,13.208799 C 20.608066,12.772549 21.010566,12.391299 21.868066,11.990049 C 25.053066,10.513799 28.300566,8.2650488 27.330566,4.5250488 C 25.916816,-0.85370118 10.694316,-1.6424512 0.99431573,3.2675488" fill="#2A289D"/>
     </svg>
     <span class="logo-sub">BRICKS</span>
-    <span class="logo-badge">Lego Mode</span>
+    <span class="logo-badge">Beta</span>
   </a>
   <nav class="app-nav">
     <button class="nav-btn active" data-screen="wizard">
@@ -634,12 +729,11 @@ body {
   </nav>
   <div class="header-stats">
     <div class="stat-chip">
-      <span>🧩</span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       <span class="val" id="h-count">0</span>
       <span>parts</span>
     </div>
     <div class="stat-chip price">
-      <span>💰</span>
       <span>$</span><span class="val" id="h-price">0.00</span>
     </div>
   </div>
@@ -650,56 +744,59 @@ body {
 
   <div class="wizard-hero">
     <h1>What are you building?</h1>
-    <p>Describe your project and we'll snap together the right hardware blocks — like Lego, but for electronics.</p>
-    <div class="wizard-input-wrap">
+    <p>Describe what you're building. The builder assembles a compatible hardware stack — Renesas silicon first — with a costed bill of materials.</p>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-section">
+      <label class="brief-label">Describe your project</label>
       <textarea class="wizard-textarea" id="project-desc"
         placeholder="e.g. I want to build a weather station that measures temperature and humidity, sends data over WiFi to a dashboard, and runs on a LiPo battery for a week..."></textarea>
-      <button class="wizard-analyze-btn" onclick="analyzeProject()">Generate ▶</button>
+    </div>
+    <div class="brief-section">
+      <label class="brief-label">Constraints</label>
+      <div class="wizard-requirements">
+        <div class="req-group">
+          <label>Range</label>
+          <div class="req-options" id="req-range">
+            <div class="req-option selected" data-val="local"><span class="req-icon"></span>Local / Same PCB</div>
+            <div class="req-option" data-val="room"><span class="req-icon"></span>Room (Bluetooth &lt;10m)</div>
+            <div class="req-option" data-val="building"><span class="req-icon"></span>Building (WiFi / BLE)</div>
+            <div class="req-option" data-val="outdoor"><span class="req-icon"></span>Outdoor (LoRa / GSM)</div>
+            <div class="req-option" data-val="global"><span class="req-icon"></span>Global (4G / Satellite)</div>
+          </div>
+        </div>
+        <div class="req-group">
+          <label>Power Source</label>
+          <div class="req-options" id="req-power">
+            <div class="req-option selected" data-val="usb"><span class="req-icon"></span>USB (always-on)</div>
+            <div class="req-option" data-val="lipo"><span class="req-icon"></span>LiPo Battery</div>
+            <div class="req-option" data-val="aa"><span class="req-icon"></span>AA/AAA Batteries</div>
+            <div class="req-option" data-val="solar"><span class="req-icon"></span>Solar + Battery</div>
+            <div class="req-option" data-val="mains"><span class="req-icon"></span>Mains / DC Adapter</div>
+          </div>
+        </div>
+        <div class="req-group">
+          <label>Budget</label>
+          <div class="req-options" id="req-budget">
+            <div class="req-option selected" data-val="10"><span class="req-icon"></span>Under $10</div>
+            <div class="req-option" data-val="25"><span class="req-icon"></span>Under $25</div>
+            <div class="req-option" data-val="50"><span class="req-icon"></span>Under $50</div>
+            <div class="req-option" data-val="100"><span class="req-icon"></span>Under $100</div>
+            <div class="req-option" data-val="999"><span class="req-icon"></span>No limit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="brief-actions">
+      <button class="cta-btn" onclick="buildProject()">Build my project →</button>
+      <span class="brief-hint">We'll match components to your description and constraints — Renesas silicon first.</span>
     </div>
   </div>
 
   <div class="wizard-templates">
-    <h3>Or start from a template</h3>
+    <h3>Quick starts — pick one to pre-fill your brief</h3>
     <div class="template-grid" id="template-grid"></div>
-  </div>
-
-  <div class="wizard-requirements">
-    <div class="req-group">
-      <label>📡 Range</label>
-      <div class="req-options" id="req-range">
-        <div class="req-option selected" data-val="local"><span class="req-icon">🏠</span>Local / Same PCB</div>
-        <div class="req-option" data-val="room"><span class="req-icon">🚪</span>Room (Bluetooth &lt;10m)</div>
-        <div class="req-option" data-val="building"><span class="req-icon">🏢</span>Building (WiFi / BLE)</div>
-        <div class="req-option" data-val="outdoor"><span class="req-icon">🌳</span>Outdoor (LoRa / GSM)</div>
-        <div class="req-option" data-val="global"><span class="req-icon">🌍</span>Global (4G / Satellite)</div>
-      </div>
-    </div>
-    <div class="req-group">
-      <label>⚡ Power Source</label>
-      <div class="req-options" id="req-power">
-        <div class="req-option selected" data-val="usb"><span class="req-icon">🔌</span>USB (always-on)</div>
-        <div class="req-option" data-val="lipo"><span class="req-icon">🔋</span>LiPo Battery</div>
-        <div class="req-option" data-val="aa"><span class="req-icon">🪫</span>AA/AAA Batteries</div>
-        <div class="req-option" data-val="solar"><span class="req-icon">☀️</span>Solar + Battery</div>
-        <div class="req-option" data-val="mains"><span class="req-icon">🏭</span>Mains / DC Adapter</div>
-      </div>
-    </div>
-    <div class="req-group">
-      <label>💵 Budget</label>
-      <div class="req-options" id="req-budget">
-        <div class="req-option selected" data-val="10"><span class="req-icon">🪙</span>Under $10</div>
-        <div class="req-option" data-val="25"><span class="req-icon">💵</span>Under $25</div>
-        <div class="req-option" data-val="50"><span class="req-icon">💰</span>Under $50</div>
-        <div class="req-option" data-val="100"><span class="req-icon">💎</span>Under $100</div>
-        <div class="req-option" data-val="999"><span class="req-icon">🚀</span>No limit</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="wizard-cta">
-    <button class="cta-btn" onclick="switchScreen('builder')">
-      Build My Project →
-    </button>
   </div>
 </div>
 
@@ -710,7 +807,7 @@ body {
   <div class="comp-browser">
     <div class="browser-header">
       <input type="text" class="browser-search" id="comp-search"
-        placeholder="🔍  Search components..." oninput="filterComponents()">
+        placeholder="Search components…" oninput="filterComponents()">
       <div class="cat-filter">
         <button class="cat-pill active" data-cat="all" onclick="setCat('all',this)">All</button>
         <button class="cat-pill" data-cat="mcu" onclick="setCat('mcu',this)">MCU</button>
@@ -723,7 +820,7 @@ body {
         <button class="cat-pill" data-cat="logic" onclick="setCat('logic',this)">Logic</button>
       </div>
       <button class="vendor-toggle active" id="renesas-toggle" onclick="toggleRenesasFilter()">
-        ◈ Show Renesas Only
+        Renesas products only
       </button>
     </div>
     <div class="comp-list" id="comp-list"></div>
@@ -731,25 +828,22 @@ body {
 
   <!-- Center: Workspace -->
   <div class="workspace">
-    <div class="workspace-toolbar">
-      <strong>Build Canvas</strong> — Click components on the left to add them
-      <span id="dc-chip-slot"></span>
-      <button class="export-btn" style="padding:4px 10px;font-size:11px" onclick="renesasifyBuild()" title="Swap generic parts for Renesas equivalents">◈ Renesas-ify</button>
-      <span class="ws-hint">Connections auto-detect compatible interfaces</span>
-    </div>
+    <div class="ws-context-bar" id="ws-context-bar"></div>
     <div class="workspace-canvas">
       <div class="ws-empty" id="ws-empty">
-        <div class="ws-empty-icon">🧩</div>
-        <div class="ws-empty-text">Your build is empty<br>Add components from the left panel</div>
+        <div class="ws-empty-icon"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
+        <div class="ws-empty-text">Start by adding a microcontroller — the brain of your build.<br>Then add sensors, radios and power; the canvas wires them onto shared buses.</div>
       </div>
       <svg id="workspace-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div id="ws-alt" class="ws-alt"></div>
     </div>
+    <div class="ws-checks" id="ws-checks"></div>
   </div>
 
   <!-- Right: BOM Panel -->
   <div class="bom-panel">
     <div class="bom-panel-header">
-      🛒 Cart <span class="count-badge" id="cart-badge">0</span>
+      Cart <span class="count-badge" id="cart-badge">0</span>
       <button class="bom-remove-btn" style="margin-left:auto;font-size:11px;font-weight:600" onclick="clearCart()" title="Remove all components">Clear</button>
     </div>
     <div class="bom-list" id="bom-list"></div>
@@ -769,26 +863,27 @@ body {
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:10px;flex-wrap:wrap;">
     <div class="bom-section-title" style="border:none;margin:0;padding:0">Bill of Materials</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="export-btn" onclick="renesasifyBuild()" title="Swap generic parts for Renesas equivalents">◈ Renesas-ify</button>
-      <button class="export-btn" onclick="copyShareLink()" title="Copy a shareable link to this build">🔗 Copy Link</button>
-      <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="export-btn" onclick="renesasifyBuild()" title="Swap generic parts for Renesas equivalents"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13M14 5l3 3-3 3M20 16H7M10 13l-3 3 3 3"/></svg>Renesas-ify</button>
+      <button class="export-btn" onclick="copyShareLink()" title="Copy a shareable link to this build"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 14.5 14.5 9.5M8.5 11 6.5 13a3.5 3.5 0 0 0 5 5l2-2M15.5 13l2-2a3.5 3.5 0 0 0-5-5l-2 2"/></svg>Copy Link</button>
+      <button class="export-btn" onclick="printSummary()" title="Open a printable one-page project summary"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Summary</button>
+      <button class="export-btn" onclick="exportCSV()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.5 11l4.5 5 4.5-5M4 20h16"/></svg>Export CSV</button>
     </div>
   </div>
   <div id="bom-budget-slot" style="max-width:360px;margin-bottom:14px;"></div>
   <div id="bom-table-section"></div>
 
   <div>
-    <div class="bom-section-title">✅ Design Check</div>
+    <div class="bom-section-title">Design Check</div>
     <div class="design-check" id="design-check"></div>
   </div>
 
   <div>
-    <div class="bom-section-title">📚 Tutorials &amp; Getting Started</div>
+    <div class="bom-section-title">Tutorials &amp; Getting Started</div>
     <div class="tutorials-grid" id="tutorials-grid"></div>
   </div>
 
   <div>
-    <div class="bom-section-title">🔌 Wiring Guide</div>
+    <div class="bom-section-title">Wiring Guide</div>
     <div class="wiring-hints" id="wiring-hints"></div>
   </div>
 </div>
@@ -809,15 +904,85 @@ const state = {
 //  COMPONENT DATABASE
 // ════════════════════════════════════════
 const CAT_COLOR = {
-  mcu: '#38bdf8', sensor: '#4ade80', connect: '#fb923c',
-  power: '#fbbf24', display: '#c084fc', actuator: '#f87171', storage: '#a78bfa',
-  logic: '#5eead4'
+  mcu: '#2a289d', sensor: '#609a3b', connect: '#43abe2',
+  power: '#dfb118', display: '#883d90', actuator: '#eb6209', storage: '#615e8e',
+  logic: '#60a9b4'
 };
 const CAT_LABEL = {
   mcu: 'Microcontroller', sensor: 'Sensor', connect: 'Connectivity',
   power: 'Power', display: 'Display', actuator: 'Actuator', storage: 'Storage',
   logic: 'Logic & Timing'
 };
+
+// ── Clean single-weight line-icon set (Lucide-style) for a Renesas-brand UI ──
+const ICON_PATHS = {
+  cpu:'<rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
+  wave:'<path d="M3 12h3l2.5-7 4 14 2.5-7H21"/>',
+  wifi:'<path d="M4 11a13 13 0 0 1 16 0M7 14.5a8 8 0 0 1 10 0"/><circle cx="12" cy="19" r="1.2"/>',
+  bolt:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  monitor:'<rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/>',
+  cog:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9 19 19M19 5l-2.1 2.1M7.1 16.9 5 19"/>',
+  database:'<ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v13c0 1.55 3.36 2.8 7.5 2.8s7.5-1.25 7.5-2.8v-13M4.5 12c0 1.55 3.36 2.8 7.5 2.8s7.5-1.25 7.5-2.8"/>',
+  chip:'<rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>',
+  check:'<path d="M4 12.5l5 5L20 6.5"/>',
+  alert:'<path d="M12 3 2 20h20z"/><path d="M12 10v5M12 17.6v.1"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.1"/>',
+  link:'<path d="M9.5 14.5 14.5 9.5M8.5 11 6.5 13a3.5 3.5 0 0 0 5 5l2-2M15.5 13l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>',
+  download:'<path d="M12 3v12M7.5 11l4.5 5 4.5-5M4 20h16"/>',
+  layers:'<path d="M12 3 3 8l9 5 9-5-9-5zM3 13l9 5 9-5M3 17.5l9 5 9-5"/>',
+  swap:'<path d="M4 8h13M14 5l3 3-3 3M20 16H7M10 13l-3 3 3 3"/>',
+};
+const CAT_ICON = { mcu:'cpu', sensor:'wave', connect:'wifi', power:'bolt', display:'monitor', actuator:'cog', storage:'database', logic:'chip' };
+function svgIcon(name, o){
+  o = o || {};
+  const size = o.size || 16, color = o.color || 'currentColor', stroke = o.stroke || 1.8;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0">${ICON_PATHS[name]||''}</svg>`;
+}
+function catIcon(cat, o){ return svgIcon(CAT_ICON[cat]||'chip', o); }
+
+// ── Engineering metadata (kept as lookups so the 60-part DB stays untouched) ──
+// Usable GPIO count per MCU — drives the resource-budget readout on the canvas.
+const MCU_GPIO = {
+  esp32:34, esp8266:11, uno:14, nano:14, pico:26, picow:26, bluepill:37, mega:54, teensy4:40,
+  ra2a1:24, ra2e1:18, ra4m1:30, ra6m5:48, ra6w2:40, ra8m1:60, rl78g23:36,
+  da16200:12, da16600:16, da14695:20, da14531mod:12
+};
+// Parts whose logic level is 5 V (everything else treated as 3.3 V)
+const VOLT_5V = new Set(['uno','nano','mega']);
+// Rough current draw (mA) by the existing power tier, and what each source comfortably delivers
+const DRAW_MA = { 'ultra-low':5, low:40, med:120, high:400 };
+const SOURCE_MA = { solar:120, aa:300, lipo:1000, usb:500, mains:3000 };
+// Why Renesas — the rationale shown when a Renesas part is in the build
+const RENESAS_WHY = {
+  ra6w2:'Wi-Fi 6 + Arm Cortex-M33 with TrustZone — radio and security on-chip replace a separate MCU plus Wi-Fi module.',
+  ra6m5:'480 MHz Cortex-M33 with Ethernet and hardware crypto — built for connected gateways with functional-safety support.',
+  ra4m1:'48 MHz Cortex-M4 with on-chip capacitive touch and IEC 60730 safety, at Arduino-class simplicity.',
+  ra2e1:'Ultra-low-power Cortex-M23 — long battery life for always-on sensing nodes.',
+  ra2a1:'14-bit ADC and low-power analog front end — precision sensing without external converters.',
+  ra8m1:'Cortex-M85 with Helium — DSP and ML headroom for edge inference.',
+  rl78g23:'Proven low-power RL78 with EEPROM emulation — robust for industrial data loggers.',
+  da16200:'Certified ultra-low-power Wi-Fi SoC — runs for months on a battery where a generic module cannot.',
+  da16600:'Certified Wi-Fi + Bluetooth LE combo SoC — one module for dual-radio designs.',
+  da14695:'Bluetooth LE 5 SoC with Cortex-M33 and integrated PMIC — wearable-grade battery life.',
+  da14531mod:'Among the smallest BLE modules available — drop-in wireless with a certified RF front end.',
+  hs4001:'±1.8% RH / ±0.2 °C factory-calibrated humidity + temperature — tighter accuracy than commodity DHT/BME parts.',
+  ob1203:'Optical heart-rate, SpO₂ and proximity in one — medical-grade AFE for wearables.',
+  isl29125:'RGB ambient-light sensor with IR rejection — accurate colour sensing.',
+  rrh62000:'Integrated air-quality module (PM, VOC, CO₂-e, RH/T) — replaces several discrete sensors.',
+  raa489118:'Buck-boost battery charger with system power path — efficient solar / LiPo front end.',
+  isl85003:'3 A synchronous buck regulator — high-efficiency point-of-load supply.',
+  raa211650:'Low-noise LDO — clean rail for analog and RF.',
+  raj240100:'Battery fuel gauge — accurate state-of-charge for portable products.',
+  isl1208:'Low-power RTC with battery backup — timestamping that survives power loss.',
+  raa306012:'Integrated motor driver with protection — reliable actuation for robotics.'
+};
+function renesasWhy(comp){
+  return RENESAS_WHY[comp.id] || 'Renesas-qualified part — single-vendor support, full documentation and long-term supply.';
+}
+// Constraint dropdown options (used by the live builder context bar)
+const RANGE_OPTS  = [['local','Local / Same PCB'],['room','Room (BT <10m)'],['building','Building (WiFi / BLE)'],['outdoor','Outdoor (LoRa / GSM)'],['global','Global (4G / Satellite)']];
+const POWER_OPTS  = [['usb','USB (always-on)'],['lipo','LiPo Battery'],['aa','AA / AAA Batteries'],['solar','Solar + Battery'],['mains','Mains / DC Adapter']];
+const BUDGET_OPTS = [['10','Under $10'],['25','Under $25'],['50','Under $50'],['100','Under $100'],['999','No limit']];
 
 const COMPONENTS = [
   // ── MCU ──────────────────────────────
@@ -2019,7 +2184,7 @@ function switchScreen(name){
   state.screen = name;
   window.scrollTo({ top: 0, behavior: 'instant' });
   if(name === 'bom')     renderBOMScreen();
-  if(name === 'builder') { renderBOMPanel(); renderWorkspace(); }
+  if(name === 'builder') { renderConstraintsBar(); renderBOMPanel(); renderWorkspace(); renderWsChecks(); }
 }
 document.querySelectorAll('.nav-btn').forEach(b => {
   b.addEventListener('click', () => switchScreen(b.dataset.screen));
@@ -2028,28 +2193,43 @@ document.querySelectorAll('.nav-btn').forEach(b => {
 // ════════════════════════════════════════
 //  WIZARD
 // ════════════════════════════════════════
-function initWizard(){
-  // Templates
-  const grid = $('template-grid');
-  grid.innerHTML = TEMPLATES.map(t => {
+// How well a template matches the brief's current constraints (used to rank + flag quick-starts)
+function tplMatch(t){
+  let m=0, n=0;
+  if(t.range){ n++; if(t.range===state.project.range) m++; }
+  if(t.power){ n++; if(t.power===state.project.power) m++; }
+  if(t.budget){ n++; if(state.project.budget===999 || state.project.budget>=t.budget) m++; }
+  return { m, n };
+}
+function renderTemplates(){
+  const grid = $('template-grid'); if(!grid) return;
+  const rmap = Object.fromEntries(RANGE_OPTS), pmap = Object.fromEntries(POWER_OPTS);
+  const scored = TEMPLATES.map(t => ({ t, ...tplMatch(t) }));
+  scored.sort((a,b) => b.m - a.m);
+  grid.innerHTML = scored.map(({t,m,n}) => {
     const total = t.components.length;
-    const ren = t.components.filter(cid => {
-      const c = COMPONENTS.find(x => x.id === cid);
-      return c && c.vendor === 'renesas';
-    }).length;
-    const badge = ren
-      ? `<span class="tpl-renesas-badge${ren===total?' full':''}" title="${ren} of ${total} parts are Renesas">◈ ${ren===total?'All Renesas':`${ren}/${total} Renesas`}</span>`
-      : '';
+    const ren = t.components.filter(cid => { const c = COMPONENTS.find(x => x.id===cid); return c && c.vendor==='renesas'; }).length;
+    const badge = ren ? `<span class="tpl-renesas-badge${ren===total?' full':''}" title="${ren} of ${total} parts are Renesas">${ren===total?'All Renesas':ren+'/'+total+' Renesas'}</span>` : '';
+    const chip = (on,txt) => `<span class="tpl-chip${on?' on':''}">${txt}</span>`;
+    const chips = `<div class="tpl-chips">${chip(t.range===state.project.range, rmap[t.range]||t.range)}${chip(t.power===state.project.power, pmap[t.power]||t.power)}${chip(state.project.budget===999||state.project.budget>=t.budget, '≤ $'+t.budget)}</div>`;
+    const fit = (n>0 && m===n) ? '<span class="tpl-fit">Fits your brief</span>' : '';
+    const dim = m===0 ? ' tpl-dim' : '';
+    const sel = (state.project.template && state.project.template.id===t.id) ? ' selected' : '';
     return `
-    <div class="template-card" data-tid="${t.id}" onclick="selectTemplate('${t.id}',this)">
-      <span class="template-icon">${t.icon}</span>
+    <div class="template-card${dim}${sel}" data-tid="${t.id}" onclick="selectTemplate('${t.id}',this)">
+      <div class="tpl-top"><span class="template-icon">${svgIcon('layers',{size:24,color:'var(--accent)',stroke:1.7})}</span>${fit}</div>
       <div class="template-name">${t.name}</div>
       <div class="template-desc">${t.desc}</div>
+      ${chips}
       ${badge}
     </div>`;
   }).join('');
+}
 
-  // Requirement options
+function initWizard(){
+  renderTemplates();
+
+  // Requirement options — changing a constraint re-ranks the quick-starts too
   ['req-range','req-power','req-budget'].forEach(gid => {
     $(`${gid}`).querySelectorAll('.req-option').forEach(el => {
       el.addEventListener('click', function(){
@@ -2058,7 +2238,9 @@ function initWizard(){
         this.classList.add('selected');
         const key = gid.replace('req-','');
         state.project[key] = key === 'budget' ? parseInt(this.dataset.val) : this.dataset.val;
-        renderCompList();   // constraints changed → re-score/flag
+        renderCompList();
+        renderTemplates();
+        renderConstraintsBar();
         saveState();
       });
     });
@@ -2112,6 +2294,9 @@ function selectTemplate(id, el){
   }
 
   updateHeaderStats();
+  syncWizardUI();
+  renderTemplates();
+  renderConstraintsBar();
   renderCompList();
   renderBOMPanel();
   renderWorkspace();
@@ -2194,8 +2379,32 @@ function analyzeProject(){
 
   // ── 7. Show a brief toast with match count ──────────────────────
   const n = state.recommended.size;
-  if(n > 0) showToast(`✅ Found ${n} matching component${n>1?'s':''} — highlighted in the list`);
-  else       showToast('💡 No exact matches — browse or refine your description');
+  if(n > 0) showToast(`Found ${n} matching component${n>1?'s':''} — highlighted in the list`);
+  else       showToast('No exact matches — browse or refine your description');
+  saveState();
+}
+
+// Single primary action from the Project Brief: match the description to
+// recommended parts, honour the constraints set in the brief, and open the builder.
+function buildProject(){
+  const text = $('project-desc').value.toLowerCase().trim();
+  state.recommended.clear();
+  if(text){
+    KEYWORD_MAP.forEach(({ keys, comps }) => {
+      if(keys.some(k => text.includes(k))) comps.forEach(c => state.recommended.add(c));
+    });
+  }
+  if(state.recommended.size){
+    state.filter.renesasOnly = false;
+    const btn = $('renesas-toggle'); if(btn) btn.classList.remove('active');
+    state.filter.cat = 'all';
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    const allPill = document.querySelector('.cat-pill[data-cat="all"]'); if(allPill) allPill.classList.add('active');
+  }
+  switchScreen('builder');
+  renderCompList();
+  const n = state.recommended.size;
+  showToast(n ? `Matched ${n} component${n>1?'s':''} to your brief — highlighted in the list` : 'Workspace ready — add components to start your build');
   saveState();
 }
 
@@ -2204,7 +2413,7 @@ function showToast(msg){
   if(!t){
     t = document.createElement('div');
     t.id = 'analyze-toast';
-    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e3a5f;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:9999;border:1px solid #38bdf840;box-shadow:0 4px 20px #00000060;transition:opacity .3s;pointer-events:none;';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2a289d;color:#fff;padding:10px 20px;border-radius:3px;font-size:13px;font-weight:600;z-index:9999;border:1px solid #211f7e;box-shadow:0 6px 20px rgba(60,60,59,0.28);transition:opacity .3s;pointer-events:none;';
     document.body.appendChild(t);
   }
   t.textContent = msg;
@@ -2257,16 +2466,15 @@ function renderCompList(){
     return `
     <div class="comp-card${inCart?' in-cart':''}${recommended?' recommended recommended-pulse':''}${isRenesas?' renesas-product':''}" data-id="${c.id}" onclick="toggleCart('${c.id}')">
       ${isRenesas ? '<span class="renesas-badge">Renesas</span>' : ''}
-      <div class="comp-brick-icon c-${c.cat}" style="background:${col}22;border:1px solid ${col}44">
-        <span style="position:relative;z-index:1">${c.icon}</span>
-      </div>
+      <div class="comp-brick-icon c-${c.cat}" style="background:${col}">${catIcon(c.cat,{color:'#fff',size:20,stroke:2})}</div>
       <div class="comp-info">
         <div class="comp-name">${c.name}</div>
         <div class="comp-desc">${c.desc}</div>
+        ${isRenesas ? `<div class="why-renesas">${svgIcon('check',{size:11,color:'#2a289d',stroke:2.6})}<span>${renesasWhy(c)}</span></div>` : ''}
         <div class="comp-meta">
           <span class="comp-price">$${c.price.toFixed(2)}</span>
           ${c.interfaces.map(i=>`<span class="comp-range">${i.toUpperCase()}</span>`).slice(0,3).join('')}
-          ${!powerFits(c) ? `<span class="fit-flag fit-power" title="Draws more power than your ${state.project.power} source comfortably supports">⚡ power</span>` : ''}
+          ${!powerFits(c) ? `<span class="fit-flag fit-power" title="Draws more power than your ${state.project.power} source comfortably supports">PWR</span>` : ''}
           ${overBudget(c) ? `<span class="fit-flag fit-budget" title="Above your $${state.project.budget} unit budget">$!</span>` : ''}
         </div>
         ${buildBuyLinksCard(c)}
@@ -2282,6 +2490,11 @@ function toggleCart(id){
   if(state.cart.has(id)){
     state.cart.delete(id);
   } else {
+    const lim = CAT_LIMIT[comp.cat];
+    if(lim){
+      const have = [...state.cart.values()].filter(e => e.comp.cat === comp.cat).length;
+      if(have >= lim){ showToast(`Limit reached — up to ${lim} ${CAT_LABEL[comp.cat]||comp.cat} part${lim>1?'s':''} per build`); return; }
+    }
     state.cart.set(id, { comp, qty: 1 });
   }
   updateHeaderStats();
@@ -2289,6 +2502,23 @@ function toggleCart(id){
   renderBOMPanel();
   renderWorkspace();
   saveState();
+}
+
+// Per-category sanity limits (a build shouldn't have, say, four controllers)
+const CAT_LIMIT = { mcu: 2 };
+
+// Clicking a canvas tray tile (or the empty-MCU slot) focuses the component
+// list on that role so the USER chooses the specific part — no auto-pick.
+function focusCategory(cat, label){
+  state.filter.cat = cat;
+  state.filter.search = '';
+  const search = $('comp-search'); if(search) search.value = '';
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.toggle('active', p.dataset.cat === cat));
+  renderCompList();
+  const list = $('comp-list'); if(list) list.scrollTop = 0;
+  const br = document.querySelector('.comp-browser');
+  if(br){ br.classList.add('flash'); setTimeout(() => br.classList.remove('flash'), 700); }
+  showToast(`Choose a ${label || CAT_LABEL[cat] || cat} from the list`);
 }
 
 function clearCart(){
@@ -2333,6 +2563,7 @@ function renderBOMPanel(){
     $('bom-list').innerHTML = '<div style="padding:20px;color:var(--text3);font-size:12px;text-align:center">Add components to see them here</div>';
     $('cart-total').textContent = '0.00';
     if(budgetSlot) budgetSlot.innerHTML = '';
+    renderWsChecks();
     return;
   }
 
@@ -2358,6 +2589,7 @@ function renderBOMPanel(){
   $('cart-total').textContent = total.toFixed(2);
   if(budgetSlot) budgetSlot.innerHTML = budgetBarHTML(total);
   updateDesignChip();
+  renderWsChecks();
 }
 
 // Compact design-check chip in the builder toolbar
@@ -2368,122 +2600,384 @@ function updateDesignChip(){
   const warns = checks.filter(c => c.level === 'warn').length;
   if(!checks.length){ slot.innerHTML = ''; return; }
   slot.innerHTML = warns
-    ? `<span class="dc-chip warn" title="Open BOM &amp; Resources for details">⚠️ ${warns} design issue${warns>1?'s':''}</span>`
-    : `<span class="dc-chip ok" title="MCU, power and buses check out">✅ Design OK</span>`;
+    ? `<span class="dc-chip warn" title="Open BOM &amp; Resources for details">${svgIcon('alert',{size:13,stroke:2})} ${warns} design issue${warns>1?'s':''}</span>`
+    : `<span class="dc-chip ok" title="MCU, power and buses check out">${svgIcon('check',{size:13,stroke:2.4})} Design OK</span>`;
 }
 
 // ════════════════════════════════════════
 //  WORKSPACE SVG
 // ════════════════════════════════════════
-const LAYOUT = {
-  mcu:      { col: 2, row: 2 },
-  sensor:   { col: 0, row: 1 },
-  connect:  { col: 4, row: 1 },
-  power:    { col: 2, row: 4 },
-  display:  { col: 2, row: 0 },
-  actuator: { col: 4, row: 3 },
-  storage:  { col: 0, row: 3 },
-  logic:    { col: 0, row: 0 },
-};
-const BW = 130, BH = 72, PADX = 30, PADY = 20, GCOL = 180, GROW = 100;
+// Bus topology — the canvas is a real block diagram with shared bus rails
+const BUS_COLOR = { i2c:'#2a289d', spi:'#eb6209', uart:'#609a3b', onewire:'#883d90', gpio:'#706f6f' };
+const BUS_LABEL = { i2c:'I²C', spi:'SPI', uart:'UART', onewire:'1-WIRE', gpio:'GPIO' };
+const BUS_ORDER = ['i2c','spi','uart','onewire','gpio'];
 
+// Primary bus a peripheral uses to talk to the controller (prefer a bus the MCU also has)
+function primaryBus(comp, hub){
+  for(const b of BUS_ORDER){ if(comp.interfaces.includes(b) && (!hub || hub.interfaces.includes(b))) return b; }
+  for(const b of BUS_ORDER){ if(comp.interfaces.includes(b)) return b; }
+  return 'gpio';
+}
+
+// Squared, flat, on-brand block — white card, category top-rule, name + role + price, with an inline remove control
+function wsBlock(pos){
+  const c = pos.comp, col = catColor(c.cat), isRen = c.vendor === 'renesas';
+  const W = pos.w, H = pos.h, x = pos.x, y = pos.y;
+  const nm = c.name.length > 18 ? c.name.slice(0,16)+'…' : c.name;
+  const role = (isRen ? 'RENESAS · ' : '') + (CAT_LABEL[c.cat]||c.cat).toUpperCase();
+  let g = '';
+  g += `<rect x="${x}" y="${y}" width="${W}" height="${H}" rx="3" fill="#ffffff" stroke="${isRen?'#2a289d':col}" stroke-width="${isRen?2:1}"/>`;
+  g += `<rect x="${x}" y="${y}" width="${W}" height="4" fill="${col}"/>`;
+  g += `<g transform="translate(${x+11}, ${y+16}) scale(0.58)" fill="none" stroke="${col}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${ICON_PATHS[CAT_ICON[c.cat]]||''}</g>`;
+  g += `<text class="ws-brick-text" x="${x+29}" y="${y+22}" style="font-size:10.5px;font-weight:700;fill:#3c3c3b">${nm}</text>`;
+  g += `<text class="ws-brick-text" x="${x+29}" y="${y+34}" style="font-size:7.5px;font-weight:700;letter-spacing:0.3px;fill:${isRen?'#2a289d':col}">${role}</text>`;
+  g += `<text class="ws-brick-text" x="${x+W-10}" y="${y+H-8}" text-anchor="end" style="font-size:9px;font-weight:700;fill:#609a3b">$${c.price.toFixed(2)}${pos.qty>1?' ×'+pos.qty:''}</text>`;
+  g += `<g class="ws-rm" onclick="event.stopPropagation();removeFromCart('${c.id}')"><circle cx="${x+W-12}" cy="${y+13}" r="7.5" fill="#ffffff" stroke="#b5b5b5"/><path d="M${x+W-15} ${y+10} l6 6 M${x+W-9} ${y+10} l-6 6" stroke="#706f6f" stroke-width="1.4" stroke-linecap="round"/></g>`;
+  return g;
+}
+
+// ── Build views: diagram / outline / wiring, with zoom & pan ──
+let wsView = 'diagram', wsZoom = 1;
+const BUS_SIGNALS = { i2c:'SDA, SCL', spi:'MOSI, MISO, SCK, CS', uart:'TX, RX', onewire:'DQ (1-Wire)', gpio:'GPIO / PWM' };
+
+function isSvgView(){ return wsView === 'diagram' || wsView === 'bricks'; }
 function renderWorkspace(){
+  const svg = $('workspace-svg'), alt = $('ws-alt'), empty = $('ws-empty');
+  const canvas = document.querySelector('.workspace-canvas');
+  if(canvas) canvas.classList.toggle('pannable', isSvgView());
+  if(isSvgView()){
+    if(alt) alt.style.display = 'none';
+    if(svg) svg.style.display = '';
+    wsView === 'diagram' ? renderDiagram() : renderBricks();
+  } else {
+    if(svg) svg.style.display = 'none';
+    if(empty) empty.style.display = 'none';
+    if(alt){ alt.style.display = 'block'; alt.innerHTML = wsView === 'outline' ? renderOutline() : renderWiringView(); }
+  }
+}
+
+function setBuildView(v){
+  wsView = v;
+  renderConstraintsBar();
+  renderWorkspace();
+}
+
+function applyZoom(){
+  const svg = $('workspace-svg'), canvas = document.querySelector('.workspace-canvas');
+  if(!svg || !canvas || canvas.clientWidth < 10) return;
+  const vb = (svg.getAttribute('viewBox') || '0 0 800 400').split(' ').map(Number);
+  const base = (canvas.clientWidth - 2) / vb[2];
+  svg.style.minHeight = '';
+  svg.style.width = (vb[2] * base * wsZoom) + 'px';
+  svg.style.height = (vb[3] * base * wsZoom) + 'px';
+  const l = $('ws-zoom-label'); if(l) l.textContent = Math.round(wsZoom*100) + '%';
+}
+function wsZoomBy(d){ wsZoom = Math.min(3, Math.max(0.5, +(wsZoom + d).toFixed(2))); applyZoom(); }
+function wsZoomFit(){ wsZoom = 1; applyZoom(); const c = document.querySelector('.workspace-canvas'); if(c){ c.scrollLeft = 0; c.scrollTop = 0; } }
+
+function setupCanvasInteractions(){
+  const canvas = document.querySelector('.workspace-canvas'); if(!canvas || canvas._wired) return;
+  canvas._wired = true;
+  let drag = false, sx=0, sy=0, sl=0, st=0;
+  canvas.addEventListener('mousedown', e => {
+    if(!isSvgView()) return;
+    if(e.target.closest && e.target.closest('.ws-add, .ws-rm')) return;
+    drag = true; sx = e.clientX; sy = e.clientY; sl = canvas.scrollLeft; st = canvas.scrollTop;
+    canvas.classList.add('grabbing');
+  });
+  window.addEventListener('mousemove', e => {
+    if(!drag) return;
+    canvas.scrollLeft = sl - (e.clientX - sx);
+    canvas.scrollTop  = st - (e.clientY - sy);
+  });
+  window.addEventListener('mouseup', () => { drag = false; canvas.classList.remove('grabbing'); });
+  canvas.addEventListener('wheel', e => {
+    if(!isSvgView() || (!e.ctrlKey && !e.metaKey)) return;
+    e.preventDefault(); wsZoomBy(e.deltaY < 0 ? 0.1 : -0.1);
+  }, { passive:false });
+  window.addEventListener('resize', () => { if(isSvgView()) applyZoom(); });
+}
+
+function renderOutline(){
+  const items = [...state.cart.values()];
+  if(!items.length) return '<div class="ws-altmsg">Add a microcontroller and components to see the build outline.</div>';
+  const mcus = items.filter(x => x.comp.cat === 'mcu');
+  const powers = items.filter(x => x.comp.cat === 'power');
+  const periphs = items.filter(x => x.comp.cat !== 'mcu' && x.comp.cat !== 'power');
+  const hub = mcus[0] ? mcus[0].comp : null;
+  let h = '<div class="outline">';
+  mcus.forEach(m => {
+    const v = VOLT_5V.has(m.comp.id) ? '5 V' : '3.3 V';
+    h += `<div class="ol-node ol-mcu"><span class="ol-dot" style="background:${catColor('mcu')}"></span><b>${m.comp.name}</b><span class="ol-tag">Controller · ${v}</span></div>`;
+  });
+  if(!hub) h += '<div class="ws-altmsg" style="padding:6px 0">No controller yet — add a microcontroller.</div>';
+  BUS_ORDER.forEach(bus => {
+    const on = periphs.filter(p => primaryBus(p.comp, hub) === bus);
+    if(!on.length) return;
+    h += `<div class="ol-bus"><span class="ol-busname" style="color:${BUS_COLOR[bus]}">${BUS_LABEL[bus]} bus</span><ul>${on.map(p => `<li><span class="ol-dot" style="background:${catColor(p.comp.cat)}"></span>${p.comp.name}<span class="ol-role">${(CAT_LABEL[p.comp.cat]||'').toUpperCase()}</span></li>`).join('')}</ul></div>`;
+  });
+  if(powers.length){
+    h += `<div class="ol-bus"><span class="ol-busname" style="color:#9c7b0f">Power</span><ul>${powers.map(p => `<li><span class="ol-dot" style="background:#dfb118"></span>${p.comp.name}<span class="ol-role">${(CAT_LABEL[p.comp.cat]||'').toUpperCase()}</span></li>`).join('')}</ul></div>`;
+  }
+  return h + '</div>';
+}
+
+function renderWiringView(){
+  const items = [...state.cart.values()];
+  if(!items.length) return '<div class="ws-altmsg">Add components to see the wiring table.</div>';
+  const mcus = items.filter(x => x.comp.cat === 'mcu');
+  const powers = items.filter(x => x.comp.cat === 'power');
+  const periphs = items.filter(x => x.comp.cat !== 'mcu' && x.comp.cat !== 'power');
+  const hub = mcus[0] ? mcus[0].comp : null;
+  const v = hub ? (VOLT_5V.has(hub.id) ? '5 V' : '3.3 V') : '—';
+  let rows = periphs.map(p => {
+    const bus = primaryBus(p.comp, hub);
+    return `<tr><td><span class="wire-dot" style="background:${catColor(p.comp.cat)}"></span>${p.comp.name}</td><td><span class="wire-bus" style="color:${BUS_COLOR[bus]};border-color:${BUS_COLOR[bus]}66">${BUS_LABEL[bus]}</span></td><td>${BUS_SIGNALS[bus]||''}</td><td>${v}</td></tr>`;
+  }).join('');
+  powers.forEach(p => { rows += `<tr><td><span class="wire-dot" style="background:#dfb118"></span>${p.comp.name}</td><td><span class="wire-bus" style="color:#9c7b0f;border-color:#9c7b0f66">POWER</span></td><td>VCC, GND</td><td>—</td></tr>`; });
+  const note = hub ? `Signals shown for the ${hub.name}${VOLT_5V.has(hub.id) ? ' — 5 V logic, level-shift 3.3 V parts' : ''}. I²C lines need 4.7 kΩ pull-ups.` : 'Add a microcontroller to anchor the wiring.';
+  return `<div class="wire-wrap"><table class="wire-table"><thead><tr><th>Device</th><th>Bus</th><th>Signals</th><th>Logic</th></tr></thead><tbody>${rows}</tbody></table><div class="wire-note">${note}</div></div>`;
+}
+
+function renderBricks(){
   const items = [...state.cart.values()];
   const svg = $('workspace-svg');
-  const empty = $('ws-empty');
-
-  if(!items.length){
-    empty.style.display = '';
-    svg.innerHTML = '';
-    return;
-  }
-  empty.style.display = 'none';
-
-  // Assign positions
+  const empty = $('ws-empty'); empty.style.display = 'none';
+  const GRID = { mcu:[2,2], logic:[0,0], sensor:[0,1], connect:[4,1], display:[2,0], storage:[0,3], actuator:[4,3], power:[2,4] };
+  const BW=144, BH=80, GCOL=196, GROW=112, PADX=30, PADY=26;
   const catCount = {};
-  const positioned = items.map(({comp, qty}) => {
-    const lyt = LAYOUT[comp.cat] || { col: 1, row: 1 };
-    const n = catCount[comp.cat] = (catCount[comp.cat] || 0) + 1;
-    const rowOff = (n - 1) * (BH + PADY);
-    return {
-      comp, qty,
-      x: PADX + lyt.col * GCOL,
-      y: PADY + lyt.row * GROW + rowOff,
-    };
+  const pos = items.map(({comp,qty}) => {
+    const g = GRID[comp.cat] || [2,2];
+    const n = catCount[comp.cat] = (catCount[comp.cat]||0)+1;
+    return { comp, qty, x: PADX + g[0]*GCOL, y: PADY + g[1]*GROW + (n-1)*(BH+PADY) };
   });
+  const maxX = pos.length ? Math.max(...pos.map(p=>p.x+BW)) : PADX + 2*GCOL + BW;
+  const maxY = pos.length ? Math.max(...pos.map(p=>p.y+BH)) : PADY + 2*GROW + BH;
 
-  // Calculate SVG dimensions
-  const maxX = Math.max(...positioned.map(p => p.x + BW)) + PADX;
-  const maxY = Math.max(...positioned.map(p => p.y + BH)) + PADY;
-  svg.setAttribute('viewBox', `0 0 ${maxX} ${maxY}`);
-  svg.setAttribute('width', '100%');
-  svg.style.minHeight = `${maxY}px`;
-
-  // Protocol colors
-  const PROTO_COLOR = {
-    i2c:'#38bdf8', spi:'#fb923c', uart:'#4ade80',
-    gpio:'#fbbf24', onewire:'#c084fc', wifi:'#a78bfa',
-    ble:'#f472b6', power:'#fbbf24',
-    ethernet:'#00e5ff', can:'#ff9800', usb:'#66bb6a', 'can-fd':'#ff9800'
-  };
-
-  // Build connection map: MCU ↔ others
-  const mcu = positioned.find(p => p.comp.cat === 'mcu');
-
-  let connSVG = '';
+  const mcu = pos.find(p => p.comp.cat === 'mcu');
+  let wires = '';
   if(mcu){
-    positioned.filter(p => p.comp.cat !== 'mcu').forEach(p => {
-      const shared = p.comp.interfaces.filter(i => mcu.comp.interfaces.includes(i));
-      const proto = shared[0] || 'gpio';
-      const col = PROTO_COLOR[proto] || '#ffffff';
-      const x1 = mcu.x + BW/2, y1 = mcu.y + BH/2;
-      const x2 = p.x + BW/2,   y2 = p.y + BH/2;
-      const cx = (x1+x2)/2, cy = (y1+y2)/2 - 20;
-      connSVG += `<path class="ws-connection-line" d="M${x1},${y1} Q${cx},${cy} ${x2},${y2}" stroke="${col}"/>
-      <text x="${(x1+x2)/2}" y="${(y1+y2)/2 - 6}" text-anchor="middle"
-        style="font-size:9px;fill:${col};font-family:monospace;font-weight:700;opacity:0.8">${proto.toUpperCase()}</text>`;
+    pos.filter(p => p.comp.cat !== 'mcu').forEach(p => {
+      const bus = primaryBus(p.comp, mcu.comp), col = BUS_COLOR[bus] || '#706f6f';
+      const x1 = mcu.x+BW/2, y1 = mcu.y+BH/2, x2 = p.x+BW/2, y2 = p.y+BH/2;
+      const cx = (x1+x2)/2, cy = (y1+y2)/2 - 26;
+      wires += `<path d="M${x1},${y1} Q${cx},${cy} ${x2},${y2}" fill="none" stroke="${col}" stroke-width="2" stroke-dasharray="6,4" opacity="0.5"/>`;
+      wires += `<text x="${cx}" y="${cy+4}" text-anchor="middle" class="ws-brick-text" style="font-size:9px;font-weight:700;fill:${col}">${BUS_LABEL[bus]||bus.toUpperCase()}</text>`;
     });
   }
 
-  // Brick rendering
-  let brickSVG = positioned.map(({comp, qty, x, y}) => {
-    const col = catColor(comp.cat);
-    const studs = [22,42,62,82,102].slice(0, Math.min(5, Math.ceil(BW/26)));
-    const studHTML = studs.map(sx =>
-      `<ellipse cx="${sx}" cy="${y-4}" rx="7" ry="4" fill="${col}" stroke="${col}" stroke-width="0.5" opacity="0.9"/>
-       <ellipse cx="${sx}" cy="${y-6}" rx="7" ry="4" fill="${col}" filter="url(#stud)" opacity="0.95"/>`
-    ).join('');
-    return `
-      ${studHTML}
-      <rect x="${x}" y="${y}" width="${BW}" height="${BH}" rx="6" fill="#1e2a3d" stroke="${col}" stroke-width="1.5" ${comp.vendor==='renesas'?`filter="url(#renesas-glow)"`:''}/>
-      <rect x="${x}" y="${y}" width="${BW}" height="22" rx="6" fill="${col}" opacity="0.9"/>
-      <rect x="${x}" y="${y+16}" width="${BW}" height="6" fill="${col}" opacity="0.7"/>
-      <text class="ws-brick-text" x="${x+12}" y="${y+15}" style="font-size:11px;font-weight:800;fill:#000">${CAT_LABEL[comp.cat]||comp.cat}</text>
-      <text class="ws-brick-text" x="${x+BW/2}" y="${y+40}" text-anchor="middle" style="font-size:18px">${comp.icon}</text>
-      <text class="ws-brick-text" x="${x+BW/2}" y="${y+58}" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:#e2e8f4">${comp.name.length>18?comp.name.slice(0,16)+'…':comp.name}</text>
-      <text class="ws-brick-text" x="${x+BW/2}" y="${y+68}" text-anchor="middle" style="font-size:9px;fill:#4ade80;font-weight:600">$${comp.price.toFixed(2)}${qty>1?' ×'+qty:''}</text>
-    `;
-  }).join('');
+  const brick = (p) => {
+    const c=p.comp, col=catColor(c.cat), isRen=c.vendor==='renesas';
+    const x=p.x, y=p.y, nm = c.name.length>18 ? c.name.slice(0,16)+'…' : c.name;
+    let g='';
+    [0.24,0.5,0.76].forEach(f => { g += `<rect x="${x+BW*f-9}" y="${y-7}" width="18" height="9" rx="2.5" fill="${col}" opacity="0.9"/>`; });
+    g += `<rect x="${x}" y="${y}" width="${BW}" height="${BH}" rx="3" fill="#ffffff" stroke="${isRen?'#2a289d':col}" stroke-width="${isRen?2:1.5}"/>`;
+    g += `<rect x="${x}" y="${y}" width="${BW}" height="22" fill="${col}"/>`;
+    g += `<text class="ws-brick-text" x="${x+10}" y="${y+15}" style="font-size:10px;font-weight:700;letter-spacing:0.4px;fill:#fff">${(CAT_LABEL[c.cat]||c.cat).toUpperCase()}</text>`;
+    g += `<g transform="translate(${x+BW/2-9}, ${y+30}) scale(0.7)" fill="none" stroke="${col}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ICON_PATHS[CAT_ICON[c.cat]]||''}</g>`;
+    g += `<text class="ws-brick-text" x="${x+BW/2}" y="${y+62}" text-anchor="middle" style="font-size:10px;font-weight:700;fill:#3c3c3b">${nm}</text>`;
+    g += `<text class="ws-brick-text" x="${x+BW/2}" y="${y+74}" text-anchor="middle" style="font-size:9px;font-weight:700;fill:#609a3b">$${c.price.toFixed(2)}${p.qty>1?' ×'+p.qty:''}</text>`;
+    if(isRen) g += `<rect x="${x+BW-22}" y="${y+27}" width="15" height="13" rx="2" fill="#2a289d"/><text x="${x+BW-14.5}" y="${y+37}" text-anchor="middle" style="font-size:9px;font-weight:800;fill:#fff">R</text>`;
+    g += `<g class="ws-rm" onclick="event.stopPropagation();removeFromCart('${c.id}')"><circle cx="${x+BW-12}" cy="${y+12}" r="7.5" fill="#ffffff" stroke="#b5b5b5"/><path d="M${x+BW-15} ${y+9} l6 6 M${x+BW-9} ${y+9} l-6 6" stroke="#706f6f" stroke-width="1.4" stroke-linecap="round"/></g>`;
+    return g;
+  };
+  let blocks = pos.map(brick).join('');
+  if(!mcu){
+    const px = PADX + 2*GCOL, py = PADY + 2*GROW;
+    blocks += `<g class="ws-add" onclick="focusCategory('mcu','MCU')"><rect x="${px}" y="${py}" width="${BW}" height="${BH}" rx="3" fill="#2a289d08" stroke="#2a289d" stroke-width="1.5" stroke-dasharray="6,5"/><text x="${px+BW/2}" y="${py+BH/2+4}" text-anchor="middle" class="ws-brick-text" style="font-size:10.5px;font-weight:700;fill:#2a289d">+ Add a microcontroller</text></g>`;
+  }
 
-  svg.innerHTML = `
-    <defs>
-      <filter id="stud" x="-20%" y="-20%" width="140%" height="140%">
-        <feDropShadow dx="0" dy="-1" stdDeviation="1" flood-color="#ffffff" flood-opacity="0.3"/>
-      </filter>
-      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <filter id="renesas-glow" x="-30%" y="-30%" width="160%" height="160%">
-        <feGaussianBlur stdDeviation="4" result="blur"/>
-        <feFlood flood-color="#0077ff" flood-opacity="0.35" result="color"/>
-        <feComposite in="color" in2="blur" operator="in" result="shadow"/>
-        <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
-    <g id="connections">${connSVG}</g>
-    <g id="bricks">${brickSVG}</g>
-  `;
+  const TRAY = [['mcu','MCU'],['sensor','Sensor'],['connect','Radio'],['display','Display'],['power','Power'],['storage','Storage'],['actuator','Actuator'],['logic','Logic']];
+  const tw=96, th=30, tgap=8;
+  const trayW = TRAY.length*tw + (TRAY.length-1)*tgap;
+  const trayY = maxY + 30;
+  let tray = `<line x1="${PADX}" y1="${maxY+14}" x2="${Math.max(maxX, PADX+trayW)}" y2="${maxY+14}" stroke="#d9d9d9" stroke-width="1"/>`;
+  tray += `<text class="ws-brick-text" x="${PADX}" y="${trayY-3}" style="font-size:9px;font-weight:700;letter-spacing:0.8px;fill:#9d9d9d">ADD A PART BY ROLE</text>`;
+  TRAY.forEach((c,i)=>{ const tx=PADX+i*(tw+tgap), col=catColor(c[0]); tray += `<g class="ws-add" onclick="focusCategory('${c[0]}','${c[1]}')"><rect x="${tx}" y="${trayY+4}" width="${tw}" height="${th}" rx="3" fill="${col}10" stroke="${col}" stroke-width="1" stroke-dasharray="4,3"/><text x="${tx+tw/2}" y="${trayY+4+th/2+3.5}" text-anchor="middle" class="ws-brick-text" style="font-size:10px;font-weight:700;fill:${col}">+ ${c[1]}</text></g>`; });
+  const W = Math.max(maxX + PADX, PADX + trayW + PADX);
+  const H = trayY + 4 + th + PADX;
+
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
+  svg.innerHTML = `<g>${wires}</g><g>${blocks}</g><g>${tray}</g>`;
+  applyZoom();
+}
+
+function renderDiagram(){
+  const items = [...state.cart.values()];
+  const svg = $('workspace-svg');
+  const empty = $('ws-empty');
+  empty.style.display = 'none';
+
+  const mcus    = items.filter(x => x.comp.cat === 'mcu');
+  const powers  = items.filter(x => x.comp.cat === 'power');
+  const periphs = items.filter(x => x.comp.cat !== 'mcu' && x.comp.cat !== 'power');
+  const hub = mcus[0] ? mcus[0].comp : null;
+
+  const BW = 134, BH = 56, GAPX = 22, PAD = 28, GUT = 64;
+  const x0 = GUT + PAD;
+  const cols = Math.max(periphs.length, mcus.length, powers.length, 1);
+  const contentW = cols*BW + (cols-1)*GAPX;
+  const W = x0 + contentW + PAD;
+
+  const usedBuses = BUS_ORDER.filter(b => periphs.some(p => primaryBus(p.comp, hub) === b));
+  const mcuY = PAD + 6;
+  const budgetH = hub ? 18 : 0;
+  const railsTop = mcuY + BH + budgetH + 36;
+  const RAIL_GAP = 30;
+  const railY = {}; usedBuses.forEach((b,i) => railY[b] = railsTop + i*RAIL_GAP);
+  const periphTop = railsTop + Math.max(usedBuses.length,1)*RAIL_GAP + 30;
+  const powerRailY = periphTop + BH + (powers.length ? 62 : 24);
+  const H = powerRailY + (powers.length ? BH/2 + PAD + 18 : PAD);
+
+  // positions (each lane centered over the content width)
+  const rowX0 = (n,w) => x0 + Math.max(0, (contentW - (n*w + (n-1)*GAPX)) / 2);
+  const mcuX0 = rowX0(mcus.length, BW);
+  const mcuPos = mcus.map((m,i) => ({comp:m.comp, qty:m.qty, x:mcuX0 + i*(BW+GAPX), y:mcuY, w:BW, h:BH}));
+  const hubPos = mcuPos[0];
+  const hubCx = hubPos ? hubPos.x + BW/2 : x0 + contentW/2;
+  const perX0 = rowX0(periphs.length, BW);
+  const perPos = periphs.map((p,i) => ({comp:p.comp, qty:p.qty, x:perX0 + i*(BW+GAPX), y:periphTop, w:BW, h:BH, bus:primaryBus(p.comp, hub)}));
+  const powX0 = rowX0(powers.length, BW);
+  const powPos = powers.map((p,i) => ({comp:p.comp, qty:p.qty, x:powX0 + i*(BW+GAPX), y:powerRailY - BH/2, w:BW, h:BH}));
+
+  let wires = '';
+  // bus rails
+  usedBuses.forEach(b => {
+    const y = railY[b], col = BUS_COLOR[b];
+    wires += `<line x1="${x0}" y1="${y}" x2="${x0+contentW}" y2="${y}" stroke="${col}" stroke-width="2" opacity="0.45"/>`;
+    wires += `<text class="ws-brick-text" x="${x0-10}" y="${y+3.5}" text-anchor="end" style="font-size:10px;font-weight:700;fill:${col}">${BUS_LABEL[b]}</text>`;
+  });
+  // hub stubs down to each rail it participates in
+  if(hubPos){
+    usedBuses.forEach(b => {
+      if(hub.interfaces.includes(b)){
+        const y = railY[b], col = BUS_COLOR[b];
+        wires += `<line x1="${hubCx}" y1="${hubPos.y+BH}" x2="${hubCx}" y2="${y}" stroke="${col}" stroke-width="2" opacity="0.65"/>`;
+        wires += `<circle cx="${hubCx}" cy="${y}" r="3.2" fill="${col}"/>`;
+      }
+    });
+  }
+  // peripheral stubs up to their bus rail (endpoint dots = the Renesas "endpoints" motif)
+  perPos.forEach(p => {
+    const col = BUS_COLOR[p.bus], y = railY[p.bus], cx = p.x + BW/2;
+    wires += `<line x1="${cx}" y1="${y}" x2="${cx}" y2="${p.y}" stroke="${col}" stroke-width="2" opacity="0.65"/>`;
+    wires += `<circle cx="${cx}" cy="${y}" r="3.2" fill="${col}"/>`;
+  });
+  // power rail + supply line to the controller
+  if(powers.length){
+    wires += `<line x1="${x0}" y1="${powerRailY}" x2="${x0+contentW}" y2="${powerRailY}" stroke="#dfb118" stroke-width="3" opacity="0.55"/>`;
+    wires += `<text class="ws-brick-text" x="${x0-10}" y="${powerRailY+3.5}" text-anchor="end" style="font-size:10px;font-weight:700;fill:#9c7b0f">PWR</text>`;
+    powPos.forEach(p => { wires += `<circle cx="${p.x+BW/2}" cy="${powerRailY}" r="3.2" fill="#dfb118"/>`; });
+    if(hubPos){
+      const v = VOLT_5V.has(hub.id) ? '5V' : '3.3V';
+      const sx = hubPos.x + 20;
+      wires += `<line x1="${sx}" y1="${powerRailY}" x2="${sx}" y2="${hubPos.y+BH}" stroke="#dfb118" stroke-width="2" stroke-dasharray="5,4" opacity="0.7"/>`;
+      wires += `<text class="ws-brick-text" x="${sx+6}" y="${(powerRailY+hubPos.y+BH)/2+3}" style="font-size:9px;font-weight:700;fill:#9c7b0f">${v}</text>`;
+    }
+  }
+
+  let blocks = '';
+  mcuPos.forEach(m => blocks += wsBlock(m));
+  perPos.forEach(p => blocks += wsBlock(p));
+  powPos.forEach(p => blocks += wsBlock(p));
+
+  // controller resource budget, or a guided placeholder when there is no MCU
+  if(hubPos){
+    const cap = MCU_GPIO[hub.id];
+    const gpioUsed = perPos.filter(p => p.bus==='gpio').length + (perPos.some(p=>p.bus==='onewire')?1:0);
+    const buses = BUS_ORDER.filter(b => b!=='gpio' && perPos.some(p=>p.bus===b)).map(b => BUS_LABEL[b]);
+    const budget = `GPIO ${gpioUsed}${cap?' / '+cap:''}${buses.length ? '   ·   '+buses.join('  ') : ''}`;
+    blocks += `<text class="ws-brick-text" x="${hubCx}" y="${hubPos.y+BH+14}" text-anchor="middle" style="font-size:9px;font-weight:700;fill:#706f6f">${budget}</text>`;
+  } else {
+    const px = x0 + contentW/2 - BW/2;
+    blocks += `<g class="ws-add" onclick="focusCategory('mcu','MCU')"><rect x="${px}" y="${mcuY}" width="${BW}" height="${BH}" rx="3" fill="#2a289d08" stroke="#2a289d" stroke-width="1.5" stroke-dasharray="6,5"/><text x="${px+BW/2}" y="${mcuY+BH/2+4}" text-anchor="middle" class="ws-brick-text" style="font-size:10.5px;font-weight:700;fill:#2a289d">+ Add a microcontroller</text></g>`;
+  }
+
+  // On-canvas "Add to build" tray — build directly on the diagram
+  const TRAY = [['mcu','MCU'],['sensor','Sensor'],['connect','Radio'],['display','Display'],['power','Power'],['storage','Storage'],['actuator','Actuator'],['logic','Logic']];
+  const tw = 96, th = 30, tgap = 8;
+  const trayW = TRAY.length*tw + (TRAY.length-1)*tgap;
+  const trayY = H + 16;
+  let tray = `<line x1="${x0}" y1="${H+2}" x2="${Math.max(x0+contentW, x0+trayW)}" y2="${H+2}" stroke="#d9d9d9" stroke-width="1"/>`;
+  tray += `<text class="ws-brick-text" x="${x0}" y="${trayY-1}" style="font-size:9px;font-weight:700;letter-spacing:0.8px;fill:#9d9d9d">ADD A PART BY ROLE</text>`;
+  TRAY.forEach((c,i) => {
+    const tx = x0 + i*(tw+tgap), col = catColor(c[0]);
+    tray += `<g class="ws-add" onclick="focusCategory('${c[0]}','${c[1]}')"><rect x="${tx}" y="${trayY+6}" width="${tw}" height="${th}" rx="3" fill="${col}10" stroke="${col}" stroke-width="1" stroke-dasharray="4,3"/><text x="${tx+tw/2}" y="${trayY+6+th/2+3.5}" text-anchor="middle" class="ws-brick-text" style="font-size:10px;font-weight:700;fill:${col}">+ ${c[1]}</text></g>`;
+  });
+  const W2 = Math.max(W, x0 + trayW + PAD);
+  const H2 = trayY + 6 + th + PAD;
+
+  svg.setAttribute('viewBox', `0 0 ${W2} ${H2}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
+  svg.innerHTML = `<g>${wires}</g><g>${blocks}</g><g>${tray}</g>`;
+  applyZoom();
+}
+
+// Export the architecture diagram as a PNG
+function exportDiagram(){
+  if(!state.cart.size){ showToast('Add components first'); return; }
+  const svg = $('workspace-svg');
+  const vb = (svg.getAttribute('viewBox')||'0 0 800 400').split(' ').map(Number);
+  const w = vb[2], h = vb[3];
+  const clone = svg.cloneNode(true);
+  clone.setAttribute('width', w); clone.setAttribute('height', h);
+  clone.insertAdjacentHTML('afterbegin', `<rect x="0" y="0" width="${w}" height="${h}" fill="#ffffff"/>`);
+  const xml = new XMLSerializer().serializeToString(clone);
+  const img = new Image();
+  img.onload = () => {
+    const sc = 2, cv = document.createElement('canvas');
+    cv.width = w*sc; cv.height = h*sc;
+    const ctx = cv.getContext('2d'); ctx.scale(sc,sc); ctx.drawImage(img,0,0);
+    cv.toBlob(b => { const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='renesas-bricks-architecture.png'; a.click(); });
+  };
+  img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(xml)));
+}
+
+// ════════════════════════════════════════
+//  LIVE CONSTRAINTS BAR + DESIGN-CHECK STRIP (builder)
+// ════════════════════════════════════════
+function renderConstraintsBar(){
+  const bar = $('ws-context-bar'); if(!bar) return;
+  const field = (key,opts,val) => `<label class="ctx-field"><span>${key}</span><select onchange="setConstraint('${key}',this.value)">${opts.map(([v,l])=>`<option value="${v}"${String(val)===v?' selected':''}>${l}</option>`).join('')}</select></label>`;
+  const tab = (v,l) => `<button class="ws-tab${wsView===v?' active':''}" onclick="setBuildView('${v}')">${l}</button>`;
+  const sw = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13M14 5l3 3-3 3M20 16H7M10 13l-3 3 3 3"/></svg>`;
+  const dl = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.5 11l4.5 5 4.5-5M4 20h16"/></svg>`;
+  const zoom = isSvgView()
+    ? `<div class="ws-zoom"><button onclick="wsZoomBy(-0.2)" title="Zoom out">−</button><span id="ws-zoom-label">${Math.round(wsZoom*100)}%</span><button onclick="wsZoomBy(0.2)" title="Zoom in">+</button><button onclick="wsZoomFit()" title="Fit to width">Fit</button></div>` : '';
+  const exportBtn = isSvgView()
+    ? `<button class="export-btn" onclick="exportDiagram()" title="Export the diagram as PNG">${dl}PNG</button>` : '';
+  bar.innerHTML = `
+    <div class="ws-viewtabs">${tab('diagram','Diagram')}${tab('bricks','Bricks')}${tab('outline','Outline')}${tab('wiring','Wiring')}</div>
+    <div class="ctx-fields">
+      ${field('range', RANGE_OPTS, state.project.range)}
+      ${field('power', POWER_OPTS, state.project.power)}
+      ${field('budget', BUDGET_OPTS, String(state.project.budget))}
+    </div>
+    <div class="ctx-actions">
+      ${zoom}
+      <button class="export-btn" onclick="renesasifyBuild()" title="Swap generic parts for Renesas equivalents">${sw}Renesas-ify</button>
+      ${exportBtn}
+    </div>`;
+}
+
+function setConstraint(key, val){
+  state.project[key] = key === 'budget' ? parseInt(val) : val;
+  document.querySelectorAll(`#req-${key} .req-option`).forEach(o => o.classList.toggle('selected', o.dataset.val === String(val)));
+  renderCompList(); renderBOMPanel(); renderWorkspace(); renderWsChecks(); renderTemplates();
+  saveState();
+}
+
+function renderWsChecks(){
+  const el = $('ws-checks'); if(!el) return;
+  if(!state.cart.size){ el.innerHTML = ''; return; }
+  const checks = runDesignChecks();
+  const warns = checks.filter(c => c.level === 'warn').length;
+  const head = warns
+    ? `${svgIcon('alert',{size:14})} ${warns} item${warns>1?'s':''} to review`
+    : `${svgIcon('check',{size:14})} Design checks pass`;
+  el.innerHTML = `<div class="wsc-head ${warns?'warn':'ok'}">${head}</div>`
+    + checks.slice(0,4).map(c => `<div class="wsc-row wsc-${c.level}">${c.level==='ok'?svgIcon('check',{size:13,color:'var(--green)'}):c.level==='warn'?svgIcon('alert',{size:13,color:'var(--yellow)'}):svgIcon('info',{size:13,color:'var(--accent)'})}<span>${c.msg}</span></div>`).join('');
 }
 
 // ════════════════════════════════════════
@@ -2534,6 +3028,45 @@ function runDesignChecks(){
     out.push({ level:'warn', msg:`Build total $${cartTotal.toFixed(2)} exceeds your $${b} budget by $${(cartTotal-b).toFixed(2)}.` });
   }
 
+  // 6. Logic-voltage compatibility (5 V MCU ↔ 3.3 V bus peripherals)
+  if(mcus.length){
+    const mcu5v = mcus.some(m => VOLT_5V.has(m.id));
+    const busParts = comps.filter(c => c.cat!=='mcu' && c.cat!=='power' && c.interfaces.some(i => i==='i2c' || i==='spi'));
+    if(mcu5v && busParts.length){
+      out.push({ level:'info', msg:'Your MCU uses 5 V logic — 3.3 V sensors or displays on the I²C/SPI bus may need a level shifter.' });
+    }
+  }
+
+  // 7. GPIO budget vs the controller's pin count
+  if(mcus.length){
+    const cap = MCU_GPIO[mcus[0].id];
+    const gpioUsed = comps.filter(c => c.cat!=='mcu' && c.cat!=='power' && primaryBus(c, mcus[0])==='gpio').length;
+    if(cap && gpioUsed > cap){
+      out.push({ level:'warn', msg:`GPIO budget exceeded — ${gpioUsed} directly-wired parts vs ${cap} usable pins on the ${mcus[0].name}.` });
+    }
+  }
+
+  // 8. Total current draw vs the chosen source
+  const drawTotal = comps.reduce((s,c) => s + (DRAW_MA[c.power]||0), 0);
+  const srcCap = SOURCE_MA[state.project.power];
+  if(srcCap && drawTotal > srcCap){
+    out.push({ level:'warn', msg:`Estimated draw ≈ ${drawTotal} mA exceeds what a ${state.project.power} source comfortably supplies (~${srcCap} mA).` });
+  } else if(srcCap && drawTotal > srcCap*0.7){
+    out.push({ level:'info', msg:`Estimated draw ≈ ${drawTotal} mA — close to the ${state.project.power} source limit (~${srcCap} mA).` });
+  }
+
+  // 9. Missing glue — I²C pull-ups
+  if(comps.some(c => c.interfaces.includes('i2c'))){
+    out.push({ level:'info', msg:'I²C needs 4.7 kΩ pull-ups to the logic rail (most breakout modules already include them).' });
+  }
+
+  // 10. Renesas advantage (positive)
+  const renMcu = mcus.find(m => m.vendor==='renesas') || comps.find(c => c.vendor==='renesas');
+  if(renMcu){
+    const name = /^renesas/i.test(renMcu.name) ? renMcu.name : 'Renesas ' + renMcu.name;
+    out.push({ level:'info', msg:`${name}: ${renesasWhy(renMcu)}` });
+  }
+
   if(!out.length || !out.some(o => o.level === 'warn')){
     out.unshift({ level:'ok', msg:'Looks good — MCU, power source and component buses all check out.' });
   }
@@ -2545,7 +3078,7 @@ function renderDesignCheck(){
   if(!checks.length) return '<div style="color:var(--text3);font-size:13px">Add components to run a design check.</div>';
   return checks.map(c => `
     <div class="dc-row dc-${c.level}">
-      <span class="dc-icon">${c.level==='ok'?'✅':c.level==='warn'?'⚠️':'ℹ️'}</span>
+      <span class="dc-icon">${c.level==='ok'?svgIcon('check',{color:'var(--green)',size:16,stroke:2.4}):c.level==='warn'?svgIcon('alert',{color:'var(--yellow)',size:16,stroke:2}):svgIcon('info',{color:'var(--accent)',size:16,stroke:2})}</span>
       <span class="dc-msg">${c.msg}</span>
     </div>`).join('');
 }
@@ -2557,7 +3090,7 @@ function renderBOMScreen(){
   const items = [...state.cart.values()];
 
   if(!items.length){
-    $('bom-table-section').innerHTML = '<div class="no-components-msg">🛒 No components selected yet.<br><button class="cta-btn" style="margin-top:16px;font-size:14px;padding:10px 24px" onclick="switchScreen(\'builder\')">← Go to Component Builder</button></div>';
+    $('bom-table-section').innerHTML = '<div class="no-components-msg">No components selected yet.<br><button class="cta-btn" style="margin-top:16px;font-size:14px;padding:10px 24px" onclick="switchScreen(\'builder\')">Go to Component Builder</button></div>';
     $('bom-budget-slot').innerHTML = '';
     $('design-check').innerHTML = renderDesignCheck();
     $('tutorials-grid').innerHTML = renderAllTutorials();
@@ -2665,6 +3198,86 @@ function exportCSV(){
 }
 
 // ════════════════════════════════════════
+//  PRINTABLE PROJECT SUMMARY (one-pager)
+// ════════════════════════════════════════
+function printSummary(){
+  if(!state.cart.size){ showToast('Add components first'); return; }
+  const items = [...state.cart.values()];
+  const total = items.reduce((s,{comp,qty}) => s + comp.price*qty, 0);
+  const renCount = items.filter(({comp}) => comp.vendor === 'renesas').length;
+  const lbl = (opts,v) => (opts.find(([k]) => k === String(v)) || [,'—'])[1];
+
+  renderWorkspace();
+  const svg = $('workspace-svg');
+  const vb = svg.getAttribute('viewBox');
+  const diagram = vb ? `<svg viewBox="${vb}" width="100%" preserveAspectRatio="xMidYMin meet" style="max-height:360px;font-family:Arial,sans-serif" xmlns="http://www.w3.org/2000/svg">${svg.innerHTML}</svg>` : '<p style="color:#706f6f">No diagram available.</p>';
+
+  const rows = items.map(({comp,qty},i) => `<tr>
+      <td>${i+1}</td><td><b>${comp.name}</b></td><td>${CAT_LABEL[comp.cat]}</td>
+      <td>${comp.interfaces.map(x=>x.toUpperCase()).join(' / ')}</td>
+      <td style="text-align:center">${qty}</td>
+      <td style="text-align:right">$${comp.price.toFixed(2)}</td>
+      <td style="text-align:right">$${(comp.price*qty).toFixed(2)}</td>
+    </tr>`).join('');
+
+  const checks = runDesignChecks().map(c => {
+    const dot = c.level==='warn' ? '#dfb118' : c.level==='ok' ? '#609a3b' : '#2a289d';
+    return `<li style="margin:0 0 6px;display:flex;gap:8px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:1px;background:${dot};margin-top:5px;flex-shrink:0"></span><span>${c.msg}</span></li>`;
+  }).join('');
+
+  const desc = ((state.project.description || ($('project-desc') && $('project-desc').value) || '').trim()) || 'Custom hardware build';
+  const date = new Date().toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>Renesas Bricks — Project Summary</title>
+  <style>
+    @page { margin: 14mm; }
+    * { box-sizing: border-box; }
+    body { font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; color: #3c3c3b; margin: 0; }
+    .head { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #2a289d; padding-bottom: 12px; margin-bottom: 18px; }
+    .wm { font-family: 'Arial Black', Impact, sans-serif; font-weight: 900; letter-spacing: 2px; color: #2a289d; font-size: 26px; }
+    .sub { font-family: 'Arial Narrow', Arial, sans-serif; text-transform: uppercase; letter-spacing: 2px; font-size: 13px; font-weight: 700; color: #706f6f; }
+    h2 { font-family: 'Arial Narrow', Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; color: #2a289d; font-size: 14px; border-bottom: 2px solid #2a289d; padding-bottom: 5px; margin: 22px 0 12px; }
+    .chips { display: flex; gap: 18px; flex-wrap: wrap; margin: 4px 0 0; }
+    .chip b { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: #706f6f; }
+    .chip span { font-size: 14px; font-weight: 700; }
+    .desc { font-size: 13px; color: #3c3c3b; margin: 8px 0 0; max-width: 720px; }
+    table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    th { background: #2a289d; color: #fff; text-align: left; padding: 6px 8px; font-family: 'Arial Narrow', Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+    td { padding: 6px 8px; border-bottom: 1px solid #d9d9d9; }
+    tr:nth-child(even) td { background: #f2f2f2; }
+    .total { text-align: right; font-size: 16px; font-weight: 800; color: #2a289d; margin-top: 10px; }
+    ul { list-style: none; padding: 0; font-size: 12px; line-height: 1.45; }
+    .diagram { border: 1px solid #d9d9d9; border-radius: 3px; padding: 12px; }
+    .foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid #d9d9d9; font-size: 9px; color: #706f6f; display: flex; justify-content: space-between; }
+  </style></head><body>
+    <div class="head">
+      <div><div class="wm">RENESAS</div><div class="sub">Bricks · Project Summary</div></div>
+      <div style="text-align:right;font-size:11px;color:#706f6f">${date}<br><b style="color:#2a289d">${renCount} of ${items.length} parts Renesas</b></div>
+    </div>
+    <div class="chips">
+      <div class="chip"><b>Range</b><span>${lbl(RANGE_OPTS, state.project.range)}</span></div>
+      <div class="chip"><b>Power</b><span>${lbl(POWER_OPTS, state.project.power)}</span></div>
+      <div class="chip"><b>Budget</b><span>${lbl(BUDGET_OPTS, state.project.budget)}</span></div>
+      <div class="chip"><b>Build total</b><span style="color:#609a3b">$${total.toFixed(2)}</span></div>
+    </div>
+    <p class="desc">${desc}</p>
+    <h2>System Architecture</h2>
+    <div class="diagram">${diagram}</div>
+    <h2>Bill of Materials</h2>
+    <table><thead><tr><th>#</th><th>Component</th><th>Category</th><th>Interfaces</th><th style="text-align:center">Qty</th><th style="text-align:right">Unit</th><th style="text-align:right">Total</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="total">Grand Total &nbsp; $${total.toFixed(2)}</div>
+    <h2>Design Check</h2>
+    <ul>${checks}</ul>
+    <div class="foot"><span>© Renesas Electronics Corporation. All rights reserved.</span><span>Generated by Renesas Bricks</span></div>
+  </body></html>`;
+
+  const w = window.open('', '_blank');
+  if(!w){ showToast('Allow pop-ups to open the summary'); return; }
+  w.document.open(); w.document.write(html); w.document.close();
+  w.onload = () => setTimeout(() => w.print(), 350);
+}
+
+// ════════════════════════════════════════
 //  PERSISTENCE  (localStorage)
 // ════════════════════════════════════════
 const STORE_KEY = 'renesas-bricks-v1';
@@ -2736,9 +3349,9 @@ function parseShareHash(){
 }
 
 function copyShareLink(){
-  if(!state.cart.size){ showToast('🛒 Add components first to share a build'); return; }
+  if(!state.cart.size){ showToast('Add components first to share a build'); return; }
   const url = location.origin + location.pathname + buildShareHash();
-  const done = () => showToast('🔗 Build link copied to clipboard');
+  const done = () => showToast('Build link copied to clipboard');
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(url).then(done).catch(() => prompt('Copy this link:', url));
   } else {
@@ -2759,7 +3372,7 @@ const RENESAS_ALT = {
 };
 
 function renesasifyBuild(){
-  if(!state.cart.size){ showToast('🛒 Add components first'); return; }
+  if(!state.cart.size){ showToast('Add components first'); return; }
   let swapped = 0;
   const newEntries = [];
   state.cart.forEach(({comp, qty}, id) => {
@@ -2768,7 +3381,7 @@ function renesasifyBuild(){
     if(alt){ newEntries.push([alt.id, { comp: alt, qty }]); swapped++; }
     else   { newEntries.push([id, { comp, qty }]); }
   });
-  if(!swapped){ showToast('◈ Already all-Renesas (or no equivalents found)'); return; }
+  if(!swapped){ showToast('Already all-Renesas (or no equivalents found)'); return; }
   state.cart.clear();
   newEntries.forEach(([id, v]) => state.cart.set(id, v));
   state.recommended = new Set([...state.cart.keys()]);
@@ -2778,7 +3391,7 @@ function renesasifyBuild(){
   renderWorkspace();
   if(state.screen === 'bom') renderBOMScreen();
   saveState();
-  showToast(`◈ Swapped ${swapped} part${swapped>1?'s':''} for Renesas equivalents`);
+  showToast(`Swapped ${swapped} part${swapped>1?'s':''} for Renesas equivalents`);
 }
 
 // ════════════════════════════════════════
@@ -2801,9 +3414,11 @@ function init(){
   if(!parseShareHash()) loadState();
   initWizard();
   syncWizardUI();
+  renderConstraintsBar();
   renderCompList();
   renderBOMPanel();
   renderWorkspace();
+  setupCanvasInteractions();
   updateHeaderStats();
 }
 init();
