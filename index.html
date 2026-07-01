@@ -94,6 +94,8 @@ body {
 }
 .nav-btn .step-num { background: var(--bg4); color: var(--text2); }
 .nav-btn.active .step-num { background: #ffffff; color: var(--accent); }
+.nav-clear { background: #8b1a1a; color: #fff; border: 1px solid #8b1a1a; margin-left: 8px; }
+.nav-clear:hover { background: #6e1010; border-color: #6e1010; color: #fff; }
 
 .header-stats {
   display: flex; align-items: center; gap: 12px;
@@ -195,14 +197,14 @@ body {
   text-align: center; padding: 0 24px 64px;
 }
 .cta-btn {
-  background: var(--accent);
+  background: linear-gradient(90deg, #883d90, #2a289d, #43abe2);
   color: #fff; font-size: 15px; font-weight: 700; font-family: var(--font-display);
   text-transform: uppercase; letter-spacing: 0.6px;
-  border: none; border-radius: var(--radius-lg); padding: 14px 40px;
+  border: none; border-radius: 24px; padding: 14px 40px;
   cursor: pointer; transition: all .2s; letter-spacing: -0.2px;
-  box-shadow: 0 4px 24px #2a289d40;
+  box-shadow: 0 4px 24px #883d9040;
 }
-.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px #2a289d60; }
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px #883d9060; }
 .cta-btn:active { transform: translateY(0); }
 
 /* ══════════════════════════════════
@@ -759,6 +761,7 @@ body {
       <span class="step-num">3</span> BOM &amp; Resources
     </button>
     <button class="nav-btn nav-about" data-screen="about">About</button>
+    <button class="nav-btn nav-clear" onclick="clearAll()" title="Clear all selections and start fresh">Clear</button>
   </nav>
   <div class="header-stats">
     <div class="stat-chip">
@@ -821,10 +824,11 @@ body {
         </div>
       </div>
     </div>
-    <div class="brief-actions">
-      <button class="cta-btn" onclick="buildProject()">Build my project →</button>
-      <span class="brief-hint">We'll match components to your description and constraints — Renesas silicon first.</span>
-    </div>
+  </div>
+
+  <div class="wizard-cta">
+    <button class="cta-btn" onclick="buildProject()">GENERATE *</button>
+    <p class="brief-hint" style="margin-top:12px;">We'll match components to your description and constraints — Renesas silicon first.</p>
   </div>
 
   <div class="wizard-templates">
@@ -2045,111 +2049,111 @@ const WIRING = [
 //  KEYWORD → RECOMMENDATION MAP
 // ════════════════════════════════════════
 const KEYWORD_MAP = [
-  // Renesas parts are listed FIRST in every group so they lead the recommendations
+  // Each group lists only the essential parts for that use-case (1 per role, cheapest preferred)
   { keys:['weather','temperature','humidity','pressure','climate'],
-    comps:['ra6w2','hs4001','rrh62000','esp32','bme280','oled096'] },
+    comps:['ra6w2','hs4001','oled096'] },
   { keys:['gps','track','location','vehicle','asset'],
-    comps:['ra6m5','raj240100','neo6m','sim800l','lipo2000'] },
+    comps:['ra6m5','neo6m','lipo2000'] },
   { keys:['robot','car','motor','drive','wheel','line'],
-    comps:['ra4m1','ra4t1','raa306012','l298n','hcsr04','sg90'] },
+    comps:['ra4m1','l298n','hcsr04'] },
   { keys:['smart home','home automation','light switch','mqtt','relay'],
-    comps:['ra2e1','da16200','ra6w2','isl29125','pir','relay'] },
+    comps:['ra2e1','da16200','relay'] },
   { keys:['lora','lorawan','outdoor','farm','field','agriculture','long range','10km'],
-    comps:['ra2e1','hs4001','isl9122a','lora','soil','solar'] },
+    comps:['ra2e1','hs4001','lora'] },
   { keys:['wearable','watch','health','heart rate','fitness','pulse'],
-    comps:['da14695','ob1203','raj240100','mpu6050','oled096','lipo2000'] },
+    comps:['da14695','ob1203','lipo2000'] },
   { keys:['display','screen','show','dashboard','monitor'],
-    comps:['ra8m1','ra6w2','tft28','oled096','lcd2004'] },
-  { keys:['battery','portable','solar','outdoor','field'],
-    comps:['raj240100','isl9122a','raa489118','isl85003','lipo2000','solar'] },
+    comps:['ra8m1','tft28'] },
+  { keys:['battery','portable','solar'],
+    comps:['isl9122a','lipo2000'] },
   { keys:['wifi','internet','cloud','web server','rest'],
-    comps:['ra6w2','da16200','da16600mod','esp32'] },
+    comps:['ra6w2'] },
   { keys:['bluetooth','phone','android','ios','ble','wireless'],
-    comps:['da14531','da14695','da14531mod','hc05'] },
+    comps:['da14531'] },
   { keys:['camera','vision','image','photo'],
-    comps:['rzv2l','ra8d2','esp32'] },
+    comps:['rzv2l'] },
   { keys:['distance','ultrasonic','detect','proximity'],
-    comps:['raa2p3226','ob1203','hcsr04','vl53l0x'] },
+    comps:['ra4m1','hcsr04'] },
   { keys:['motion','imu','accelerometer','gyro','tilt','orientation'],
-    comps:['ra8d2','mpu6050','ra4m1'] },
+    comps:['ra4m1','mpu6050'] },
   { keys:['soil','plant','garden','irrigation','water'],
-    comps:['ra2e1','hs4001','soil','relay','lora'] },
+    comps:['ra2e1','soil','relay'] },
   { keys:['gas','smoke','air quality','co2','carbon'],
-    comps:['rrh62000','rrh46410','ra4m1','mq2','oled096'] },
+    comps:['ra4m1','rrh62000','oled096'] },
   { keys:['led','light','rgb','neopixel','ws2812','strip'],
-    comps:['ra4m1','isl29125','slg46826','neopixel','max7219'] },
+    comps:['ra4m1','neopixel'] },
   { keys:['data logger','log','csv','sd card','record'],
-    comps:['rl78g23','isl1208','hs4001','sdcard','oled096'] },
+    comps:['rl78g23','sdcard','oled096'] },
 
   // ── Renesas keywords ──────────────────────────────────────────
   { keys:['renesas','ra6m5','ra4m1','ra2a1','ra8','rl78','rx65','rx72','trustzone','fsp'],
-    comps:['ra6m5','ra4m1','ra2a1','ra8d2','rl78g23','rx65n','rx72n'] },
+    comps:['ra6m5'] },
   { keys:['smartbond','da14531','ble beacon','bluetooth beacon','ble tag','asset tag','nfc tag'],
-    comps:['da14531','da14531mod','rl78g23'] },
+    comps:['da14531'] },
   { keys:['da16200','da16600','renesas wifi','ultra low power wifi','battery wifi','iot node'],
-    comps:['da16200','da16600mod','ra2a1','raa489118','lipo2000'] },
+    comps:['da16200','ra2a1'] },
   { keys:['bldc','brushless','3-phase','three phase','foc','field oriented','motor drive','inverter','servo drive'],
-    comps:['raa306012','rx72n','rx65n','l298n'] },
+    comps:['ra4t1','raa306012'] },
   { keys:['edge ai','tinyml','neural network','inference','machine learning','npu','ethos','anomaly detection'],
-    comps:['ra8d2','mpu6050','oled096','da14531mod'] },
+    comps:['ra8d2','mpu6050'] },
   { keys:['industrial','plc','modbus','scada','factory','automation','industry 4.0'],
-    comps:['rx72n','rx65n','ra6m5','raa306012','relay','sdcard'] },
+    comps:['rx65n','relay'] },
   { keys:['ethernet','tcp','udp','lwip','cloud gateway','https','ota update'],
-    comps:['ra6m5','rx65n','rx72n','w5500'] },
+    comps:['ra6m5','w5500'] },
 
   // ── Extended Renesas keywords ──────────────────────────────────
   { keys:['matter','thread','wifi6','wi-fi 6','802.11ax','smart home hub','connected home'],
-    comps:['ra6w2','ra6w1','ra6m5','da16600mod'] },
-  { keys:['vision ai','object detection','image recognition','camera','drp-ai','rz/v','linux mpu'],
-    comps:['rzv2l','rzg2l','raa215300','sdcard'] },
+    comps:['ra6w2'] },
+  { keys:['vision ai','object detection','image recognition','drp-ai','rz/v','linux mpu'],
+    comps:['rzv2l','sdcard'] },
   { keys:['ethercat','real time','iec 61508','safety','rz/t','functional safety','sil'],
-    comps:['rzt2m','raa227063','raa2p3226','isl3179e'] },
+    comps:['rzt2m'] },
   { keys:['risc-v','riscv','open isa','r9a02g021'],
-    comps:['r9a02g021','da16200mod','isl9122a'] },
+    comps:['r9a02g021'] },
   { keys:['precision adc','24 bit','sigma delta','weighing scale','strain gauge','load cell','measurement'],
-    comps:['rx23eb','isl29125','raa211650'] },
+    comps:['rx23eb'] },
   { keys:['position sensor','encoder replacement','contactless encoder','angle sensor','inductive'],
-    comps:['raa2p3226','raa227063','ra6t2','ra8t1'] },
+    comps:['ra6t2','raa2p3226'] },
   { keys:['usb-c power delivery','pd charger','multi cell','laptop charger','nvdc'],
-    comps:['isl9241','raa489118','ra6m5'] },
+    comps:['isl9241','ra6m5'] },
   { keys:['pmic','power sequencing','linux power','rz power','multi rail'],
-    comps:['raa215300','isl9241','rzg2l','rzv2l'] },
+    comps:['raa215300','rzg2l'] },
   { keys:['rs-485','rs485','modbus rtu','fieldbus','industrial serial','hart','io-link'],
-    comps:['isl3179e','rx671','rx65n','ra6e2'] },
+    comps:['isl3179e','rx671'] },
   { keys:['clock','pll','jitter','timing','oscillator','clock distribution','pcb'],
-    comps:['rc32504a','8v97051'] },
+    comps:['rc32504a'] },
   { keys:['wearable ble','smartband','glucose','medical ble','wrist','hearable','audio ble'],
-    comps:['da14695','da14701','da14585','da14531'] },
+    comps:['da14695'] },
   { keys:['hmi display','gui','mipi dsi','graphic lcd','touch screen','lvgl'],
-    comps:['ra8m1','ra8d2','rzg2l','tft28','oled096'] },
-  { keys:['can fd','can bus','automotive','vehicle','j1939','obd2'],
-    comps:['ra6m5','ra6e2','ra6t2','rx671','rzt2m'] },
+    comps:['ra8m1','tft28'] },
+  { keys:['can fd','can bus','automotive','j1939','obd2'],
+    comps:['ra6m5'] },
   { keys:['ultra low power','coin cell','energy harvesting','sub-ua','nanoamp','long battery life'],
-    comps:['rl78g15','rl78g16','rl78g23','r9a02g021','da14531','isl9122a'] },
+    comps:['rl78g15','isl9122a'] },
 
   // ── Verified Renesas scenario keywords ─────────────────────────
   { keys:['energy meter','smart meter','metering','electricity meter','smart grid','kwh','power metering'],
-    comps:['rx23eb','isl3332','isl28022','relay','oled096'] },
+    comps:['rx23eb','relay','oled096'] },
   { keys:['air quality','pm2.5','particulate','tvoc','indoor air','voc','eco2','co2 monitor'],
-    comps:['rrh62000','rrh46410','ra4m1','oled096','da16200'] },
+    comps:['ra4m1','rrh62000','oled096'] },
   { keys:['predictive maintenance','vibration','anomaly','condition monitoring','machine health','bearing'],
-    comps:['ra8d2','mpu6050','isl28022','da16600mod','sdcard'] },
-  { keys:['pulse oximeter','spo2','heart rate','biosensing','wearable health','ppg','blood oxygen'],
-    comps:['da14695','ob1203','raj240100','lipo2000'] },
+    comps:['ra8d2','mpu6050','sdcard'] },
+  { keys:['pulse oximeter','spo2','biosensing','wearable health','ppg','blood oxygen'],
+    comps:['da14695','ob1203','lipo2000'] },
   { keys:['usb-c','usb c','usb pd','power delivery','fast charger','type-c','quick charge'],
-    comps:['r9a02g011','isl9241','isl85003','raa489118'] },
+    comps:['r9a02g011','isl9241'] },
   { keys:['building automation','hvac','occupancy','smart building','thermostat','climate control'],
-    comps:['ra6m5','rrh46410','da14531mod','relay','isl85003'] },
+    comps:['ra6m5','rrh46410','relay'] },
   { keys:['humidity','relative humidity','rh sensor','dew point'],
-    comps:['hs4001','bme280','rrh62000'] },
+    comps:['hs4001'] },
   { keys:['rtc','real-time clock','real time clock','timekeeping','calendar','alarm clock'],
-    comps:['isl1208','rl78g23','ra2e1'] },
+    comps:['isl1208'] },
   { keys:['fuel gauge','battery monitor','coulomb','state of charge','battery management','bms','battery gauge'],
-    comps:['raj240100','isl28022','raa489118'] },
+    comps:['raj240100'] },
   { keys:['greenpak','programmable logic','glue logic','mixed signal','cpld','state machine'],
-    comps:['slg46826','rl78g15','isl1208'] },
+    comps:['slg46826'] },
   { keys:['rs-485','rs485','modbus','fieldbus','rs-232','rs232','serial transceiver'],
-    comps:['isl3332','isl3179e','rx671','rx65n'] },
+    comps:['isl3332','rx671'] },
 ];
 
 // ════════════════════════════════════════
@@ -2328,16 +2332,17 @@ function selectTemplate(id, el){
     const t = TEMPLATES.find(t => t.id === id);
     state.project.template = t;
     $('project-desc').value = `${t.name}: ${t.desc}`;
-    state.recommended = new Set(t.components);
+    const tplIds = normalizeBuild(t.components);
+    state.recommended = new Set(tplIds);
     state.cart.clear();
-    t.components.forEach(cid => {
+    tplIds.forEach(cid => {
       const comp = COMPONENTS.find(c => c.id === cid);
       if(comp) state.cart.set(cid, { comp, qty: 1 });
     });
 
     // If the template includes any non-Renesas parts, lift the Renesas-only
     // filter and reset the category so the loaded parts + highlights are visible
-    const hasNonRenesas = t.components.some(cid => {
+    const hasNonRenesas = tplIds.some(cid => {
       const comp = COMPONENTS.find(c => c.id === cid);
       return comp && comp.vendor !== 'renesas';
     });
@@ -2350,10 +2355,6 @@ function selectTemplate(id, el){
       const allPill = document.querySelector('.cat-pill[data-cat="all"]');
       if(allPill) allPill.classList.add('active');
     }
-    // Carry project constraints from the template into wizard state
-    if(t.range)  state.project.range = t.range;
-    if(t.power)  state.project.power = t.power;
-    if(t.budget) state.project.budget = t.budget;
   }
 
   updateHeaderStats();
@@ -2447,6 +2448,50 @@ function analyzeProject(){
   saveState();
 }
 
+// Normalize any set of component ids into a clean build:
+//   • drop non-Renesas MCUs, battery parts when not needed, power mismatches
+//   • keep exactly ONE MCU-like chip (RA/RX/RL/RZ), preferring RA-series, then cheapest
+//   • keep 1 part per remaining category
+function normalizeBuild(ids){
+  const pw = state.project.power;
+  const BATTERY_TAGS = new Set(['battery','lipo','solar','portable','renewable']);
+  const BATTERY_IDS  = new Set(['lipo2000','solar','tp4056']);
+  const needsBattery = (pw === 'lipo' || pw === 'aa' || pw === 'solar');
+  const isMcuLike = c => c.cat === 'mcu' || /^(ra|rl78|rx|rz)/.test(c.id);
+  const isRA = c => /^ra\d/.test(c.id);   // RA0/RA2/RA4/RA6/RA8…
+
+  let comps = ids.map(id => COMPONENTS.find(x => x.id === id)).filter(Boolean);
+  comps = comps.filter(c => {
+    if(c.cat === 'mcu' && c.vendor !== 'renesas') return false;
+    if(!needsBattery && (BATTERY_IDS.has(c.id) || (c.tags && c.tags.some(t => BATTERY_TAGS.has(t))))) return false;
+    if(!powerFits(c)) return false;
+    return true;
+  });
+
+  // Pick the single best MCU-like chip: RA-series first, then cheapest
+  const mcuLikes = comps.filter(isMcuLike);
+  let chosenMcu = null;
+  if(mcuLikes.length){
+    const ras = mcuLikes.filter(isRA);
+    const pool = ras.length ? ras : mcuLikes;
+    pool.sort((a,b) => a.price - b.price);
+    chosenMcu = pool[0];
+  }
+
+  // Keep 1 per remaining (non-MCU-like) category
+  const byCat = {};
+  comps.forEach(c => {
+    if(isMcuLike(c)) return;
+    (byCat[c.cat] = byCat[c.cat] || []).push(c);
+  });
+  const kept = new Set(chosenMcu ? [chosenMcu.id] : []);
+  Object.keys(byCat).forEach(cat => {
+    byCat[cat].sort((a,b) => a.price - b.price);
+    kept.add(byCat[cat][0].id);
+  });
+  return [...kept];
+}
+
 // Single primary action from the Project Brief: match the description to
 // recommended parts, honour the constraints set in the brief, and open the builder.
 function buildProject(){
@@ -2464,10 +2509,27 @@ function buildProject(){
     document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
     const allPill = document.querySelector('.cat-pill[data-cat="all"]'); if(allPill) allPill.classList.add('active');
   }
-  switchScreen('builder');
+  const finalIds = normalizeBuild([...state.recommended]);
+  state.recommended.clear();
+  finalIds.forEach(id => state.recommended.add(id));
+  state.recommended.forEach(id => {
+    if(!state.cart.has(id)){
+      const comp = COMPONENTS.find(c => c.id === id);
+      if(comp) state.cart.set(id, { comp, qty: 1 });
+    }
+  });
+  updateHeaderStats();
   renderCompList();
+  renderBOMPanel();
+  renderWorkspace();
   const n = state.recommended.size;
-  showToast(n ? `Matched ${n} component${n>1?'s':''} to your brief — highlighted in the list` : 'Workspace ready — add components to start your build');
+  if(n){
+    switchScreen('bom');
+    showToast(`Matched ${n} component${n>1?'s':''} — BOM generated`);
+  } else {
+    switchScreen('builder');
+    showToast('Workspace ready — add components to start your build');
+  }
   saveState();
 }
 
@@ -2537,7 +2599,6 @@ function renderCompList(){
         <div class="comp-meta">
           <span class="comp-price">$${c.price.toFixed(2)}</span>
           ${c.interfaces.map(i=>`<span class="comp-range">${i.toUpperCase()}</span>`).slice(0,3).join('')}
-          ${!powerFits(c) ? `<span class="fit-flag fit-power" title="Draws more power than your ${state.project.power} source comfortably supports">PWR</span>` : ''}
           ${overBudget(c) ? `<span class="fit-flag fit-budget" title="Above your $${state.project.budget} unit budget">$!</span>` : ''}
         </div>
         ${buildBuyLinksCard(c)}
@@ -2568,7 +2629,7 @@ function toggleCart(id){
 }
 
 // Per-category sanity limits (a build shouldn't have, say, four controllers)
-const CAT_LIMIT = { mcu: 2 };
+const CAT_LIMIT = { mcu: 1 };
 
 // Clicking a canvas tray tile (or the empty-MCU slot) focuses the component
 // list on that role so the USER chooses the specific part — no auto-pick.
@@ -2593,11 +2654,13 @@ function trayTile(cat, label, tx, ty, tw, th){
   const col = catColor(cat), n = countInCart(cat);
   const atMax = SINGLE_ROLES.has(cat) ? n >= 1 : (CAT_LIMIT[cat] && n >= CAT_LIMIT[cat]);
   const cy = ty + th/2 + 3.5;
+  const greenCheck = n > 0 ? `<g transform="translate(${tx+tw-14},${ty+2})"><circle cx="6" cy="6" r="6" fill="#609a3b"/><path d="M3.5 6.5 5.5 8.5 9 4.5" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>` : '';
   if(atMax){
-    return `<g class="ws-tile-off"><rect x="${tx}" y="${ty}" width="${tw}" height="${th}" rx="3" fill="#f2f2f2" stroke="#d9d9d9" stroke-width="1"/><text x="${tx+tw/2}" y="${cy}" text-anchor="middle" class="ws-brick-text" style="font-size:10px;font-weight:700;fill:#9d9d9d">✓ ${label} added</text></g>`;
+    return `<g class="ws-tile-off"><rect x="${tx}" y="${ty}" width="${tw}" height="${th}" rx="3" fill="#f2f2f2" stroke="#d9d9d9" stroke-width="1"/><text x="${tx+tw/2}" y="${cy}" text-anchor="middle" class="ws-brick-text" style="font-size:10px;font-weight:700;fill:#9d9d9d">✓ ${label} added</text>${greenCheck}</g>`;
   }
   const cnt = (!SINGLE_ROLES.has(cat) && n>0) ? ` ${n}${CAT_LIMIT[cat]?'/'+CAT_LIMIT[cat]:''}` : '';
-  return `<g class="ws-add" onclick="focusCategory('${cat}','${label}')"><rect x="${tx}" y="${ty}" width="${tw}" height="${th}" rx="3" fill="${col}10" stroke="${col}" stroke-width="1" stroke-dasharray="4,3"/><text x="${tx+tw/2}" y="${cy}" text-anchor="middle" class="ws-brick-text" style="font-size:10px;font-weight:700;fill:${col}">+ ${label}${cnt}</text></g>`;
+  const dash = n > 0 ? '' : ' stroke-dasharray="4,3"';
+  return `<g class="ws-add" onclick="focusCategory('${cat}','${label}')"><rect x="${tx}" y="${ty}" width="${tw}" height="${th}" rx="3" fill="${col}10" stroke="${col}" stroke-width="1"${dash}/><text x="${tx+tw/2}" y="${cy}" text-anchor="middle" class="ws-brick-text" style="font-size:10px;font-weight:700;fill:${col}">+ ${label}${cnt}</text>${greenCheck}</g>`;
 }
 
 function clearCart(){
@@ -2610,6 +2673,31 @@ function clearCart(){
   renderWorkspace();
   if(state.screen === 'bom') renderBOMScreen();
   saveState();
+}
+
+function clearAll(){
+  state.cart.clear();
+  state.recommended.clear();
+  state.project.description = '';
+  state.project.template = null;
+  state.project.range = 'local';
+  state.project.power = 'usb';
+  state.project.budget = 999;
+  state.filter.cat = 'all';
+  state.filter.search = '';
+  state.filter.renesasOnly = true;
+  const desc = document.getElementById('project-desc');
+  if(desc) desc.value = '';
+  document.querySelectorAll('.req-option').forEach(el => {
+    el.classList.toggle('selected', el.dataset.val === 'local' || el.dataset.val === 'usb' || el.dataset.val === '999');
+  });
+  document.querySelectorAll('.template-card').forEach(el => el.classList.remove('selected'));
+  updateHeaderStats();
+  renderCompList();
+  renderBOMPanel();
+  renderWorkspace();
+  saveState();
+  switchScreen('wizard');
 }
 
 function changeQty(id, delta){
@@ -2866,7 +2954,8 @@ function renderBricks(){
     blocks += `<g class="ws-add" onclick="focusCategory('mcu','MCU')"><rect x="${px}" y="${py}" width="${BW}" height="${BH}" rx="3" fill="#2a289d08" stroke="#2a289d" stroke-width="1.5" stroke-dasharray="6,5"/><text x="${px+BW/2}" y="${py+BH/2+4}" text-anchor="middle" class="ws-brick-text" style="font-size:10.5px;font-weight:700;fill:#2a289d">+ Add a microcontroller</text></g>`;
   }
 
-  const TRAY = [['mcu','MCU'],['sensor','Sensor'],['connect','Radio'],['display','Display'],['power','Power'],['storage','Storage'],['actuator','Actuator'],['logic','Logic']];
+  const needsPower = (state.project.power === 'lipo' || state.project.power === 'aa' || state.project.power === 'solar') || countInCart('power') > 0;
+  const TRAY = [['mcu','MCU'],['sensor','Sensor'],['connect','Radio'],['display','Display'],...(needsPower ? [['power','Power']] : []),['storage','Storage'],['actuator','Actuator'],['logic','Logic']];
   const tw=96, th=30, tgap=8;
   const trayW = TRAY.length*tw + (TRAY.length-1)*tgap;
   const trayY = maxY + 30;
@@ -2943,18 +3032,6 @@ function renderDiagram(){
     wires += `<line x1="${cx}" y1="${y}" x2="${cx}" y2="${p.y}" stroke="${col}" stroke-width="2" opacity="0.65"/>`;
     wires += `<circle cx="${cx}" cy="${y}" r="3.2" fill="${col}"/>`;
   });
-  // power rail + supply line to the controller
-  if(powers.length){
-    wires += `<line x1="${x0}" y1="${powerRailY}" x2="${x0+contentW}" y2="${powerRailY}" stroke="#dfb118" stroke-width="3" opacity="0.55"/>`;
-    wires += `<text class="ws-brick-text" x="${x0-10}" y="${powerRailY+3.5}" text-anchor="end" style="font-size:10px;font-weight:700;fill:#9c7b0f">PWR</text>`;
-    powPos.forEach(p => { wires += `<circle cx="${p.x+BW/2}" cy="${powerRailY}" r="3.2" fill="#dfb118"/>`; });
-    if(hubPos){
-      const v = VOLT_5V.has(hub.id) ? '5V' : '3.3V';
-      const sx = hubPos.x + 20;
-      wires += `<line x1="${sx}" y1="${powerRailY}" x2="${sx}" y2="${hubPos.y+BH}" stroke="#dfb118" stroke-width="2" stroke-dasharray="5,4" opacity="0.7"/>`;
-      wires += `<text class="ws-brick-text" x="${sx+6}" y="${(powerRailY+hubPos.y+BH)/2+3}" style="font-size:9px;font-weight:700;fill:#9c7b0f">${v}</text>`;
-    }
-  }
 
   let blocks = '';
   mcuPos.forEach(m => blocks += wsBlock(m));
@@ -2974,7 +3051,8 @@ function renderDiagram(){
   }
 
   // On-canvas "Add to build" tray — build directly on the diagram
-  const TRAY = [['mcu','MCU'],['sensor','Sensor'],['connect','Radio'],['display','Display'],['power','Power'],['storage','Storage'],['actuator','Actuator'],['logic','Logic']];
+  const needsPower = (state.project.power === 'lipo' || state.project.power === 'aa' || state.project.power === 'solar') || countInCart('power') > 0;
+  const TRAY = [['mcu','MCU'],['sensor','Sensor'],['connect','Radio'],['display','Display'],...(needsPower ? [['power','Power']] : []),['storage','Storage'],['actuator','Actuator'],['logic','Logic']];
   const tw = 96, th = 30, tgap = 8;
   const trayW = TRAY.length*tw + (TRAY.length-1)*tgap;
   const trayY = H + 16;
